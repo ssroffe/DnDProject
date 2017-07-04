@@ -1,0 +1,7 @@
+Compile:
+
+javac -d . -cp ".:jars/*" <program>.java
+
+run:
+
+java -cp ".:jars/*" <program>
