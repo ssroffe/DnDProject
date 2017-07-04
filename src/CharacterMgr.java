@@ -3138,6 +3138,9 @@ public class CharacterMgr extends Application {
                             if (i == 0) {
                                 comp.setText(nxtItem.getComponents().get(i));
                             }
+                            else if (i == nxtItem.getComponents().size() - 1) {
+                                comp.setText(comp.getText() + " (" + nxtItem.getComponents().get(i) + ")");
+                            }
                             else {
                                 comp.setText(comp.getText() + " " + nxtItem.getComponents().get(i));
                             }
@@ -3291,6 +3294,9 @@ public class CharacterMgr extends Application {
                             for (int i = 0; i < newSpell.getComponents().size(); i++) {
                                 if (i == 0) {
                                     comp.setText(newSpell.getComponents().get(i));
+                                }
+                                else if (i == newSpell.getComponents().size() - 1) {
+                                    comp.setText(comp.getText() + " (" + newSpell.getComponents().get(i) + ")");
                                 }
                                 else {
                                     comp.setText(comp.getText() + " " + newSpell.getComponents().get(i));
