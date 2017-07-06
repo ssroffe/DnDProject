@@ -21,10 +21,11 @@ public class Spell {
     private int level;
     private String school;
     private HashSet<String> clss;
+    private HashSet<String> subclss;
     
     // Constructors
     public Spell(String name, ArrayList<String> desc, String range, ArrayList<String> components, String ritual, String duration,
-            String concentration, String casting_time, int level, String school, HashSet<String> clss) {
+            String concentration, String casting_time, int level, String school, HashSet<String> clss, HashSet<String> subclss) {
         setName(name);
         setDesc(desc);
         setRange(range);
@@ -36,6 +37,7 @@ public class Spell {
         setLevel(level);
         setSchool(school);
         setClss(clss);
+        setSubClss(subclss);
     }
 
     public Spell(String name) {
@@ -46,6 +48,7 @@ public class Spell {
         setRitual("");
         setCastingTime("");
         setClss(new HashSet<String>());
+        setSubClss(new HashSet<String>());
         setRange("");
         setComponents(new ArrayList<String>());
         setDuration("");
@@ -60,6 +63,7 @@ public class Spell {
         setRitual("");
         setCastingTime("");
         setClss(new HashSet<String>());
+        setSubClss(new HashSet<String>());
         setRange("");
         setComponents(new ArrayList<String>());
         setDuration("");
@@ -73,6 +77,7 @@ public class Spell {
         setRitual(s.getRitual());
         setCastingTime(s.getCastingTime());
         setClss(s.getClss());
+        setSubClss(s.getSubClss());
         setRange(s.getRange());
         setComponents(s.getComponents());
         setDuration(s.getDuration());
@@ -128,6 +133,13 @@ public class Spell {
     }
     public HashSet<String> getClss() {
         return clss;
+    }
+
+    public void setSubClss(HashSet<String> c) {
+        this.subclss = c;
+    }
+    public HashSet<String> getSubClss() {
+        return subclss;
     }
 
     public void setRange(String r) {

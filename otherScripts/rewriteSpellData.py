@@ -28,7 +28,7 @@ for key in tmpData:
         
 newData = [ { "name": tmpData[key]['name'], "desc":tmpData[key]['desc'], "range": tmpData[key]['range'], 'components': tmpData[key]['components'],
           "ritual": tmpData[key]['ritual'], "duration": tmpData[key]['duration'], "concentration": tmpData[key]['concentration'], "casting_time": tmpData[key]['casting_time'],
-          "level": tmpData[key]['level'], "school": tmpData[key]['school']['name'], "clss": [tmpData[key]['classes'][i]['name'] for i in range(len(tmpData[key]['classes']))]
+          "level": tmpData[key]['level'], "school": tmpData[key]['school']['name'], "clss": [tmpData[key]['classes'][i]['name'] for i in range(len(tmpData[key]['classes']))], "subclss": [tmpData[key]['subclasses'][i]['name'] for i in range(len(tmpData[key]['subclasses']))]
           } for key in tmpData] 
 
 with open("spells.json","w") as outfile:

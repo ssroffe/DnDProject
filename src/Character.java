@@ -543,7 +543,7 @@ public Character() {
     }
 
     public void setSubClss(String c) {
-	this.clss = c;
+	this.subClss = c;
     }
     public String getSubClss() {
 	return subClss;

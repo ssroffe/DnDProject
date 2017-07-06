@@ -296,109 +296,297 @@ public class CharacterMgr extends Application {
         Label clssLabel = new Label("Class:");
         grid.add(clssLabel,0,row);
         ComboBox<String> clssTf = new ComboBox<String>(classOptions);
-        clssTf.setId("locked-tf");
         clssTf.setEditable(true);
         clssTf.setValue(c.getClss());
         grid.add(clssTf,1,row);
 
+        ObservableList<String> subClassOptions = FXCollections.observableArrayList();
+        if (c.getClss().equalsIgnoreCase("Barbarian")) {
+            subClassOptions.addAll("Path of the Berserker", "Path of the Totem Warrior");
+        }
+        else if (c.getClss().equalsIgnoreCase("Bard")) {
+            subClassOptions.addAll("College of Lore", "College of Valor");
+        }
+        else if (c.getClss().equalsIgnoreCase("Cleric")) {
+            subClassOptions.addAll("Knowledge Domain","Life Domain","Light Domain","Nature Domain","Tempest Domain","Trickery Domain","War Domain");
+        }
+        else if (c.getClss().equalsIgnoreCase("Druid")) {
+            subClassOptions.addAll("Circle of the Land", "Circle of the Moon");
+        }
+        else if (c.getClss().equalsIgnoreCase("Fighter")) {
+            subClassOptions.addAll("Champion","Battle Master","Eldritch Knight");
+        }
+        else if (c.getClss().equalsIgnoreCase("Monk")) {
+            subClassOptions.addAll("Way of the Open Hand", "Way of Shadow","Way of the Four Elements");
+        }
+        else if (c.getClss().equalsIgnoreCase("Paladin")) {
+            subClassOptions.addAll("Oath of Devotion","Oath of the Ancients", "Oath of Vengeance");
+        }
+        else if (c.getClss().equalsIgnoreCase("Ranger")) {
+            subClassOptions.addAll("Hunter","Beast Master");
+        }
+        else if (c.getClss().equalsIgnoreCase("Rogue")) {
+            subClassOptions.addAll("Thief","Assassin","Arcane Trickster");
+        }
+        else if (c.getClss().equalsIgnoreCase("Sorcerer")) {
+            subClassOptions.addAll("Draconic Bloodline", "Wild Magic");
+        }
+        else if (c.getClss().equalsIgnoreCase("Warlock")) {
+            subClassOptions.addAll("The Archfey", "The Fiend", "The Great Old One");
+        }
+        else if (c.getClss().equalsIgnoreCase("Wizard")) {
+            subClassOptions.addAll("School of Abjuration", "School of Conjuration", "School of Divination", "School of Enchantment", "School of Evocation", "School of Illusion", "School of Necromancy", "School of Transmutation");
+        }
+        else {
+            subClassOptions.clear();
+        }
+
+
+        ComboBox<String> subClssTf = new ComboBox<String>(subClassOptions);
+        subClssTf.setEditable(true);
+
+        String[] subClssSplit = c.getSubClss().split("--");
+        subClssTf.setValue(subClssSplit[0]);
+
+        /////// Sub Sub Class stuff
+        ComboBox<String> subsubClssTf = new ComboBox<String>();
+        Label subsubClssLabel = new Label();
+        subsubClssTf.setEditable(true);
+
+        HBox subClssTfHb = new HBox(10);
+        subClssTfHb.getChildren().add(subClssTf);
+
+        try {
+            String subSubClss = subClssSplit[1];
+            subsubClssTf.setValue(subSubClss);
+        }
+        catch (ArrayIndexOutOfBoundsException aioe) {
+        }
+
+        if (c.getClss().equalsIgnoreCase("Warlock") || subClssSplit[0].equalsIgnoreCase("Circle of the Land") || subClssSplit[0].equalsIgnoreCase("Draconic Bloodline")) {
+            if (c.getClss().equalsIgnoreCase("Warlock")) {
+                subsubClssLabel.setText("Pact Boon:");
+                ObservableList<String> boons = FXCollections.observableArrayList("Pact of the Chain", "Pact of the Blade", "Pact of the Tome");
+                subsubClssTf.setItems(boons);
+
+            }
+            else if (subClssSplit[0].equalsIgnoreCase("Circle of the Land")) {
+                subsubClssLabel.setText("Land type:");
+                ObservableList<String> lands = FXCollections.observableArrayList("Arctic","Coast","Desert","Forest","Grassland","Mountain","Swamp","Underdark");
+                subsubClssTf.setItems(lands);
+            }
+            else {
+                subsubClssLabel.setText("Dragon blood:");
+                ObservableList<String> bloods = FXCollections.observableArrayList("Black (Acid)", "Blue (Lightning)","Brass (Fire)","Bronze (Lightning)","Copper (Acid)","Gold (Fire)","Green (Poison)", "Red (Fire)", "Silver (Cold)", "White (Cold)");
+                subsubClssTf.setItems(bloods);
+            }
+            subClssTfHb.getChildren().addAll(subsubClssLabel,subsubClssTf);
+        }
+
         clssTf.valueProperty().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue ov, String oldVal, String newVal) {
-                c.setClss(newVal.toString());
+                c.setClss(newVal);
+                // Redefine Subclasses
+                if (c.getClss().equalsIgnoreCase("Barbarian")) {
+                    subClassOptions.clear();
+                    subClassOptions.addAll("Path of the Berserker", "Path of the Totem Warrior");
+                }
+                else if (c.getClss().equalsIgnoreCase("Bard")) {
+                    subClassOptions.clear();
+                    subClassOptions.addAll("College of Lore", "College of Valor");
+                }
+                else if (c.getClss().equalsIgnoreCase("Cleric")) {
+                    subClassOptions.clear();
+                    subClassOptions.addAll("Knowledge Domain","Life Domain","Light Domain","Nature Domain","Tempest Domain","Trickery Domain","War Domain");
+                }
+                else if (c.getClss().equalsIgnoreCase("Druid")) {
+                    subClassOptions.clear();
+                    subClassOptions.addAll("Circle of the Land", "Circle of the Moon");
+                }
+                else if (c.getClss().equalsIgnoreCase("Fighter")) {
+                    subClassOptions.clear();
+                    subClassOptions.addAll("Champion","Battle Master","Eldritch Knight");
+                }
+                else if (c.getClss().equalsIgnoreCase("Monk")) {
+                    subClassOptions.clear();
+                    subClassOptions.addAll("Way of the Open Hand", "Way of Shadow","Way of the Four Elements");
+                }
+                else if (c.getClss().equalsIgnoreCase("Paladin")) {
+                    subClassOptions.clear();
+                    subClassOptions.addAll("Oath of Devotion","Oath of the Ancients", "Oath of Vengeance");
+                }
+                else if (c.getClss().equalsIgnoreCase("Ranger")) {
+                    subClassOptions.clear();
+                    subClassOptions.addAll("Hunter","Beast Master");
+                }
+                else if (c.getClss().equalsIgnoreCase("Rogue")) {
+                    subClassOptions.clear();
+                    subClassOptions.addAll("Thief","Assassin","Arcane Trickster");
+                }
+                else if (c.getClss().equalsIgnoreCase("Sorcerer")) {
+                    subClassOptions.clear();
+                    subClassOptions.addAll("Draconic Bloodline", "Wild Magic");
+                }
+                else if (c.getClss().equalsIgnoreCase("Warlock")) {
+                    subClassOptions.clear();
+                    subClassOptions.addAll("The Archfey", "The Fiend", "The Great Old One");
+                }
+                else if (c.getClss().equalsIgnoreCase("Wizard")) {
+                    subClassOptions.clear();
+                    subClassOptions.addAll("School of Abjuration", "School of Conjuration", "School of Divination", "School of Enchantment", "School of Evocation", "School of Illusion", "School of Necromancy", "School of Transmutation");
+                }
+                else {
+                    subClassOptions.clear();
+                }
+
+                if (newVal.equalsIgnoreCase("Warlock")) {
+                    subsubClssLabel.setText("Pact Boon:");
+                    ObservableList<String> boons = FXCollections.observableArrayList("Pact of the Chain", "Pact of the Blade", "Pact of the Tome");
+                    subsubClssTf.setItems(boons);
+                    
+                    subClssTfHb.getChildren().addAll(subsubClssLabel,subsubClssTf);
+                }
+                subClssTf.setItems(subClassOptions);
+                subClssTf.setValue("");
             }
         });
 
-        /*
-        Button testbtn = new Button("test");
-        grid.add(testbtn,3,row);
-        testbtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                System.out.println(c.getClss());
+        row++;
+
+        /////////// Sub Class ///////////
+        Label subClssLabel = new Label("Subclass:");
+        grid.add(subClssLabel,0,row);
+        grid.add(subClssTfHb,1,row);
+        subClssTf.valueProperty().addListener(new ChangeListener<String>() {
+            public void changed(ObservableValue ov, String oldVal, String newVal) {
+                subClssSplit[0] = newVal;
+                c.setSubClss(newVal);
+                if (newVal != null) {
+                    if (newVal.equalsIgnoreCase("Circle of the Land") || newVal.equalsIgnoreCase("Draconic Bloodline") || c.getClss().equalsIgnoreCase("Warlock")) {
+                        if (newVal.equalsIgnoreCase("Circle of the Land")) {
+                            subsubClssLabel.setText("Land type:");
+                            ObservableList<String> lands = FXCollections.observableArrayList("Arctic","Coast","Desert","Forest","Grassland","Mountain","Swamp","Underdark");
+                            subsubClssTf.setItems(lands);
+                            subClssTfHb.getChildren().addAll(subsubClssLabel,subsubClssTf);
+                            subsubClssTf.setValue("");
+                        }
+                        else if (newVal.equalsIgnoreCase("Draconic Bloodline")){
+                            subsubClssLabel.setText("Ancestry:");
+                            ObservableList<String> bloods = FXCollections.observableArrayList("Black (Acid)", "Blue (Lightning)","Brass (Fire)","Bronze (Lightning)","Copper (Acid)","Gold (Fire)","Green (Poison)", "Red (Fire)", "Silver (Cold)", "White (Cold)");
+                            subsubClssTf.setItems(bloods);
+                            subClssTfHb.getChildren().addAll(subsubClssLabel,subsubClssTf);
+                            subsubClssTf.setValue("");
+                        }
+                    }
+                    else {
+                        subsubClssTf.setValue(null);
+                        subClssTfHb.getChildren().remove(subsubClssLabel);
+                        subClssTfHb.getChildren().remove(subsubClssTf);
+                    }
+                }
             }
         });
-        */
-	row++;
+        subsubClssTf.valueProperty().addListener(new ChangeListener<String>() {
+            public void changed(ObservableValue ov, String oldVal, String newVal) {
+                c.setSubClss(subClssTf.getValue() + "--" + newVal);
+            }
+        });
+        row++;
 
         ///////////// Race //////////////
         Label raceLabel = new Label("Race:");
         grid.add(raceLabel,0,row);
-        TextField raceTf = new TextField();
-        raceTf.setId("locked-tf");
-        raceTf.setText(c.getRace());
-        raceTf.setEditable(false);
+        ObservableList<String> raceOptions = FXCollections.observableArrayList("Dwarf","Elf","Halfling","Human","Dragonborn","Gnome","Half-Elf","Half-Orc","Tiefling"); 
+        ComboBox<String> raceTf = new ComboBox<String>(raceOptions);
+        raceTf.setEditable(true);
+        raceTf.setValue(c.getRace());
         grid.add(raceTf,1,row);
 
-        ToggleButton racebtn = new ToggleButton("edit");
-        racebtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                if (racebtn.isSelected()) {
-                    raceTf.setEditable(true);
-                    raceTf.setId("unlocked-tf");
+        ObservableList<String> subRaceOptions = FXCollections.observableArrayList();
+        if (c.getRace().equalsIgnoreCase("Dwarf")) {
+            subRaceOptions.addAll("Hill Dwarf", "Mountain Dwarf");
+        }
+        else if (c.getRace().equalsIgnoreCase("Elf")) {
+            subRaceOptions.addAll("High Elf", "Wood Elf", "Dark Elf");
+        }
+        else if (c.getRace().equalsIgnoreCase("Halfling")) {
+            subRaceOptions.addAll("Lightfoot","Stout");
+        }
+        else if (c.getRace().equalsIgnoreCase("Dragonborn")) {
+            subRaceOptions.addAll("Black (Acid)", "Blue (Lightning)","Brass (Fire)","Bronze (Lightning)","Copper (Acid)","Gold (Fire)","Green (Poison)", "Red (Fire)", "Silver (Cold)", "White (Cold)");
+        }
+        else if (c.getRace().equalsIgnoreCase("Gnome")) {
+            subRaceOptions.addAll("Forest Gnome", "Rock Gnome");
+        }
+        else {
+            subRaceOptions.addAll("");
+        }
+        
+        ComboBox<String> subRaceTf = new ComboBox<String>(subRaceOptions);
+        subRaceTf.setEditable(true);
+        subRaceTf.setValue(c.getSubrace());
+
+        raceTf.valueProperty().addListener(new ChangeListener<String>() {
+            public void changed(ObservableValue ov, String oldVal, String newVal) {
+                c.setRace(newVal);
+                if (c.getRace().equalsIgnoreCase("Dwarf")) {
+                    subRaceOptions.clear();
+                    subRaceOptions.addAll("Hill Dwarf", "Mountain Dwarf");
+                }
+                else if (c.getRace().equalsIgnoreCase("Elf")) {
+                    subRaceOptions.clear();
+                    subRaceOptions.addAll("High Elf", "Wood Elf", "Dark Elf");
+                }
+                else if (c.getRace().equalsIgnoreCase("Halfling")) {
+                    subRaceOptions.clear();
+                    subRaceOptions.addAll("Lightfoot","Stout");
+                }
+                else if (c.getRace().equalsIgnoreCase("Dragonborn")) {
+                    subRaceOptions.clear();
+                    subRaceOptions.addAll("Black (Acid)", "Blue (Lightning)","Brass (Fire)","Bronze (Lightning)","Copper (Acid)","Gold (Fire)","Green (Poison)", "Red (Fire)", "Silver (Cold)", "White (Cold)");
+                }
+                else if (c.getRace().equalsIgnoreCase("Gnome")) {
+                    subRaceOptions.clear();
+                    subRaceOptions.addAll("Forest Gnome", "Rock Gnome");
                 }
                 else {
-                    raceTf.setEditable(false);
-                    raceTf.setId("locked-tf");
-                    c.setRace(raceTf.getText());
+                    subRaceOptions.clear();
                 }
+
+                subRaceTf.setValue("");
+                c.setSubrace("");
+                subRaceTf.setItems(subRaceOptions);
+
             }
         });
-        grid.add(racebtn,2,row);
 	row++;
 
         ///////////// SubRace //////////////
         Label subRaceLabel = new Label("SubRace:");
         grid.add(subRaceLabel,0,row);
-        TextField subRaceTf = new TextField();
-        subRaceTf.setId("locked-tf");
-        subRaceTf.setText(c.getSubrace());
-        subRaceTf.setEditable(false);
         grid.add(subRaceTf,1,row);
-
-        ToggleButton subRacebtn = new ToggleButton("edit");
-        subRacebtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                if (subRacebtn.isSelected()) {
-                    subRaceTf.setEditable(true);
-                    subRaceTf.setId("unlocked-tf");
-                }
-                else {
-                    subRaceTf.setEditable(false);
-                    subRaceTf.setId("locked-tf");
-                    c.setSubrace(subRaceTf.getText());
-                }
+        subRaceTf.valueProperty().addListener(new ChangeListener<String>() {
+            public void changed(ObservableValue ov, String oldval, String newval) {
+                c.setSubrace(newval);
             }
         });
-        grid.add(subRacebtn,2,row);
 
         row++;
 
         ///////////// Background //////////////
         Label backgroundLabel = new Label("Background:");
         grid.add(backgroundLabel,0,row);
-        TextField backgroundTf = new TextField();
-        backgroundTf.setId("locked-tf");
-        backgroundTf.setText(c.getBackground());
-        backgroundTf.setEditable(false);
+        ObservableList<String> backgroundOptions = FXCollections.observableArrayList("Acolyte","Charlatan","Criminal","Entertainer","Folk Hero","Guild Artisan","Hermit","Noble","Outlander","Sage","Sailor","Soldier","Urchin");
+        ComboBox<String> backgroundTf = new ComboBox<String>(backgroundOptions);
+        backgroundTf.setEditable(true);
+        backgroundTf.setValue(c.getBackground());
         grid.add(backgroundTf,1,row);
 
-        ToggleButton backgroundbtn = new ToggleButton("edit");
-        backgroundbtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                if (backgroundbtn.isSelected()) {
-                    backgroundTf.setEditable(true);
-                    backgroundTf.setId("unlocked-tf");
-                }
-                else {
-                    backgroundTf.setEditable(false);
-                    backgroundTf.setId("locked-tf");
-                    c.setBackground(backgroundTf.getText());
-                }
+        backgroundTf.valueProperty().addListener(new ChangeListener<String>() {
+            public void changed(ObservableValue ov, String oldVal, String newVal) {
+                c.setBackground(newVal);
             }
         });
-        grid.add(backgroundbtn,2,row);
 	row++;
 
     stage.show();
@@ -2994,8 +3182,7 @@ public class CharacterMgr extends Application {
 
             VBox rootVb = new VBox(10);
 
-
-
+            
             // Load the Spells
             Gson gson = new Gson();
             Spell[] spellArr;
@@ -3011,15 +3198,28 @@ public class CharacterMgr extends Application {
             // Get only spells associated with your class
             ArrayList<Spell> classSpells = new ArrayList<Spell>();
 
+            HashSet<String> spellCasters = new HashSet<String>(Arrays.asList("Bard","Cleric","Druid","Paladin","Ranger","Sorcerer","Warlock","Wizard"));
+
             boolean inClassOptions = classes.contains(c.getClss());
 
-            for (int i = 0; i < spellArr.length; i++) {
-                String currclss = c.getClss();
-                if (spellArr[i].getClss().contains(currclss) && inClassOptions) {
-                    classSpells.add(spellArr[i]);
+            if (spellCasters.contains(c.getClss()) || !inClassOptions) {
+                for (int i = 0; i < spellArr.length; i++) {
+                    String currclss = c.getClss();
+                    if (spellArr[i].getClss().contains(currclss) && inClassOptions) {
+                        classSpells.add(spellArr[i]);
+                    }
+                    else if (!inClassOptions) {
+                        classSpells.add(spellArr[i]);
+                    }
                 }
-                else if (!inClassOptions) {
-                    classSpells.add(spellArr[i]);
+            }
+            
+            // For sub classes
+            if (subClssSplit[0].equalsIgnoreCase("Eldritch Knight") || subClssSplit[0].equalsIgnoreCase("Arcane Trickster")) {
+                for (int i = 0; i < spellArr.length; i++) {
+                    if (spellArr[i].getClss().contains("Wizard")) {
+                        classSpells.add(spellArr[i]);
+                    }
                 }
             }
 
@@ -3355,7 +3555,363 @@ public class CharacterMgr extends Application {
             ///////////////////
             ///// LEVEL 1 /////
             ///////////////////
+
+	    // for copy paste - spells#, spellslots#, itr#
+            Label titleSpellslots1 = new Label("Level 1 Spells");
+            titleSpellslots1.setId("spellLevelTitle");
+
+            Button addSpells1Btn = new Button("Add Level 1 Spell");
+
+            ComboBox<Spell> spells1Box = new ComboBox<Spell>();
+            spells1Box.setPromptText("add a spell");
             
+            VBox vbSpells1 = new VBox(10);
+            ScrollPane spells1Sp = new ScrollPane();
+            spells1Sp.setContent(vbSpells1);
+
+	    //spell slots
+	    ObservableList<Integer> spellSlotsNumbers = FXCollections.observableArrayList();
+	    for (int i = 0; i < 100; i++) {
+		spellSlotsNumbers.add(i);
+	    }
+
+	    ComboBox<Integer> spellSlots1Box = new ComboBox<Integer>(spellSlotsNumbers);
+	    spellSlots1Box.setValue(c.getSpellSlots1());
+	    spellSlots1Box.valueProperty().addListener(new ChangeListener<Integer>() {
+		    public void changed(ObservableValue ov, Integer oldVal, Integer newVal) {
+			c.setSpellSlots1(newVal);
+		    }
+		});
+	    Button useSpellSlots1 = new Button("Use Spell Slot");
+	    useSpellSlots1.setOnAction(new EventHandler<ActionEvent>() {
+		    public void handle(ActionEvent e) {
+			int currSlot = c.getSpellSlots1();
+			if (currSlot != 0) {		          
+			    c.setSpellSlots1(c.getSpellSlots1() - 1);
+			    spellSlots1Box.setValue(spellSlots1Box.getValue() - 1);
+			}
+		    }
+		});
+	    
+
+            for (int i = 0; i < classSpells.size(); i++) {
+                if (classSpells.get(i).getLevel() == 1) {
+                    spells1Box.getItems().add(classSpells.get(i));
+                }
+            }
+
+            HashSet<Spell> spells1List = c.getSpells1();
+            Iterator<Spell> itr1 = spells1List.iterator();
+
+	    
+
+            ScrollPane spSpells1 = new ScrollPane();
+            spSpells1.setContent(vbSpells1);
+
+            while (itr1.hasNext()) {
+                Spell nxtItem = itr1.next();
+                String spellName = nxtItem.getName();
+                Label spellLabel = new Label(spellName);
+                HBox hbSpell = new HBox(10);
+
+                Button rm = new Button("remove");
+                Button info = new Button("info");
+                hbSpell.getChildren().addAll(spellLabel,info,rm);
+
+                vbSpells1.getChildren().add(hbSpell);
+                
+                ////// Remove Button ///////
+                rm.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent e) {
+                        Stage confirmRm = new Stage();
+                        confirmRm.setTitle("Are you sure?");
+                        GridPane rmgrid = new GridPane();
+                        rmgrid.setAlignment(Pos.CENTER);
+                        rmgrid.setHgap(10);
+                        rmgrid.setVgap(10);
+                        Scene rmscene = new Scene(rmgrid,400,150);
+                        confirmRm.setScene(rmscene);
+                        confirmRm.show();
+
+                        Label rmLabel = new Label("remove " + spellName + ". Are you sure?");
+                        rmgrid.add(rmLabel,0,0);
+                        Button yesRm = new Button("Yes");
+                        Button noRm = new Button("Cancel");
+                        HBox hbynrm = new HBox(10);
+                        hbynrm.getChildren().addAll(yesRm,noRm);
+                        rmgrid.add(hbynrm,0,1);
+
+                        yesRm.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent e) {
+                                vbSpells1.getChildren().remove(hbSpell);
+                                spells1List.remove(nxtItem);
+                                c.setSpells1(spells1List);
+                                confirmRm.close();
+                            }
+                        });
+                        noRm.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent e) {
+                                confirmRm.close();
+                            }
+                        });
+                    }
+                });
+                /////// Info Button ///////
+                info.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent e) {
+                        Stage infoStage = new Stage();
+                        GridPane infoGrid = new GridPane();
+                        infoGrid.setAlignment(Pos.CENTER);
+                        infoGrid.setHgap(10);
+                        infoGrid.setVgap(10);
+                        infoGrid.setPadding(new Insets(15,15,15,15));
+                        Scene infoScene = new Scene(infoGrid);
+                        infoStage.setScene(infoScene);
+
+                        infoScene.getStylesheets().add(this.getClass().getResource("SpellDescriptionPage.css").toExternalForm());
+                        Label itemName = new Label(nxtItem.getName());
+                        itemName.setId("spellName");
+
+                        Label lvlSchool = new Label();
+                        if (nxtItem.getRitualTruth()) {
+                            lvlSchool.setText("level " + Integer.toString(nxtItem.getLevel()) + " " + nxtItem.getSchool() + " (ritual)");
+                        }
+                        else {
+                            lvlSchool.setText("level " + Integer.toString(nxtItem.getLevel()) + " " + nxtItem.getSchool());
+                        }
+
+                        Label ctLabel = new Label("Casting Time:");
+                        Text ct = new Text(nxtItem.getCastingTime());
+
+                        Label rangeLabel = new Label("Range:");
+                        Text range = new Text(nxtItem.getRange());
+                        
+                        Label compLabel = new Label("Components:");
+                        Text comp = new Text();
+                        for (int i = 0; i < nxtItem.getComponents().size(); i++) {
+                            if (i == 0) {
+                                comp.setText(nxtItem.getComponents().get(i));
+                            }
+                            else if (i == nxtItem.getComponents().size() - 1) {
+                                comp.setText(comp.getText() + " (" + nxtItem.getComponents().get(i) + ")");
+                            }
+                            else {
+                                comp.setText(comp.getText() + " " + nxtItem.getComponents().get(i));
+                            }
+                        }
+
+                        Label durationLabel = new Label("Duration:");
+                        Text duration = new Text();
+                        if (nxtItem.getConcentrationTruth()) {
+                            duration.setText("Concentration, " + nxtItem.getDuration());
+                        }
+                        else {
+                            duration.setText(nxtItem.getDuration());
+                        }
+
+                        TextArea desc = new TextArea();
+                        desc.setEditable(false);
+                        desc.setWrapText(true);
+                        for (int i = 0; i < nxtItem.getDesc().size(); i++) {
+                            if (i == 0) {
+                                desc.setText(nxtItem.getDesc().get(i));
+                            }
+                            else {
+                                desc.setText(desc.getText() + "\n" + nxtItem.getDesc().get(i));
+                            }
+                        }
+
+                        infoGrid.add(itemName,0,0);
+                        infoGrid.add(lvlSchool,0,1);
+                        infoGrid.add(ctLabel,0,2);
+                        infoGrid.add(ct,1,2);
+                        infoGrid.add(rangeLabel,0,3);
+                        infoGrid.add(range,1,3);
+                        infoGrid.add(compLabel,0,4);
+                        infoGrid.add(comp,1,4);
+                        infoGrid.add(durationLabel,0,5);
+                        infoGrid.add(duration,1,5);
+                        infoGrid.add(desc,0,6);
+
+                        Button done = new Button("OK");
+                        infoGrid.add(done,0,7);
+
+                        infoStage.show();
+
+                        done.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent e) {
+                                infoStage.close();
+                            }
+                        });
+                    }
+                }); // close info button
+            } // close while loop
+                        
+
+
+                       
+
+
+            VBox spells1Root = new VBox(10);
+            HBox spells1Hb = new HBox(10);
+	    HBox spellSlots1Hb = new HBox(10);
+            spells1Hb.getChildren().addAll(titleSpellslots1,spells1Box, addSpells1Btn);
+	    spellSlots1Hb.getChildren().addAll(spellSlots1Box,useSpellSlots1);
+            spells1Root.getChildren().addAll(spells1Hb,spellSlots1Hb,spSpells1);
+
+	    
+	    ////// add spells ///////
+            addSpells1Btn.setOnAction(new EventHandler<ActionEvent>() {
+                public void handle(ActionEvent e) {
+                    Spell newSpell = spells1Box.getValue();
+                    spells1List.add(newSpell);
+                    int newRow = spells1List.size() - 1;
+                    c.setSpells1(spells1List);
+
+                    Label newSpellName = new Label(newSpell.getName());
+                    Button rm = new Button("remove");
+                    Button info = new Button("info");
+                    HBox hbNewSpell = new HBox(10);
+                    hbNewSpell.getChildren().addAll(newSpellName,info,rm);
+                    vbSpells1.getChildren().add(hbNewSpell);
+                    spells1Box.setValue(null);
+
+                    ////// Remove Button ///////
+                    rm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            Stage confirmRm = new Stage();
+                            confirmRm.setTitle("Are you sure?");
+                            GridPane rmgrid = new GridPane();
+                            rmgrid.setAlignment(Pos.CENTER);
+                            rmgrid.setHgap(10);
+                            rmgrid.setVgap(10);
+                            Scene rmscene = new Scene(rmgrid,400,150);
+                            confirmRm.setScene(rmscene);
+                            confirmRm.show();
+
+                            Label rmLabel = new Label("remove " + newSpellName + ". Are you sure?");
+                            rmgrid.add(rmLabel,0,0);
+                            Button yesRm = new Button("Yes");
+                            Button noRm = new Button("Cancel");
+                            HBox hbynrm = new HBox(10);
+                            hbynrm.getChildren().addAll(yesRm,noRm);
+                            rmgrid.add(hbynrm,0,1);
+
+                            yesRm.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent e) {
+                                    vbSpells1.getChildren().remove(hbNewSpell);
+                                    spells1List.remove(newSpell);
+                                    c.setSpells1(spells1List);
+                                    confirmRm.close();
+                                }
+                            });
+                            noRm.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent e) {
+                                    confirmRm.close();
+                                }
+                            });
+                        }
+                    });
+                    /////// Info Button ///////
+                    info.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            Stage infoStage = new Stage();
+                            GridPane infoGrid = new GridPane();
+                            infoGrid.setAlignment(Pos.CENTER);
+                            infoGrid.setHgap(10);
+                            infoGrid.setPadding(new Insets(15,15,15,15));
+                            infoGrid.setVgap(10);
+                            Scene infoScene = new Scene(infoGrid);
+                            infoStage.setScene(infoScene);
+
+                            infoScene.getStylesheets().add(this.getClass().getResource("SpellDescriptionPage.css").toExternalForm());
+                            Label itemName = new Label(newSpell.getName());
+                            itemName.setId("spellName");
+
+                            Label lvlSchool = new Label();
+                            if (newSpell.getRitualTruth()) {
+                                lvlSchool.setText("level " + Integer.toString(newSpell.getLevel()) + " " + newSpell.getSchool() + " (ritual)");
+                            }
+                            else {
+                                lvlSchool.setText("level " + Integer.toString(newSpell.getLevel()) + " " + newSpell.getSchool());
+                            }
+
+                            Label ctLabel = new Label("Casting Time:");
+                            Text ct = new Text(newSpell.getCastingTime());
+
+                            Label rangeLabel = new Label("Range:");
+                            Text range = new Text(newSpell.getRange());
+
+                            Label compLabel = new Label("Components:");
+                            Text comp = new Text();
+                            for (int i = 0; i < newSpell.getComponents().size(); i++) {
+                                if (i == 0) {
+                                    comp.setText(newSpell.getComponents().get(i));
+                                }
+                                else if (i == newSpell.getComponents().size() - 1) {
+                                    comp.setText(comp.getText() + " (" + newSpell.getComponents().get(i) + ")");
+                                }
+                                else {
+                                    comp.setText(comp.getText() + " " + newSpell.getComponents().get(i));
+                                }
+                            }
+
+                            Label durationLabel = new Label("Duration:");
+                            Text duration = new Text();
+                            if (newSpell.getConcentrationTruth()) {
+                                duration.setText("Concentration, " + newSpell.getDuration());
+                            }
+                            else {
+                                duration.setText(newSpell.getDuration());
+                            }
+
+                            TextArea desc = new TextArea();
+                            desc.setEditable(false);
+                            desc.setWrapText(true);
+                            for (int i = 0; i < newSpell.getDesc().size(); i++) {
+                                if (i == 0) {
+                                    desc.setText(newSpell.getDesc().get(i));
+                                }
+                                else {
+                                    desc.setText(desc.getText() + "\n" + newSpell.getDesc().get(i));
+                                }
+                            }
+
+                            infoGrid.add(itemName,0,0);
+                            infoGrid.add(lvlSchool,0,1);
+                            infoGrid.add(ctLabel,0,2);
+                            infoGrid.add(ct,1,2);
+                            infoGrid.add(rangeLabel,0,3);
+                            infoGrid.add(range,1,3);
+                            infoGrid.add(compLabel,0,4);
+                            infoGrid.add(comp,1,4);
+                            infoGrid.add(durationLabel,0,5);
+                            infoGrid.add(duration,1,5);
+                            infoGrid.add(desc,0,6,2,1);
+
+                            Button done = new Button("OK");
+                            infoGrid.add(done,0,7);
+                            infoStage.show();
+
+                            done.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent e) {
+                                    infoStage.close();
+                                }
+                            });
+                        }
+                    }); // close info button
+                }
+            }); //close addSpells1btn           
             
 
             ///////////////////
@@ -3381,7 +3937,7 @@ public class CharacterMgr extends Application {
 
             spellsStage.setScene(spellsscene);
             
-            rootVb.getChildren().addAll(spells0Root);
+            rootVb.getChildren().addAll(spells0Root,spells1Root);
             spellsStage.show();                 
 
             
