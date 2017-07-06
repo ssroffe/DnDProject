@@ -56,7 +56,7 @@ public class CharacterMgr extends Application {
         primaryStage.setScene(scene1);
 
 
-        Text welcome = new Text("Welcome to DnD!");
+        Text welcome = new Text("Welcome to D&D!");
         //grid.add(welcome, 0,0,3,1);
         //grid.add(welcome,0,0);
         welcome.setId("welcome");
