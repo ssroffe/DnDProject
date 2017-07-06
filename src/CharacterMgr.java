@@ -206,7 +206,7 @@ public class CharacterMgr extends Application {
 
         grid.setPadding(new Insets(25,25,25,25));
 
-        Scene scene = new Scene(scroll,600,800);
+        Scene scene = new Scene(scroll,840,840);
         
         scene.getStylesheets().add(this.getClass().getResource("CharacterSheet.css").toExternalForm());
 
@@ -752,6 +752,7 @@ public class CharacterMgr extends Application {
             }
             else {
                 errMsg.setFill(Color.FIREBRICK);
+                grid.getChildren().remove(errMsg);
                 grid.add(errMsg,3,addHPRow);
             }
             pmHPTf.clear();
@@ -7019,7 +7020,7 @@ public class CharacterMgr extends Application {
             ScrollPane spellsSp = new ScrollPane();
             spellsSp.setContent(spellsBp);
             
-            Scene spellsscene = new Scene(spellsSp);
+            Scene spellsscene = new Scene(spellsSp,500,800);
 
             spellsStage.setScene(spellsscene);
             spellsscene.getStylesheets().add(this.getClass().getResource("SpellsPage.css").toExternalForm());
