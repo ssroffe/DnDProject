@@ -1,0 +1,18 @@
+#title {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-underline: true;
+}
+#spellLevelTitle {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-underline: true;
+}
+#spellName {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-underline: true;
+}
+.label{
+    -fx-font-weight: bold;
+}

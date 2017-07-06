@@ -44,7 +44,7 @@ public class Spell {
         setName(name);
         setDesc(new ArrayList<String>());
         setSchool("");
-        setLevel(1);
+        setLevel(0);
         setRitual("");
         setCastingTime("");
         setClss(new HashSet<String>());
@@ -59,7 +59,7 @@ public class Spell {
         setSchool("");
         setDesc(new ArrayList<String>());
         setName("");
-        setLevel(1);
+        setLevel(0);
         setRitual("");
         setCastingTime("");
         setClss(new HashSet<String>());
