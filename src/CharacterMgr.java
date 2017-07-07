@@ -31,6 +31,9 @@ public class CharacterMgr extends Application {
     private DecimalFormat fmt = new DecimalFormat("+0;-0");
     private HashSet<String> classes = new HashSet<String>(Arrays.asList( "Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"));
     //start the first page - new or load character
+    public static void main(String[] args) {
+        launch(args);
+    }
     @Override
     public void start(Stage primaryStage) {
         NewLoadScreen();
@@ -52,7 +55,7 @@ public class CharacterMgr extends Application {
         grid.setPadding(new Insets(25,25,25,25));
 
         Scene scene1 = new Scene(grid, 600, 300);
-        scene1.getStylesheets().add(this.getClass().getResource("NewLoadScreen.css").toExternalForm());
+        scene1.getStylesheets().add("dnd/NewLoadScreen.css");
         primaryStage.setScene(scene1);
 
 
@@ -208,7 +211,7 @@ public class CharacterMgr extends Application {
 
         Scene scene = new Scene(scroll,840,840);
         
-        scene.getStylesheets().add(this.getClass().getResource("CharacterSheet.css").toExternalForm());
+        scene.getStylesheets().add("dnd/CharacterSheet.css");
 
         stage.setScene(scene);
         int row = 1;
@@ -1438,7 +1441,7 @@ public class CharacterMgr extends Application {
         skillsRoot.setContent(bpSkills);
 
         Scene skillsscene = new Scene(skillsRoot);
-        skillsscene.getStylesheets().add(this.getClass().getResource("ListPage.css").toExternalForm());
+        skillsscene.getStylesheets().add("dnd/ListPage.css");
 
         skillsStage.setScene(skillsscene);
 
@@ -1527,7 +1530,7 @@ public class CharacterMgr extends Application {
         savingThrowsRoot.setContent(bpSavingThrows);
 
         Scene savingThrowsscene = new Scene(savingThrowsRoot);
-        savingThrowsscene.getStylesheets().add(this.getClass().getResource("ListPage.css").toExternalForm());
+        savingThrowsscene.getStylesheets().add("dnd/ListPage.css");
 
         savingThrowsStage.setScene(savingThrowsscene);
 
@@ -1635,7 +1638,7 @@ public class CharacterMgr extends Application {
                         Scene infoScene = new Scene(infoGrid);
                         infoStage.setScene(infoScene);
 
-                        infoScene.getStylesheets().add(this.getClass().getResource("TextAreaPage.css").toExternalForm());
+                        infoScene.getStylesheets().add("dnd/TextAreaPage.css");
                         Label itemName = new Label();
                         itemName.setText(inventorylabel.getText());
 
@@ -1705,7 +1708,7 @@ public class CharacterMgr extends Application {
 
 
         Scene inventoryscene = new Scene(bpInventory);
-        inventoryscene.getStylesheets().add(this.getClass().getResource("ListPage.css").toExternalForm());
+        inventoryscene.getStylesheets().add("dnd/ListPage.css");
 
         inventoryStage.setScene(inventoryscene);
 
@@ -1782,7 +1785,7 @@ public class CharacterMgr extends Application {
                         Scene infoScene = new Scene(infoGrid);
                         infoStage.setScene(infoScene);
 
-                        infoScene.getStylesheets().add(this.getClass().getResource("TextAreaPage.css").toExternalForm());
+                        infoScene.getStylesheets().add("dnd/TextAreaPage.css");
 
                         Label itemName = new Label();
                         itemName.setText(newInventory.getText());
@@ -1947,7 +1950,7 @@ public class CharacterMgr extends Application {
 
 
         Scene languagesscene = new Scene(bpLanguages);
-        languagesscene.getStylesheets().add(this.getClass().getResource("ListPage.css").toExternalForm());
+        languagesscene.getStylesheets().add("dnd/ListPage.css");
 
         languagesStage.setScene(languagesscene);
 
@@ -2205,7 +2208,7 @@ public class CharacterMgr extends Application {
 
 
         Scene weaponsscene = new Scene(bpWeapons);
-        weaponsscene.getStylesheets().add(this.getClass().getResource("ListPage.css").toExternalForm());
+        weaponsscene.getStylesheets().add("dnd/ListPage.css");
 
         weaponsStage.setScene(weaponsscene);
 
@@ -2435,7 +2438,7 @@ public class CharacterMgr extends Application {
 
 
         Scene idealsscene = new Scene(bpIdeals);
-        idealsscene.getStylesheets().add(this.getClass().getResource("ListPage.css").toExternalForm());
+        idealsscene.getStylesheets().add("dnd/ListPage.css");
 
         idealsStage.setScene(idealsscene);
 
@@ -2606,7 +2609,7 @@ public class CharacterMgr extends Application {
 
 
         Scene flawsscene = new Scene(bpFlaws);
-        flawsscene.getStylesheets().add(this.getClass().getResource("ListPage.css").toExternalForm());
+        flawsscene.getStylesheets().add("dnd/ListPage.css");
 
         flawsStage.setScene(flawsscene);
 
@@ -2775,7 +2778,7 @@ public class CharacterMgr extends Application {
 
 
         Scene bondsscene = new Scene(bpBonds);
-        bondsscene.getStylesheets().add(this.getClass().getResource("ListPage.css").toExternalForm());
+        bondsscene.getStylesheets().add("dnd/ListPage.css");
 
         bondsStage.setScene(bondsscene);
 
@@ -2944,7 +2947,7 @@ public class CharacterMgr extends Application {
 
 
         Scene featuresscene = new Scene(bpFeatures);
-        featuresscene.getStylesheets().add(this.getClass().getResource("ListPage.css").toExternalForm());
+        featuresscene.getStylesheets().add("dnd/ListPage.css");
 
         featuresStage.setScene(featuresscene);
 
@@ -3058,7 +3061,7 @@ public class CharacterMgr extends Application {
 
 
             Scene notesscene = new Scene(bpNotes);
-            notesscene.getStylesheets().add(this.getClass().getResource("TextAreaPage.css").toExternalForm());
+            notesscene.getStylesheets().add("dnd/TextAreaPage.css");
 
             notesStage.setScene(notesscene);
 
@@ -3131,7 +3134,7 @@ public class CharacterMgr extends Application {
 
 
             Scene descriptionscene = new Scene(bpDescription);
-            descriptionscene.getStylesheets().add(this.getClass().getResource("TextAreaPage.css").toExternalForm());
+            descriptionscene.getStylesheets().add("dnd/TextAreaPage.css");
 
             descriptionStage.setScene(descriptionscene);
 
@@ -3325,7 +3328,7 @@ public class CharacterMgr extends Application {
                         Scene infoScene = new Scene(infoGrid);
                         infoStage.setScene(infoScene);
 
-                        infoScene.getStylesheets().add(this.getClass().getResource("SpellDescriptionPage.css").toExternalForm());
+                        infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
                         Label itemName = new Label(nxtItem.getName());
                         itemName.setId("spellName");
 
@@ -3482,7 +3485,7 @@ public class CharacterMgr extends Application {
                             Scene infoScene = new Scene(infoGrid);
                             infoStage.setScene(infoScene);
 
-                            infoScene.getStylesheets().add(this.getClass().getResource("SpellDescriptionPage.css").toExternalForm());
+                            infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
                             Label itemName = new Label(newSpell.getName());
                             itemName.setId("spellName");
 
@@ -3682,7 +3685,7 @@ public class CharacterMgr extends Application {
                         Scene infoScene = new Scene(infoGrid);
                         infoStage.setScene(infoScene);
 
-                        infoScene.getStylesheets().add(this.getClass().getResource("SpellDescriptionPage.css").toExternalForm());
+                        infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
                         Label itemName = new Label(nxtItem.getName());
                         itemName.setId("spellName");
 
@@ -3843,7 +3846,7 @@ public class CharacterMgr extends Application {
                             Scene infoScene = new Scene(infoGrid);
                             infoStage.setScene(infoScene);
 
-                            infoScene.getStylesheets().add(this.getClass().getResource("SpellDescriptionPage.css").toExternalForm());
+                            infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
                             Label itemName = new Label(newSpell.getName());
                             itemName.setId("spellName");
 
@@ -4037,7 +4040,7 @@ public class CharacterMgr extends Application {
                         Scene infoScene = new Scene(infoGrid);
                         infoStage.setScene(infoScene);
 
-                        infoScene.getStylesheets().add(this.getClass().getResource("SpellDescriptionPage.css").toExternalForm());
+                        infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
                         Label itemName = new Label(nxtItem.getName());
                         itemName.setId("spellName");
 
@@ -4198,7 +4201,7 @@ public class CharacterMgr extends Application {
                             Scene infoScene = new Scene(infoGrid);
                             infoStage.setScene(infoScene);
 
-                            infoScene.getStylesheets().add(this.getClass().getResource("SpellDescriptionPage.css").toExternalForm());
+                            infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
                             Label itemName = new Label(newSpell.getName());
                             itemName.setId("spellName");
 
@@ -4392,7 +4395,7 @@ public class CharacterMgr extends Application {
                         Scene infoScene = new Scene(infoGrid);
                         infoStage.setScene(infoScene);
 
-                        infoScene.getStylesheets().add(this.getClass().getResource("SpellDescriptionPage.css").toExternalForm());
+                        infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
                         Label itemName = new Label(nxtItem.getName());
                         itemName.setId("spellName");
 
@@ -4553,7 +4556,7 @@ public class CharacterMgr extends Application {
                             Scene infoScene = new Scene(infoGrid);
                             infoStage.setScene(infoScene);
 
-                            infoScene.getStylesheets().add(this.getClass().getResource("SpellDescriptionPage.css").toExternalForm());
+                            infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
                             Label itemName = new Label(newSpell.getName());
                             itemName.setId("spellName");
 
@@ -4746,7 +4749,7 @@ public class CharacterMgr extends Application {
                         Scene infoScene = new Scene(infoGrid);
                         infoStage.setScene(infoScene);
 
-                        infoScene.getStylesheets().add(this.getClass().getResource("SpellDescriptionPage.css").toExternalForm());
+                        infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
                         Label itemName = new Label(nxtItem.getName());
                         itemName.setId("spellName");
 
@@ -4907,7 +4910,7 @@ public class CharacterMgr extends Application {
                             Scene infoScene = new Scene(infoGrid);
                             infoStage.setScene(infoScene);
 
-                            infoScene.getStylesheets().add(this.getClass().getResource("SpellDescriptionPage.css").toExternalForm());
+                            infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
                             Label itemName = new Label(newSpell.getName());
                             itemName.setId("spellName");
 
@@ -5101,7 +5104,7 @@ public class CharacterMgr extends Application {
                         Scene infoScene = new Scene(infoGrid);
                         infoStage.setScene(infoScene);
 
-                        infoScene.getStylesheets().add(this.getClass().getResource("SpellDescriptionPage.css").toExternalForm());
+                        infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
                         Label itemName = new Label(nxtItem.getName());
                         itemName.setId("spellName");
 
@@ -5262,7 +5265,7 @@ public class CharacterMgr extends Application {
                             Scene infoScene = new Scene(infoGrid);
                             infoStage.setScene(infoScene);
 
-                            infoScene.getStylesheets().add(this.getClass().getResource("SpellDescriptionPage.css").toExternalForm());
+                            infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
                             Label itemName = new Label(newSpell.getName());
                             itemName.setId("spellName");
 
@@ -5455,7 +5458,7 @@ public class CharacterMgr extends Application {
                         Scene infoScene = new Scene(infoGrid);
                         infoStage.setScene(infoScene);
 
-                        infoScene.getStylesheets().add(this.getClass().getResource("SpellDescriptionPage.css").toExternalForm());
+                        infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
                         Label itemName = new Label(nxtItem.getName());
                         itemName.setId("spellName");
 
@@ -5616,7 +5619,7 @@ public class CharacterMgr extends Application {
                             Scene infoScene = new Scene(infoGrid);
                             infoStage.setScene(infoScene);
 
-                            infoScene.getStylesheets().add(this.getClass().getResource("SpellDescriptionPage.css").toExternalForm());
+                            infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
                             Label itemName = new Label(newSpell.getName());
                             itemName.setId("spellName");
 
@@ -5810,7 +5813,7 @@ public class CharacterMgr extends Application {
                         Scene infoScene = new Scene(infoGrid);
                         infoStage.setScene(infoScene);
 
-                        infoScene.getStylesheets().add(this.getClass().getResource("SpellDescriptionPage.css").toExternalForm());
+                        infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
                         Label itemName = new Label(nxtItem.getName());
                         itemName.setId("spellName");
 
@@ -5971,7 +5974,7 @@ public class CharacterMgr extends Application {
                             Scene infoScene = new Scene(infoGrid);
                             infoStage.setScene(infoScene);
 
-                            infoScene.getStylesheets().add(this.getClass().getResource("SpellDescriptionPage.css").toExternalForm());
+                            infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
                             Label itemName = new Label(newSpell.getName());
                             itemName.setId("spellName");
 
@@ -6165,7 +6168,7 @@ public class CharacterMgr extends Application {
                         Scene infoScene = new Scene(infoGrid);
                         infoStage.setScene(infoScene);
 
-                        infoScene.getStylesheets().add(this.getClass().getResource("SpellDescriptionPage.css").toExternalForm());
+                        infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
                         Label itemName = new Label(nxtItem.getName());
                         itemName.setId("spellName");
 
@@ -6326,7 +6329,7 @@ public class CharacterMgr extends Application {
                             Scene infoScene = new Scene(infoGrid);
                             infoStage.setScene(infoScene);
 
-                            infoScene.getStylesheets().add(this.getClass().getResource("SpellDescriptionPage.css").toExternalForm());
+                            infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
                             Label itemName = new Label(newSpell.getName());
                             itemName.setId("spellName");
 
@@ -6520,7 +6523,7 @@ public class CharacterMgr extends Application {
                         Scene infoScene = new Scene(infoGrid);
                         infoStage.setScene(infoScene);
 
-                        infoScene.getStylesheets().add(this.getClass().getResource("SpellDescriptionPage.css").toExternalForm());
+                        infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
                         Label itemName = new Label(nxtItem.getName());
                         itemName.setId("spellName");
 
@@ -6676,7 +6679,7 @@ public class CharacterMgr extends Application {
                             Scene infoScene = new Scene(infoGrid);
                             infoStage.setScene(infoScene);
 
-                            infoScene.getStylesheets().add(this.getClass().getResource("SpellDescriptionPage.css").toExternalForm());
+                            infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
                             Label itemName = new Label(newSpell.getName());
                             itemName.setId("spellName");
 
@@ -6834,7 +6837,7 @@ public class CharacterMgr extends Application {
                     Scene customScene = new Scene(customGrid);
                     customStage.setScene(customScene);
 
-                    customScene.getStylesheets().add(this.getClass().getResource("SpellDescriptionPage.css").toExternalForm());
+                    customScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
                     Label itemName = new Label("Spell Name:");
                     TextField newName = new TextField();
 
@@ -7023,7 +7026,7 @@ public class CharacterMgr extends Application {
             Scene spellsscene = new Scene(spellsSp,500,800);
 
             spellsStage.setScene(spellsscene);
-            spellsscene.getStylesheets().add(this.getClass().getResource("SpellsPage.css").toExternalForm());
+            spellsscene.getStylesheets().add("dnd/SpellsPage.css");
             
             rootVb.getChildren().addAll(spells0Root,spells1Root,spells2Root,spells3Root,spells4Root,spells5Root,spells6Root,spells7Root,spells8Root,spells9Root);
             spellsStage.show();

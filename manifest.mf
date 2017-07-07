@@ -1,0 +1,2 @@
+Main-Class: dnd.CharacterMgr
+Class-Path: jars/gson-2.3.1.jar
