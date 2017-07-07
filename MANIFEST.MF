@@ -1,3 +1,0 @@
-Manifest-Version: 1.0
-Built-By: Seth Roffe
-Main-Class: dnd.CharacterMgr
