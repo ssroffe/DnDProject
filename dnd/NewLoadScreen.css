@@ -1,17 +1,19 @@
+//.root {
+//    -fx-background: rgb(20,53,26,0.8);
+//}
 .label {
     -fx-font-size: 12px;
     -fx-font-weight: bold;
     -fx_text-fill: #333333;
     -fx-effect: dropshadow( gaussian, rgba(255,255,255,0.5), 0,0,0,1);
 }
-#welcome {
+#welcometitle {
     -fx-font-size: 32px;
     -fx-font-family: "Arial Black";
     //-fx-fill: #818181;
     -fx-fill: #111180;
     -fx-effect: innershadow( three-pass-box, rgba(0,0,0,0.7), 6,0.0,0,2);
 }
-
 //.button {
 //    -fx-text-fill: white;
 //    -fx-font-family: "Arial Narrow";
@@ -22,10 +24,3 @@
 //.button:hover {
 //    -fx-background-color: linear-gradient(#2a5058, #61a2b1);
 //}
-
-#locked-tf {
-    -fx-background-color: #AAAFB4;
-}
-#unlocked-tf {
-    -fx-background-color: #FFFFFF;
-}

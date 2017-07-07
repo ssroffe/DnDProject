@@ -59,7 +59,7 @@ public class CharacterMgr extends Application {
         Text welcome = new Text("Welcome to D&D!");
         //grid.add(welcome, 0,0,3,1);
         //grid.add(welcome,0,0);
-        welcome.setId("welcome");
+        welcome.setId("welcometitle");
 
         Label loadLabel = new Label("Would you like to Load a Character or Make a New one?");
         //grid.add(loadLabel,0,1,1,2);
