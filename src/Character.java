@@ -80,7 +80,7 @@ public class Character {
     private HashSet<String> flaws;
     private HashSet<String> languages;
     
-    private HashSet<String> features;
+    private ArrayList<String> features;
 
     private ArrayList<String> inventory;
     private boolean[] proficiencies;
@@ -103,7 +103,7 @@ public class Character {
              int spellSlots1,int spellSlots2,int spellSlots3,int spellSlots4,
              int spellSlots5,int spellSlots6,int spellSlots7,int spellSlots8, int spellSlots9,
 		     int dRoll, int sRoll, HashSet<String> bonds, String background,
-		     ArrayList<String> inventory, HashSet<String> features, int gold) {
+		     ArrayList<String> inventory, ArrayList<String> features, int gold) {
 	
 	setName(name);
 	setClss(clss);
@@ -193,7 +193,7 @@ public class Character {
 
 
 	setCantrips(new HashSet<Spell>());
-	setFeatures(new HashSet<String>());
+	setFeatures(new ArrayList<String>());
 	setBonds(new HashSet<String>());
 	setFlaws(new HashSet<String>());
 	setIdeals(new HashSet<String>());
@@ -266,7 +266,7 @@ public Character() {
 
 	setCantrips(new HashSet<Spell>());
 	setBonds(new HashSet<String>());
-	setFeatures(new HashSet<String>());
+	setFeatures(new ArrayList<String>());
 	setFlaws(new HashSet<String>());
 	setIdeals(new HashSet<String>());
 	setDescription("");
@@ -345,7 +345,7 @@ public Character() {
 	
 	setCantrips(new HashSet<Spell>());
 	setBonds(new HashSet<String>());
-	setFeatures(new HashSet<String>());
+	setFeatures(new ArrayList<String>());
 	setFlaws(new HashSet<String>());
 	setIdeals(new HashSet<String>());
 	setDescription("");
@@ -469,7 +469,7 @@ public Character() {
 	
 	setCantrips(new HashSet<Spell>());
 	setBonds(new HashSet<String>());
-	setFeatures(new HashSet<String>());
+	setFeatures(new ArrayList<String>());
 	setLanguages(new HashSet<String>());
 
     setSpells1(new HashSet<Spell>());
@@ -923,10 +923,10 @@ public Character() {
         return spellSlots9;
     }
 
-    public void setFeatures(HashSet<String> f) {
+    public void setFeatures(ArrayList<String> f) {
         this.features = f;
     }
-    public HashSet<String> getFeatures() {
+    public ArrayList<String> getFeatures() {
         return features;
     }
     

@@ -55,7 +55,7 @@ public class CharacterMgr extends Application {
         grid.setPadding(new Insets(25,25,25,25));
 
         Scene scene1 = new Scene(grid, 600, 300);
-        scene1.getStylesheets().add("dnd/NewLoadScreen.css");
+        scene1.getStylesheets().add("lib/NewLoadScreen.css");
         primaryStage.setScene(scene1);
 
 
@@ -211,7 +211,7 @@ public class CharacterMgr extends Application {
 
         Scene scene = new Scene(scroll,840,840);
         
-        scene.getStylesheets().add("dnd/CharacterSheet.css");
+        scene.getStylesheets().add("lib/CharacterSheet.css");
 
         stage.setScene(scene);
         int row = 1;
@@ -448,6 +448,10 @@ public class CharacterMgr extends Application {
                     subsubClssTf.setItems(boons);
                     
                     subClssTfHb.getChildren().addAll(subsubClssLabel,subsubClssTf);
+                }
+                else {
+                    subClssTfHb.getChildren().remove(subsubClssTf);
+                    subClssTfHb.getChildren().remove(subsubClssLabel);
                 }
                 subClssTf.setItems(subClassOptions);
                 subClssTf.setValue("");
@@ -1441,7 +1445,7 @@ public class CharacterMgr extends Application {
         skillsRoot.setContent(bpSkills);
 
         Scene skillsscene = new Scene(skillsRoot);
-        skillsscene.getStylesheets().add("dnd/ListPage.css");
+        skillsscene.getStylesheets().add("lib/ListPage.css");
 
         skillsStage.setScene(skillsscene);
 
@@ -1530,7 +1534,7 @@ public class CharacterMgr extends Application {
         savingThrowsRoot.setContent(bpSavingThrows);
 
         Scene savingThrowsscene = new Scene(savingThrowsRoot);
-        savingThrowsscene.getStylesheets().add("dnd/ListPage.css");
+        savingThrowsscene.getStylesheets().add("lib/ListPage.css");
 
         savingThrowsStage.setScene(savingThrowsscene);
 
@@ -1569,6 +1573,7 @@ public class CharacterMgr extends Application {
                 final int currIndex = index;
                 String[] splitItem = nxtItem.split("--");
                 TextArea description = new TextArea();
+                description.setWrapText(true);
                 description.setPromptText("Item Description");
                 try {
                     description.setText(splitItem[1]); 
@@ -1601,7 +1606,7 @@ public class CharacterMgr extends Application {
                         confirmRm.setScene(rmscene);
                         confirmRm.show();
 
-                        Label rmLabel = new Label("remove " + nxtItem + ". Are you sure?");
+                        Label rmLabel = new Label("remove " + splitItem[0] + ". Are you sure?");
                         rmgrid.add(rmLabel,0,0);
                         Button yesRm = new Button("Yes");
                         Button noRm = new Button("Cancel");
@@ -1613,7 +1618,7 @@ public class CharacterMgr extends Application {
                             @Override
                             public void handle(ActionEvent e) {
                                 vbInventory.getChildren().remove(hbInventoryList);
-                                inventoryList.remove(inventorylabel.getText());
+                                inventoryList.remove(nxtItem);
                                 c.setInventory(inventoryList);
                                 confirmRm.close();
                             }
@@ -1638,7 +1643,7 @@ public class CharacterMgr extends Application {
                         Scene infoScene = new Scene(infoGrid);
                         infoStage.setScene(infoScene);
 
-                        infoScene.getStylesheets().add("dnd/TextAreaPage.css");
+                        infoScene.getStylesheets().add("lib/TextAreaPage.css");
                         Label itemName = new Label();
                         itemName.setText(inventorylabel.getText());
 
@@ -1666,7 +1671,7 @@ public class CharacterMgr extends Application {
                                 String newItem = itemName.getText() + "--" + description.getText();
                                 inventoryList.set(currIndex,newItem);
                                 c.setInventory(inventoryList);
-                                Text msg = new Text("Save");
+                                Text msg = new Text("Saved");
                                 msg.setFill(Color.FIREBRICK);
                                 descBtns.getChildren().remove(msg);
                                 descBtns.getChildren().add(msg);
@@ -1708,7 +1713,7 @@ public class CharacterMgr extends Application {
 
 
         Scene inventoryscene = new Scene(bpInventory);
-        inventoryscene.getStylesheets().add("dnd/ListPage.css");
+        inventoryscene.getStylesheets().add("lib/ListPage.css");
 
         inventoryStage.setScene(inventoryscene);
 
@@ -1724,6 +1729,7 @@ public class CharacterMgr extends Application {
                 String newItem = newInventory.getText();
 
                 TextArea description = new TextArea();
+                description.setWrapText(true);
                 description.setPromptText("Item Description");
 
                 Button rm = new Button("remove");
@@ -1785,7 +1791,7 @@ public class CharacterMgr extends Application {
                         Scene infoScene = new Scene(infoGrid);
                         infoStage.setScene(infoScene);
 
-                        infoScene.getStylesheets().add("dnd/TextAreaPage.css");
+                        infoScene.getStylesheets().add("lib/TextAreaPage.css");
 
                         Label itemName = new Label();
                         itemName.setText(newInventory.getText());
@@ -1950,7 +1956,7 @@ public class CharacterMgr extends Application {
 
 
         Scene languagesscene = new Scene(bpLanguages);
-        languagesscene.getStylesheets().add("dnd/ListPage.css");
+        languagesscene.getStylesheets().add("lib/ListPage.css");
 
         languagesStage.setScene(languagesscene);
 
@@ -2208,7 +2214,7 @@ public class CharacterMgr extends Application {
 
 
         Scene weaponsscene = new Scene(bpWeapons);
-        weaponsscene.getStylesheets().add("dnd/ListPage.css");
+        weaponsscene.getStylesheets().add("lib/ListPage.css");
 
         weaponsStage.setScene(weaponsscene);
 
@@ -2438,7 +2444,7 @@ public class CharacterMgr extends Application {
 
 
         Scene idealsscene = new Scene(bpIdeals);
-        idealsscene.getStylesheets().add("dnd/ListPage.css");
+        idealsscene.getStylesheets().add("lib/ListPage.css");
 
         idealsStage.setScene(idealsscene);
 
@@ -2609,7 +2615,7 @@ public class CharacterMgr extends Application {
 
 
         Scene flawsscene = new Scene(bpFlaws);
-        flawsscene.getStylesheets().add("dnd/ListPage.css");
+        flawsscene.getStylesheets().add("lib/ListPage.css");
 
         flawsStage.setScene(flawsscene);
 
@@ -2778,7 +2784,7 @@ public class CharacterMgr extends Application {
 
 
         Scene bondsscene = new Scene(bpBonds);
-        bondsscene.getStylesheets().add("dnd/ListPage.css");
+        bondsscene.getStylesheets().add("lib/ListPage.css");
 
         bondsStage.setScene(bondsscene);
 
@@ -2870,19 +2876,34 @@ public class CharacterMgr extends Application {
             featuresTitle.setId("title");
             VBox vbFeatures = new VBox(10);
 
-            HashSet<String> featuresList = c.getFeatures();
+            ArrayList<String> featuresList = c.getFeatures();
             Iterator<String> itr = featuresList.iterator();
+            int index = 0;
 
             while (itr.hasNext()) {
+                final int currIndex = index;
                 String nxtItem = itr.next();
-                Label featureslabel = new Label(nxtItem);
+                String[] splitItem = nxtItem.split("--");
+                TextArea description = new TextArea();
+                description.setWrapText(true);
+                description.setPromptText("Item Description");
+                try {
+                    description.setText(splitItem[1]);
+                }
+                catch (ArrayIndexOutOfBoundsException ioe) {
+                    description.setText("");
+                }
+
+
+                Label featuresLabel = new Label(splitItem[0]);
                 HBox hbFeaturesList = new HBox(10);
 
+                Button info = new Button("info");
                 Button rm = new Button("remove");
-                hbFeaturesList.getChildren().addAll(featureslabel,rm);
+                hbFeaturesList.getChildren().addAll(featuresLabel,info,rm);
 
                 vbFeatures.getChildren().add(hbFeaturesList);
-
+                index++;
                 ////// Remove button ///////
                 rm.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
@@ -2897,7 +2918,7 @@ public class CharacterMgr extends Application {
                         confirmRm.setScene(rmscene);
                         confirmRm.show();
 
-                        Label rmLabel = new Label("remove " + nxtItem + ". Are you sure?");
+                        Label rmLabel = new Label("remove " + splitItem[0] + ". Are you sure?");
                         rmgrid.add(rmLabel,0,0);
                         Button yesRm = new Button("Yes");
                         Button noRm = new Button("Cancel");
@@ -2909,7 +2930,7 @@ public class CharacterMgr extends Application {
                             @Override
                             public void handle(ActionEvent e) {
                                 vbFeatures.getChildren().remove(hbFeaturesList);
-                                featuresList.remove(featureslabel.getText());
+                                featuresList.remove(nxtItem);
                                 c.setFeatures(featuresList);
                                 confirmRm.close();
                             }
@@ -2922,6 +2943,63 @@ public class CharacterMgr extends Application {
                         });
                     }
                 });
+
+                info.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent e) {
+                        Stage infoStage = new Stage();
+                        GridPane infoGrid = new GridPane();
+                        infoGrid.setAlignment(Pos.CENTER);
+                        infoGrid.setHgap(10);
+                        infoGrid.setVgap(10);
+                        Scene infoScene = new Scene(infoGrid);
+                        infoStage.setScene(infoScene);
+
+                        infoScene.getStylesheets().add("lib/TextAreaPage.css");
+
+                        Label itemName = new Label();
+                        itemName.setText(featuresLabel.getText());
+
+                        Button done = new Button("Done");
+                        Button saveDesc = new Button("Save");
+                        HBox descBtns = new HBox(10);
+                        descBtns.getChildren().addAll(done,saveDesc);
+
+                        infoGrid.add(itemName,0,0);
+                        infoGrid.add(description,0,1);
+                        infoGrid.add(descBtns,0,2);
+
+                        done.setOnAction(new EventHandler<ActionEvent>() {
+                            public void handle(ActionEvent e) {
+                                String newItem = itemName.getText() + "--" + description.getText();
+                                featuresList.set(currIndex,newItem);
+                                c.setFeatures(featuresList);
+                                infoStage.close();
+                            }
+                        });
+                        saveDesc.setOnAction(new EventHandler<ActionEvent>() {
+                            public void handle(ActionEvent e) {
+                                String newItem = itemName.getText() + "--" + description.getText();
+                                featuresList.set(currIndex,newItem);
+                                c.setFeatures(featuresList);
+                                Text msg = new Text("Saved");
+                                msg.setFill(Color.FIREBRICK);
+                                descBtns.getChildren().remove(msg);
+                                descBtns.getChildren().add(msg);
+                            }
+                        });
+                        infoStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                            public void handle(WindowEvent we) {
+                                String newItem = itemName.getText() + "--" + description.getText();
+                                featuresList.set(currIndex,newItem);
+                                c.setFeatures(featuresList);
+                            }
+                        });
+                        infoStage.show();
+                    }
+                });
+
+
 
             }
 
@@ -2947,7 +3025,7 @@ public class CharacterMgr extends Application {
 
 
         Scene featuresscene = new Scene(bpFeatures);
-        featuresscene.getStylesheets().add("dnd/ListPage.css");
+        featuresscene.getStylesheets().add("lib/ListPage.css");
 
         featuresStage.setScene(featuresscene);
 
@@ -2959,9 +3037,15 @@ public class CharacterMgr extends Application {
                 int newRow = featuresList.size() - 1;
                 c.setFeatures(featuresList);
                 Label newFeatures = new Label(addFeaturesTf.getText());
+                
+                TextArea description = new TextArea();
+                description.setWrapText(true);
+                description.setPromptText("Item Description");
+
                 Button rm = new Button("remove");
+                Button info = new Button("info");
                 HBox hbnewFeatures = new HBox(10);
-                hbnewFeatures.getChildren().addAll(newFeatures,rm);
+                hbnewFeatures.getChildren().addAll(newFeatures,info,rm);
                 vbFeatures.getChildren().add(hbnewFeatures);
                 addFeaturesTf.clear();
 
@@ -3002,6 +3086,60 @@ public class CharacterMgr extends Application {
                                 confirmRm.close();
                             }
                         });
+                    }
+                });
+                info.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent e) {
+                        Stage infoStage = new Stage();
+                        GridPane infoGrid = new GridPane();
+                        infoGrid.setAlignment(Pos.CENTER);
+                        infoGrid.setHgap(10);
+                        infoGrid.setVgap(10);
+                        Scene infoScene = new Scene(infoGrid);
+                        infoStage.setScene(infoScene);
+
+                        infoScene.getStylesheets().add("lib/TextAreaPage.css");
+
+                        Label itemName = new Label();
+                        itemName.setText(newFeatures.getText());
+
+                        Button done = new Button("Done");
+                        Button saveDesc = new Button("Save");
+                        HBox descBtns = new HBox(10);
+                        descBtns.getChildren().addAll(done,saveDesc);
+
+                        infoGrid.add(itemName,0,0);
+                        infoGrid.add(description,0,1);
+                        infoGrid.add(descBtns,0,2);
+
+                        done.setOnAction(new EventHandler<ActionEvent>() {
+                            public void handle(ActionEvent e) {
+                                String newItem = itemName.getText() + "--" + description.getText();
+                                featuresList.set(newRow,newItem);
+                                c.setFeatures(featuresList);
+                                infoStage.close();
+                            }
+                        });
+                        saveDesc.setOnAction(new EventHandler<ActionEvent>() {
+                            public void handle(ActionEvent e) {
+                                String newItem = itemName.getText() + "--" + description.getText();
+                                featuresList.set(newRow,newItem);
+                                c.setFeatures(featuresList);
+                                Text msg = new Text("Saved");
+                                msg.setFill(Color.FIREBRICK);
+                                descBtns.getChildren().remove(msg);
+                                descBtns.getChildren().add(msg);
+                            }
+                        });
+                        infoStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                            public void handle(WindowEvent we) {
+                                String newItem = itemName.getText() + "--" + description.getText();
+                                featuresList.set(newRow,newItem);
+                                c.setFeatures(featuresList);
+                            }
+                        });
+                        infoStage.show();
                     }
                 });
             }
@@ -3061,7 +3199,7 @@ public class CharacterMgr extends Application {
 
 
             Scene notesscene = new Scene(bpNotes);
-            notesscene.getStylesheets().add("dnd/TextAreaPage.css");
+            notesscene.getStylesheets().add("lib/TextAreaPage.css");
 
             notesStage.setScene(notesscene);
 
@@ -3115,6 +3253,7 @@ public class CharacterMgr extends Application {
             String descriptionList = c.getDescription();
 	    
             TextArea description = new TextArea(c.getDescription());
+            description.setWrapText(true);
             Button saveDescription = new Button("Save Description");
             Button doneDescription = new Button("Done");
             HBox hbDescription = new HBox(10);
@@ -3134,7 +3273,7 @@ public class CharacterMgr extends Application {
 
 
             Scene descriptionscene = new Scene(bpDescription);
-            descriptionscene.getStylesheets().add("dnd/TextAreaPage.css");
+            descriptionscene.getStylesheets().add("lib/TextAreaPage.css");
 
             descriptionStage.setScene(descriptionscene);
 
@@ -3191,7 +3330,9 @@ public class CharacterMgr extends Application {
             Gson gson = new Gson();
             Spell[] spellArr;
             
-            try (Reader reader = new FileReader("spells.json")) {
+            InputStream in = this.getClass().getClassLoader().getResourceAsStream("lib/spells.json");
+            
+            try (Reader reader = new InputStreamReader(in,"UTF-8")) {
                 spellArr = gson.fromJson(reader,Spell[].class);
             }
             catch (IOException ioe) {
@@ -3328,7 +3469,7 @@ public class CharacterMgr extends Application {
                         Scene infoScene = new Scene(infoGrid);
                         infoStage.setScene(infoScene);
 
-                        infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
+                        infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
                         Label itemName = new Label(nxtItem.getName());
                         itemName.setId("spellName");
 
@@ -3485,7 +3626,7 @@ public class CharacterMgr extends Application {
                             Scene infoScene = new Scene(infoGrid);
                             infoStage.setScene(infoScene);
 
-                            infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
+                            infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
                             Label itemName = new Label(newSpell.getName());
                             itemName.setId("spellName");
 
@@ -3685,7 +3826,7 @@ public class CharacterMgr extends Application {
                         Scene infoScene = new Scene(infoGrid);
                         infoStage.setScene(infoScene);
 
-                        infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
+                        infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
                         Label itemName = new Label(nxtItem.getName());
                         itemName.setId("spellName");
 
@@ -3846,7 +3987,7 @@ public class CharacterMgr extends Application {
                             Scene infoScene = new Scene(infoGrid);
                             infoStage.setScene(infoScene);
 
-                            infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
+                            infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
                             Label itemName = new Label(newSpell.getName());
                             itemName.setId("spellName");
 
@@ -4040,7 +4181,7 @@ public class CharacterMgr extends Application {
                         Scene infoScene = new Scene(infoGrid);
                         infoStage.setScene(infoScene);
 
-                        infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
+                        infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
                         Label itemName = new Label(nxtItem.getName());
                         itemName.setId("spellName");
 
@@ -4201,7 +4342,7 @@ public class CharacterMgr extends Application {
                             Scene infoScene = new Scene(infoGrid);
                             infoStage.setScene(infoScene);
 
-                            infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
+                            infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
                             Label itemName = new Label(newSpell.getName());
                             itemName.setId("spellName");
 
@@ -4395,7 +4536,7 @@ public class CharacterMgr extends Application {
                         Scene infoScene = new Scene(infoGrid);
                         infoStage.setScene(infoScene);
 
-                        infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
+                        infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
                         Label itemName = new Label(nxtItem.getName());
                         itemName.setId("spellName");
 
@@ -4556,7 +4697,7 @@ public class CharacterMgr extends Application {
                             Scene infoScene = new Scene(infoGrid);
                             infoStage.setScene(infoScene);
 
-                            infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
+                            infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
                             Label itemName = new Label(newSpell.getName());
                             itemName.setId("spellName");
 
@@ -4749,7 +4890,7 @@ public class CharacterMgr extends Application {
                         Scene infoScene = new Scene(infoGrid);
                         infoStage.setScene(infoScene);
 
-                        infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
+                        infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
                         Label itemName = new Label(nxtItem.getName());
                         itemName.setId("spellName");
 
@@ -4910,7 +5051,7 @@ public class CharacterMgr extends Application {
                             Scene infoScene = new Scene(infoGrid);
                             infoStage.setScene(infoScene);
 
-                            infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
+                            infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
                             Label itemName = new Label(newSpell.getName());
                             itemName.setId("spellName");
 
@@ -5104,7 +5245,7 @@ public class CharacterMgr extends Application {
                         Scene infoScene = new Scene(infoGrid);
                         infoStage.setScene(infoScene);
 
-                        infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
+                        infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
                         Label itemName = new Label(nxtItem.getName());
                         itemName.setId("spellName");
 
@@ -5265,7 +5406,7 @@ public class CharacterMgr extends Application {
                             Scene infoScene = new Scene(infoGrid);
                             infoStage.setScene(infoScene);
 
-                            infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
+                            infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
                             Label itemName = new Label(newSpell.getName());
                             itemName.setId("spellName");
 
@@ -5458,7 +5599,7 @@ public class CharacterMgr extends Application {
                         Scene infoScene = new Scene(infoGrid);
                         infoStage.setScene(infoScene);
 
-                        infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
+                        infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
                         Label itemName = new Label(nxtItem.getName());
                         itemName.setId("spellName");
 
@@ -5619,7 +5760,7 @@ public class CharacterMgr extends Application {
                             Scene infoScene = new Scene(infoGrid);
                             infoStage.setScene(infoScene);
 
-                            infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
+                            infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
                             Label itemName = new Label(newSpell.getName());
                             itemName.setId("spellName");
 
@@ -5813,7 +5954,7 @@ public class CharacterMgr extends Application {
                         Scene infoScene = new Scene(infoGrid);
                         infoStage.setScene(infoScene);
 
-                        infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
+                        infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
                         Label itemName = new Label(nxtItem.getName());
                         itemName.setId("spellName");
 
@@ -5974,7 +6115,7 @@ public class CharacterMgr extends Application {
                             Scene infoScene = new Scene(infoGrid);
                             infoStage.setScene(infoScene);
 
-                            infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
+                            infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
                             Label itemName = new Label(newSpell.getName());
                             itemName.setId("spellName");
 
@@ -6168,7 +6309,7 @@ public class CharacterMgr extends Application {
                         Scene infoScene = new Scene(infoGrid);
                         infoStage.setScene(infoScene);
 
-                        infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
+                        infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
                         Label itemName = new Label(nxtItem.getName());
                         itemName.setId("spellName");
 
@@ -6329,7 +6470,7 @@ public class CharacterMgr extends Application {
                             Scene infoScene = new Scene(infoGrid);
                             infoStage.setScene(infoScene);
 
-                            infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
+                            infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
                             Label itemName = new Label(newSpell.getName());
                             itemName.setId("spellName");
 
@@ -6523,7 +6664,7 @@ public class CharacterMgr extends Application {
                         Scene infoScene = new Scene(infoGrid);
                         infoStage.setScene(infoScene);
 
-                        infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
+                        infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
                         Label itemName = new Label(nxtItem.getName());
                         itemName.setId("spellName");
 
@@ -6679,7 +6820,7 @@ public class CharacterMgr extends Application {
                             Scene infoScene = new Scene(infoGrid);
                             infoStage.setScene(infoScene);
 
-                            infoScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
+                            infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
                             Label itemName = new Label(newSpell.getName());
                             itemName.setId("spellName");
 
@@ -6837,7 +6978,7 @@ public class CharacterMgr extends Application {
                     Scene customScene = new Scene(customGrid);
                     customStage.setScene(customScene);
 
-                    customScene.getStylesheets().add("dnd/SpellDescriptionPage.css");
+                    customScene.getStylesheets().add("lib/SpellDescriptionPage.css");
                     Label itemName = new Label("Spell Name:");
                     TextField newName = new TextField();
 
@@ -7026,7 +7167,7 @@ public class CharacterMgr extends Application {
             Scene spellsscene = new Scene(spellsSp,500,800);
 
             spellsStage.setScene(spellsscene);
-            spellsscene.getStylesheets().add("dnd/SpellsPage.css");
+            spellsscene.getStylesheets().add("lib/SpellsPage.css");
             
             rootVb.getChildren().addAll(spells0Root,spells1Root,spells2Root,spells3Root,spells4Root,spells5Root,spells6Root,spells7Root,spells8Root,spells9Root);
             spellsStage.show();
