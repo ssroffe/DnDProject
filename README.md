@@ -12,5 +12,8 @@ Currently it contains:
 Basic Character manager.
 Contains information for spells
 
+## How to run:
+Simply download CharacterMgr.jar and run that
+
 ## For the future
 I will probably add automatic stat boosts given from classes and races later. 
