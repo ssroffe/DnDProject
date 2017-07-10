@@ -30,6 +30,7 @@ public class CharacterMgr extends Application {
     private String fileName;
     private DecimalFormat fmt = new DecimalFormat("+0;-0");
     private HashSet<String> classes = new HashSet<String>(Arrays.asList( "Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"));
+
     //start the first page - new or load character
     public static void main(String[] args) {
         launch(args);
@@ -165,11 +166,13 @@ public class CharacterMgr extends Application {
                 }
                 else if (clssTf.getValue().toString() == null || clssTf.getValue().toString().isEmpty()) {
                     Character c = new Character(nameTf.getText());
+                    c.setProficiencyBonus(2);
                     stage.close();
                     CharacterSheet(c);
                 }
                 else {
                     Character c = new Character(nameTf.getText(),clssTf.getValue().toString());
+                    c.setProficiencyBonus(2);
                     stage.close();
                     CharacterSheet(c);
                 }
@@ -232,11 +235,17 @@ public class CharacterMgr extends Application {
         hblvl.getChildren().addAll(addLevel,lowLevel);
         grid.add(hblvl,2,row);
 
+        TextField profTf = new TextField(); // for auto proficiency calculation
+
         addLevel.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
                 c.setLevel(c.getLevel() + 1);
                 level.setText(Integer.toString(c.getLevel()));
+                if (c.getLevel() == 5 || c.getLevel() == 9 || c.getLevel() == 13 || c.getLevel() == 17) {
+                    c.setProficiencyBonus(c.getProficiencyBonus() + 1);
+                    profTf.setText(fmt.format(c.getProficiencyBonus()));
+                }
             }
         });
  
@@ -246,6 +255,10 @@ public class CharacterMgr extends Application {
                 if (c.getLevel() != 1) {
                     c.setLevel(c.getLevel() - 1);
                     level.setText(Integer.toString(c.getLevel()));
+                }
+                if (c.getLevel() == 4 || c.getLevel() == 8 || c.getLevel() == 12 || c.getLevel() == 16) {
+                    c.setProficiencyBonus(c.getProficiencyBonus() - 1);
+                    profTf.setText(fmt.format(c.getProficiencyBonus()));
                 }
             }
         });       
@@ -1005,7 +1018,6 @@ public class CharacterMgr extends Application {
     inspTf.setEditable(false);
     inspTf.setPrefWidth(40);
 
-    TextField profTf = new TextField();
     profTf.setId("locked-tf");
     profTf.setText(fmt.format(c.getProficiencyBonus()));
     profTf.setEditable(false);
@@ -1150,6 +1162,14 @@ public class CharacterMgr extends Application {
                     c.setWis(Integer.parseInt(wisTf.getText()));
                     c.setChar(Integer.parseInt(chaTf.getText()));
 
+                    strTf.setText(strTf.getText().replaceFirst("^0+(?!$)",""));
+                    conTf.setText(conTf.getText().replaceFirst("^0+(?!$)",""));
+                    dexTf.setText(dexTf.getText().replaceFirst("^0+(?!$)",""));
+                    intelTf.setText(intelTf.getText().replaceFirst("^0+(?!$)",""));
+                    wisTf.setText(wisTf.getText().replaceFirst("^0+(?!$)",""));
+                    chaTf.setText(chaTf.getText().replaceFirst("^0+(?!$)",""));
+                    inspTf.setText(inspTf.getText().replaceFirst("^0+(?!$)",""));
+
                     strMod.setText(fmt.format(calcMod(Integer.parseInt(strTf.getText()))));
                     conMod.setText(fmt.format(calcMod(Integer.parseInt(conTf.getText()))));
                     dexMod.setText(fmt.format(calcMod(Integer.parseInt(dexTf.getText()))));
@@ -1268,9 +1288,14 @@ public class CharacterMgr extends Application {
                boolean initIsInt = isInteger(initTf.getText());
                if (armorIsInt && speedIsInt && initIsInt) {
                    c.setArmor(Integer.parseInt(armorTf.getText()));
+                   armorTf.setText(armorTf.getText().replaceFirst("^0+(?!$)",""));
+
                    c.setInitiative(Integer.parseInt(initTf.getText()));
                    initTf.setText(fmt.format(c.getInitiative()));
+
                    c.setSpeed(Integer.parseInt(speedTf.getText()));
+                   speedTf.setText(speedTf.getText().replaceFirst("^0+(?!$)",""));
+
                    c.setHitDice(hdTf.getText());
                    grid.getChildren().remove(errMsg);
                }
@@ -1723,125 +1748,126 @@ public class CharacterMgr extends Application {
         addInventory.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                inventoryList.add(addInventoryTf.getText());
-                int newRow = inventoryList.size() - 1;
-                c.setInventory(inventoryList);
+                if (!addInventoryTf.getText().isEmpty()) {
+                    inventoryList.add(addInventoryTf.getText());
+                    int newRow = inventoryList.size() - 1;
+                    c.setInventory(inventoryList);
 
-                Label newInventory = new Label(addInventoryTf.getText());
-                String newItem = newInventory.getText();
+                    Label newInventory = new Label(addInventoryTf.getText());
+                    String newItem = newInventory.getText();
 
-                TextArea description = new TextArea();
-                description.setWrapText(true);
-                description.setPromptText("Item Description");
+                    TextArea description = new TextArea();
+                    description.setWrapText(true);
+                    description.setPromptText("Item Description");
 
-                Button rm = new Button("remove");
-                Button info = new Button("info");
-                HBox hbNewInventory = new HBox(10);
-                hbNewInventory.getChildren().addAll(newInventory,info,rm);
-                vbInventory.getChildren().add(hbNewInventory);
-                addInventoryTf.clear();
+                    Button rm = new Button("remove");
+                    Button info = new Button("info");
+                    HBox hbNewInventory = new HBox(10);
+                    hbNewInventory.getChildren().addAll(newInventory,info,rm);
+                    vbInventory.getChildren().add(hbNewInventory);
+                    addInventoryTf.clear();
 
-                ////// Remove button ///////
-                rm.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent e) {
-                        Stage confirmRm = new Stage();
-                        confirmRm.setTitle("Are you sure?");
-                        GridPane rmgrid = new GridPane();
-                        rmgrid.setAlignment(Pos.CENTER);
-                        rmgrid.setHgap(10);
-                        rmgrid.setVgap(10);
-                        Scene rmscene = new Scene(rmgrid,400,150);
-                        confirmRm.setScene(rmscene);
-                        confirmRm.show();
+                    ////// Remove button ///////
+                    rm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            Stage confirmRm = new Stage();
+                            confirmRm.setTitle("Are you sure?");
+                            GridPane rmgrid = new GridPane();
+                            rmgrid.setAlignment(Pos.CENTER);
+                            rmgrid.setHgap(10);
+                            rmgrid.setVgap(10);
+                            Scene rmscene = new Scene(rmgrid,400,150);
+                            confirmRm.setScene(rmscene);
+                            confirmRm.show();
 
-                        Label rmLabel = new Label("remove " + newItem + ". Are you sure?");
-                        rmgrid.add(rmLabel,0,0);
-                        Button yesRm = new Button("Yes");
-                        Button noRm = new Button("Cancel");
-                        HBox hbynrm = new HBox(10);
-                        hbynrm.getChildren().addAll(yesRm,noRm);
-                        rmgrid.add(hbynrm,0,1);
+                            Label rmLabel = new Label("remove " + newItem + ". Are you sure?");
+                            rmgrid.add(rmLabel,0,0);
+                            Button yesRm = new Button("Yes");
+                            Button noRm = new Button("Cancel");
+                            HBox hbynrm = new HBox(10);
+                            hbynrm.getChildren().addAll(yesRm,noRm);
+                            rmgrid.add(hbynrm,0,1);
 
-                        yesRm.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                vbInventory.getChildren().remove(hbNewInventory);
-                                inventoryList.remove(newInventory.getText());
-                                c.setInventory(inventoryList);
-                                confirmRm.close();
-                            }
-                        });
-                        noRm.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                confirmRm.close();
-                            }
-                        });
-                    }
-                });
+                            yesRm.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent e) {
+                                    vbInventory.getChildren().remove(hbNewInventory);
+                                    inventoryList.remove(newInventory.getText());
+                                    c.setInventory(inventoryList);
+                                    confirmRm.close();
+                                }
+                            });
+                            noRm.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent e) {
+                                    confirmRm.close();
+                                }
+                            });
+                        }
+                    });
 
-                info.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent e) {
+                    info.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
 
-                        Stage infoStage = new Stage();
-                        GridPane infoGrid = new GridPane();
-                        infoGrid.setAlignment(Pos.CENTER);
-                        infoGrid.setHgap(10);
-                        infoGrid.setVgap(10);
-                        Scene infoScene = new Scene(infoGrid);
-                        infoStage.setScene(infoScene);
+                            Stage infoStage = new Stage();
+                            GridPane infoGrid = new GridPane();
+                            infoGrid.setAlignment(Pos.CENTER);
+                            infoGrid.setHgap(10);
+                            infoGrid.setVgap(10);
+                            Scene infoScene = new Scene(infoGrid);
+                            infoStage.setScene(infoScene);
 
-                        infoScene.getStylesheets().add("lib/TextAreaPage.css");
+                            infoScene.getStylesheets().add("lib/TextAreaPage.css");
 
-                        Label itemName = new Label();
-                        itemName.setText(newInventory.getText());
+                            Label itemName = new Label();
+                            itemName.setText(newInventory.getText());
 
-                        Button done = new Button("done");
-                        Button saveDesc = new Button("Save");
-                        HBox descBtns = new HBox(10);
-                        descBtns.getChildren().addAll(done,saveDesc);
+                            Button done = new Button("done");
+                            Button saveDesc = new Button("Save");
+                            HBox descBtns = new HBox(10);
+                            descBtns.getChildren().addAll(done,saveDesc);
 
-                        infoGrid.add(itemName,0,0);
-                        infoGrid.add(description,0,1);
-                        infoGrid.add(descBtns,0,2);
+                            infoGrid.add(itemName,0,0);
+                            infoGrid.add(description,0,1);
+                            infoGrid.add(descBtns,0,2);
 
-                        done.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                String newItem = itemName.getText() + "--" + description.getText();
-                                inventoryList.set(newRow,newItem);
-                                c.setInventory(inventoryList);
-                                infoStage.close();
-                            }
-                        });
-                        saveDesc.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                String newItem = itemName.getText() + "--" + description.getText();
-                                inventoryList.set(newRow,newItem);
-                                c.setInventory(inventoryList);
-                                Text msg = new Text("Save");
-                                msg.setFill(Color.FIREBRICK);
-                                descBtns.getChildren().remove(msg);
-                                descBtns.getChildren().add(msg);
-                            }
-                        });
-                        infoStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                            public void handle(WindowEvent we) {
-                                String newItem = itemName.getText() + "--" + description.getText();
-                                inventoryList.set(newRow,newItem);
-                                c.setInventory(inventoryList);
-                            }
-                        });
-                        infoStage.show();
-                    }
-                });
+                            done.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent e) {
+                                    String newItem = itemName.getText() + "--" + description.getText();
+                                    inventoryList.set(newRow,newItem);
+                                    c.setInventory(inventoryList);
+                                    infoStage.close();
+                                }
+                            });
+                            saveDesc.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent e) {
+                                    String newItem = itemName.getText() + "--" + description.getText();
+                                    inventoryList.set(newRow,newItem);
+                                    c.setInventory(inventoryList);
+                                    Text msg = new Text("Save");
+                                    msg.setFill(Color.FIREBRICK);
+                                    descBtns.getChildren().remove(msg);
+                                    descBtns.getChildren().add(msg);
+                                }
+                            });
+                            infoStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                                public void handle(WindowEvent we) {
+                                    String newItem = itemName.getText() + "--" + description.getText();
+                                    inventoryList.set(newRow,newItem);
+                                    c.setInventory(inventoryList);
+                                }
+                            });
+                            infoStage.show();
+                        }
+                    });
 
+                }
             }
         });
-
 
 
 
@@ -2224,112 +2250,114 @@ public class CharacterMgr extends Application {
         addWeapons.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                weaponsList.add(addWeaponsTf.getText());
-                int newRow = weaponsList.size() - 1;
-                c.setWeapons(weaponsList);
+                if (!addWeaponsTf.getText().isEmpty()) {
+                    weaponsList.add(addWeaponsTf.getText());
+                    int newRow = weaponsList.size() - 1;
+                    c.setWeapons(weaponsList);
 
-                TextField newWeapons = new TextField(addWeaponsTf.getText());
-                newWeapons.setEditable(false);
-                newWeapons.setId("locked-tf");
+                    TextField newWeapons = new TextField(addWeaponsTf.getText());
+                    newWeapons.setEditable(false);
+                    newWeapons.setId("locked-tf");
 
-                CheckBox isProficient = new CheckBox();
-                Button rm = new Button("remove");
+                    CheckBox isProficient = new CheckBox();
+                    Button rm = new Button("remove");
 
-                TextField damage = new TextField();
-                damage.setEditable(false);
-                damage.setId("locked-tf");
-                
-                ToggleButton editBtn = new ToggleButton("edit");
+                    TextField damage = new TextField();
+                    damage.setEditable(false);
+                    damage.setId("locked-tf");
 
-                Label damageMod = new Label();
-                damageMod.setText(fmt.format(calcMod(c.getStr())));
+                    ToggleButton editBtn = new ToggleButton("edit");
 
-                Label hitMod = new Label();
-                hitMod.setText(fmt.format(calcMod(c.getStr())));
-                
-                addWeaponsTf.clear();
+                    Label damageMod = new Label();
+                    damageMod.setText(fmt.format(calcMod(c.getStr())));
 
-                HBox hbWeaponsList = new HBox(10);
+                    Label hitMod = new Label();
+                    hitMod.setText(fmt.format(calcMod(c.getStr())));
 
-                hbWeaponsList.getChildren().addAll(isProficient,hitMod,newWeapons,damage,damageMod,rm,editBtn);
-                vbWeapons.getChildren().add(hbWeaponsList);
+                    addWeaponsTf.clear();
 
-                ////// Edit button //////
+                    HBox hbWeaponsList = new HBox(10);
 
-                editBtn.setOnAction(new EventHandler<ActionEvent>() {
-                    public void handle(ActionEvent e) {
-                        if (editBtn.isSelected()) {
-                            damage.setEditable(true);
-                            damage.setId("unlocked-tf");
-                            newWeapons.setEditable(true);
-                            newWeapons.setId("unlocked-tf");
-                        }
-                        else {
-                            damage.setEditable(false);
-                            damage.setId("locked-tf");
-                            newWeapons.setEditable(false);
-                            newWeapons.setId("locked-tf");
-                            weaponsList.set(newRow,newWeapons.getText() + "--" + damage.getText() + "--" + Boolean.toString(isProficient.isSelected()));
-                            c.setWeapons(weaponsList);
-                        }
-                    }
-                });
+                    hbWeaponsList.getChildren().addAll(isProficient,hitMod,newWeapons,damage,damageMod,rm,editBtn);
+                    vbWeapons.getChildren().add(hbWeaponsList);
 
-                isProficient.selectedProperty().addListener(new ChangeListener<Boolean>() {
-                    public void changed(ObservableValue<? extends Boolean> ov, Boolean oldVal, Boolean newVal) {
-                        
-                        weaponsList.set(newRow,newWeapons.getText() + "--" + damage.getText() + "--" + Boolean.toString(newVal));
-                        c.setWeapons(weaponsList);
-                        if (newVal) {
-                            hitMod.setText(fmt.format(calcMod(c.getStr()) + c.getProficiencyBonus()));
-                        }
-                        else {
-                            hitMod.setText(fmt.format(calcMod(c.getStr())));
-                        }
+                    ////// Edit button //////
 
-                    }
-                });
-
-                ////// Remove button ///////
-                rm.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent e) {
-                        Stage confirmRm = new Stage();
-                        confirmRm.setTitle("Are you sure?");
-                        GridPane rmgrid = new GridPane();
-                        rmgrid.setAlignment(Pos.CENTER);
-                        rmgrid.setHgap(10);
-                        rmgrid.setVgap(10);
-                        Scene rmscene = new Scene(rmgrid,400,150);
-                        confirmRm.setScene(rmscene);
-                        confirmRm.show();
-
-                        Label rmLabel = new Label("remove " + newWeapons.getText() + ". Are you sure?");
-                        rmgrid.add(rmLabel,0,0);
-                        Button yesRm = new Button("Yes");
-                        Button noRm = new Button("Cancel");
-                        HBox hbynrm = new HBox(10);
-                        hbynrm.getChildren().addAll(yesRm,noRm);
-                        rmgrid.add(hbynrm,0,1);
-
-                        yesRm.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                vbWeapons.getChildren().remove(hbWeaponsList);
-                                weaponsList.remove(newRow);
+                    editBtn.setOnAction(new EventHandler<ActionEvent>() {
+                        public void handle(ActionEvent e) {
+                            if (editBtn.isSelected()) {
+                                damage.setEditable(true);
+                                damage.setId("unlocked-tf");
+                                newWeapons.setEditable(true);
+                                newWeapons.setId("unlocked-tf");
+                            }
+                            else {
+                                damage.setEditable(false);
+                                damage.setId("locked-tf");
+                                newWeapons.setEditable(false);
+                                newWeapons.setId("locked-tf");
+                                weaponsList.set(newRow,newWeapons.getText() + "--" + damage.getText() + "--" + Boolean.toString(isProficient.isSelected()));
                                 c.setWeapons(weaponsList);
-                                confirmRm.close();
                             }
-                        });
-                        noRm.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                confirmRm.close();
-                            }
-                        });
-                    }
-                });
+                        }
+                    });
 
+                    isProficient.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                        public void changed(ObservableValue<? extends Boolean> ov, Boolean oldVal, Boolean newVal) {
+
+                            weaponsList.set(newRow,newWeapons.getText() + "--" + damage.getText() + "--" + Boolean.toString(newVal));
+                            c.setWeapons(weaponsList);
+                            if (newVal) {
+                                hitMod.setText(fmt.format(calcMod(c.getStr()) + c.getProficiencyBonus()));
+                            }
+                            else {
+                                hitMod.setText(fmt.format(calcMod(c.getStr())));
+                            }
+
+                        }
+                    });
+
+                    ////// Remove button ///////
+                    rm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            Stage confirmRm = new Stage();
+                            confirmRm.setTitle("Are you sure?");
+                            GridPane rmgrid = new GridPane();
+                            rmgrid.setAlignment(Pos.CENTER);
+                            rmgrid.setHgap(10);
+                            rmgrid.setVgap(10);
+                            Scene rmscene = new Scene(rmgrid,400,150);
+                            confirmRm.setScene(rmscene);
+                            confirmRm.show();
+
+                            Label rmLabel = new Label("remove " + newWeapons.getText() + ". Are you sure?");
+                            rmgrid.add(rmLabel,0,0);
+                            Button yesRm = new Button("Yes");
+                            Button noRm = new Button("Cancel");
+                            HBox hbynrm = new HBox(10);
+                            hbynrm.getChildren().addAll(yesRm,noRm);
+                            rmgrid.add(hbynrm,0,1);
+
+                            yesRm.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent e) {
+                                    vbWeapons.getChildren().remove(hbWeaponsList);
+                                    weaponsList.remove(newRow);
+                                    c.setWeapons(weaponsList);
+                                    confirmRm.close();
+                                }
+                            });
+                            noRm.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent e) {
+                                    confirmRm.close();
+                                }
+                            });
+                        }
+                    });
+
+                }
 
             }
         });
@@ -2454,56 +2482,58 @@ public class CharacterMgr extends Application {
         addIdeals.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                idealsList.add(addIdealsTf.getText());
-                int newRow = idealsList.size() - 1;
-                c.setIdeals(idealsList);
-                Label newIdeals = new Label(addIdealsTf.getText());
-                Button rm = new Button("remove");
-                HBox hbnewIdeals = new HBox(10);
-                hbnewIdeals.getChildren().addAll(newIdeals,rm);
-                vbIdeals.getChildren().add(hbnewIdeals);
-                addIdealsTf.clear();
+                if (!addIdealsTf.getText().isEmpty()) {
+                    idealsList.add(addIdealsTf.getText());
+                    int newRow = idealsList.size() - 1;
+                    c.setIdeals(idealsList);
+                    Label newIdeals = new Label(addIdealsTf.getText());
+                    Button rm = new Button("remove");
+                    HBox hbnewIdeals = new HBox(10);
+                    hbnewIdeals.getChildren().addAll(newIdeals,rm);
+                    vbIdeals.getChildren().add(hbnewIdeals);
+                    addIdealsTf.clear();
 
-                ////// Remove button ///////
-                rm.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent e) {
-                        Stage confirmRm = new Stage();
-                        confirmRm.setTitle("Are you sure?");
-                        GridPane rmgrid = new GridPane();
-                        rmgrid.setAlignment(Pos.CENTER);
-                        rmgrid.setHgap(10);
-                        rmgrid.setVgap(10);
-                        Scene rmscene = new Scene(rmgrid,400,150);
-                        confirmRm.setScene(rmscene);
-                        confirmRm.show();
+                    ////// Remove button ///////
+                    rm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            Stage confirmRm = new Stage();
+                            confirmRm.setTitle("Are you sure?");
+                            GridPane rmgrid = new GridPane();
+                            rmgrid.setAlignment(Pos.CENTER);
+                            rmgrid.setHgap(10);
+                            rmgrid.setVgap(10);
+                            Scene rmscene = new Scene(rmgrid,400,150);
+                            confirmRm.setScene(rmscene);
+                            confirmRm.show();
 
-                        Label rmLabel = new Label("remove " +newIdeals.getText()+ ". Are you sure?");
-                        rmgrid.add(rmLabel,0,0);
-                        Button yesRm = new Button("Yes");
-                        Button noRm = new Button("Cancel");
-                        HBox hbynrm = new HBox(10);
-                        hbynrm.getChildren().addAll(yesRm,noRm);
-                        rmgrid.add(hbynrm,0,1);
+                            Label rmLabel = new Label("remove " +newIdeals.getText()+ ". Are you sure?");
+                            rmgrid.add(rmLabel,0,0);
+                            Button yesRm = new Button("Yes");
+                            Button noRm = new Button("Cancel");
+                            HBox hbynrm = new HBox(10);
+                            hbynrm.getChildren().addAll(yesRm,noRm);
+                            rmgrid.add(hbynrm,0,1);
 
-                        yesRm.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                vbIdeals.getChildren().remove(hbnewIdeals);
-                                idealsList.remove(newIdeals.getText());
-                                c.setIdeals(idealsList);
-                                confirmRm.close();
-                            }
-                        });
-                        noRm.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                confirmRm.close();
-                            }
-                        });
-                    }
-                });
+                            yesRm.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent e) {
+                                    vbIdeals.getChildren().remove(hbnewIdeals);
+                                    idealsList.remove(newIdeals.getText());
+                                    c.setIdeals(idealsList);
+                                    confirmRm.close();
+                                }
+                            });
+                            noRm.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent e) {
+                                    confirmRm.close();
+                                }
+                            });
+                        }
+                    });
 
+                }
 
             }
         });
@@ -2625,55 +2655,57 @@ public class CharacterMgr extends Application {
         addFlaws.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                flawsList.add(addFlawsTf.getText());
-                int newRow = flawsList.size() - 1;
-                c.setFlaws(flawsList);
-                Label newFlaws = new Label(addFlawsTf.getText());
-                Button rm = new Button("remove");
-                HBox hbnewFlaws = new HBox(10);
-                hbnewFlaws.getChildren().addAll(newFlaws,rm);
-                vbFlaws.getChildren().add(hbnewFlaws);
-                addFlawsTf.clear();
+                if (!addFlawsTf.getText().isEmpty()) {
+                    flawsList.add(addFlawsTf.getText());
+                    int newRow = flawsList.size() - 1;
+                    c.setFlaws(flawsList);
+                    Label newFlaws = new Label(addFlawsTf.getText());
+                    Button rm = new Button("remove");
+                    HBox hbnewFlaws = new HBox(10);
+                    hbnewFlaws.getChildren().addAll(newFlaws,rm);
+                    vbFlaws.getChildren().add(hbnewFlaws);
+                    addFlawsTf.clear();
 
-                ////// Remove button ///////
-                rm.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent e) {
-                        Stage confirmRm = new Stage();
-                        confirmRm.setTitle("Are you sure?");
-                        GridPane rmgrid = new GridPane();
-                        rmgrid.setAlignment(Pos.CENTER);
-                        rmgrid.setHgap(10);
-                        rmgrid.setVgap(10);
-                        Scene rmscene = new Scene(rmgrid,400,150);
-                        confirmRm.setScene(rmscene);
-                        confirmRm.show();
+                    ////// Remove button ///////
+                    rm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            Stage confirmRm = new Stage();
+                            confirmRm.setTitle("Are you sure?");
+                            GridPane rmgrid = new GridPane();
+                            rmgrid.setAlignment(Pos.CENTER);
+                            rmgrid.setHgap(10);
+                            rmgrid.setVgap(10);
+                            Scene rmscene = new Scene(rmgrid,400,150);
+                            confirmRm.setScene(rmscene);
+                            confirmRm.show();
 
-                        Label rmLabel = new Label("remove " +newFlaws.getText()+ ". Are you sure?");
-                        rmgrid.add(rmLabel,0,0);
-                        Button yesRm = new Button("Yes");
-                        Button noRm = new Button("Cancel");
-                        HBox hbynrm = new HBox(10);
-                        hbynrm.getChildren().addAll(yesRm,noRm);
-                        rmgrid.add(hbynrm,0,1);
+                            Label rmLabel = new Label("remove " +newFlaws.getText()+ ". Are you sure?");
+                            rmgrid.add(rmLabel,0,0);
+                            Button yesRm = new Button("Yes");
+                            Button noRm = new Button("Cancel");
+                            HBox hbynrm = new HBox(10);
+                            hbynrm.getChildren().addAll(yesRm,noRm);
+                            rmgrid.add(hbynrm,0,1);
 
-                        yesRm.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                vbFlaws.getChildren().remove(hbnewFlaws);
-                                flawsList.remove(newFlaws.getText());
-                                c.setFlaws(flawsList);
-                                confirmRm.close();
-                            }
-                        });
-                        noRm.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                confirmRm.close();
-                            }
-                        });
-                    }
-                });
+                            yesRm.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent e) {
+                                    vbFlaws.getChildren().remove(hbnewFlaws);
+                                    flawsList.remove(newFlaws.getText());
+                                    c.setFlaws(flawsList);
+                                    confirmRm.close();
+                                }
+                            });
+                            noRm.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent e) {
+                                    confirmRm.close();
+                                }
+                            });
+                        }
+                    });
+                }
             }
         });
 
@@ -2794,55 +2826,57 @@ public class CharacterMgr extends Application {
         addBonds.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                bondsList.add(addBondsTf.getText());
-                int newRow = bondsList.size() - 1;
-                c.setBonds(bondsList);
-                Label newBonds = new Label(addBondsTf.getText());
-                Button rm = new Button("remove");
-                HBox hbnewBonds = new HBox(10);
-                hbnewBonds.getChildren().addAll(newBonds,rm);
-                vbBonds.getChildren().add(hbnewBonds);
-                addBondsTf.clear();
+                if (!addBondsTf.getText().isEmpty()) {
+                    bondsList.add(addBondsTf.getText());
+                    int newRow = bondsList.size() - 1;
+                    c.setBonds(bondsList);
+                    Label newBonds = new Label(addBondsTf.getText());
+                    Button rm = new Button("remove");
+                    HBox hbnewBonds = new HBox(10);
+                    hbnewBonds.getChildren().addAll(newBonds,rm);
+                    vbBonds.getChildren().add(hbnewBonds);
+                    addBondsTf.clear();
 
-                ////// Remove button ///////
-                rm.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent e) {
-                        Stage confirmRm = new Stage();
-                        confirmRm.setTitle("Are you sure?");
-                        GridPane rmgrid = new GridPane();
-                        rmgrid.setAlignment(Pos.CENTER);
-                        rmgrid.setHgap(10);
-                        rmgrid.setVgap(10);
-                        Scene rmscene = new Scene(rmgrid,400,150);
-                        confirmRm.setScene(rmscene);
-                        confirmRm.show();
+                    ////// Remove button ///////
+                    rm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            Stage confirmRm = new Stage();
+                            confirmRm.setTitle("Are you sure?");
+                            GridPane rmgrid = new GridPane();
+                            rmgrid.setAlignment(Pos.CENTER);
+                            rmgrid.setHgap(10);
+                            rmgrid.setVgap(10);
+                            Scene rmscene = new Scene(rmgrid,400,150);
+                            confirmRm.setScene(rmscene);
+                            confirmRm.show();
 
-                        Label rmLabel = new Label("remove " +newBonds.getText()+ ". Are you sure?");
-                        rmgrid.add(rmLabel,0,0);
-                        Button yesRm = new Button("Yes");
-                        Button noRm = new Button("Cancel");
-                        HBox hbynrm = new HBox(10);
-                        hbynrm.getChildren().addAll(yesRm,noRm);
-                        rmgrid.add(hbynrm,0,1);
+                            Label rmLabel = new Label("remove " +newBonds.getText()+ ". Are you sure?");
+                            rmgrid.add(rmLabel,0,0);
+                            Button yesRm = new Button("Yes");
+                            Button noRm = new Button("Cancel");
+                            HBox hbynrm = new HBox(10);
+                            hbynrm.getChildren().addAll(yesRm,noRm);
+                            rmgrid.add(hbynrm,0,1);
 
-                        yesRm.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                vbBonds.getChildren().remove(hbnewBonds);
-                                bondsList.remove(newBonds.getText());
-                                c.setBonds(bondsList);
-                                confirmRm.close();
-                            }
-                        });
-                        noRm.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                confirmRm.close();
-                            }
-                        });
-                    }
-                });
+                            yesRm.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent e) {
+                                    vbBonds.getChildren().remove(hbnewBonds);
+                                    bondsList.remove(newBonds.getText());
+                                    c.setBonds(bondsList);
+                                    confirmRm.close();
+                                }
+                            });
+                            noRm.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent e) {
+                                    confirmRm.close();
+                                }
+                            });
+                        }
+                    });
+                }
             }
         });
 
@@ -3035,115 +3069,117 @@ public class CharacterMgr extends Application {
         addFeatures.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                featuresList.add(addFeaturesTf.getText());
-                int newRow = featuresList.size() - 1;
-                c.setFeatures(featuresList);
-                Label newFeatures = new Label(addFeaturesTf.getText());
-                
-                TextArea description = new TextArea();
-                description.setWrapText(true);
-                description.setPromptText("Item Description");
+                if (!addFeaturesTf.getText().isEmpty()) {
+                    featuresList.add(addFeaturesTf.getText());
+                    int newRow = featuresList.size() - 1;
+                    c.setFeatures(featuresList);
+                    Label newFeatures = new Label(addFeaturesTf.getText());
 
-                Button rm = new Button("remove");
-                Button info = new Button("info");
-                HBox hbnewFeatures = new HBox(10);
-                hbnewFeatures.getChildren().addAll(newFeatures,info,rm);
-                vbFeatures.getChildren().add(hbnewFeatures);
-                addFeaturesTf.clear();
+                    TextArea description = new TextArea();
+                    description.setWrapText(true);
+                    description.setPromptText("Item Description");
 
-                ////// Remove button ///////
-                rm.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent e) {
-                        Stage confirmRm = new Stage();
-                        confirmRm.setTitle("Are you sure?");
-                        GridPane rmgrid = new GridPane();
-                        rmgrid.setAlignment(Pos.CENTER);
-                        rmgrid.setHgap(10);
-                        rmgrid.setVgap(10);
-                        Scene rmscene = new Scene(rmgrid,400,150);
-                        confirmRm.setScene(rmscene);
-                        confirmRm.show();
+                    Button rm = new Button("remove");
+                    Button info = new Button("info");
+                    HBox hbnewFeatures = new HBox(10);
+                    hbnewFeatures.getChildren().addAll(newFeatures,info,rm);
+                    vbFeatures.getChildren().add(hbnewFeatures);
+                    addFeaturesTf.clear();
 
-                        Label rmLabel = new Label("remove " +newFeatures.getText()+ ". Are you sure?");
-                        rmgrid.add(rmLabel,0,0);
-                        Button yesRm = new Button("Yes");
-                        Button noRm = new Button("Cancel");
-                        HBox hbynrm = new HBox(10);
-                        hbynrm.getChildren().addAll(yesRm,noRm);
-                        rmgrid.add(hbynrm,0,1);
+                    ////// Remove button ///////
+                    rm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            Stage confirmRm = new Stage();
+                            confirmRm.setTitle("Are you sure?");
+                            GridPane rmgrid = new GridPane();
+                            rmgrid.setAlignment(Pos.CENTER);
+                            rmgrid.setHgap(10);
+                            rmgrid.setVgap(10);
+                            Scene rmscene = new Scene(rmgrid,400,150);
+                            confirmRm.setScene(rmscene);
+                            confirmRm.show();
 
-                        yesRm.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                vbFeatures.getChildren().remove(hbnewFeatures);
-                                featuresList.remove(newFeatures.getText());
-                                c.setFeatures(featuresList);
-                                confirmRm.close();
-                            }
-                        });
-                        noRm.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                confirmRm.close();
-                            }
-                        });
-                    }
-                });
-                info.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent e) {
-                        Stage infoStage = new Stage();
-                        GridPane infoGrid = new GridPane();
-                        infoGrid.setAlignment(Pos.CENTER);
-                        infoGrid.setHgap(10);
-                        infoGrid.setVgap(10);
-                        Scene infoScene = new Scene(infoGrid);
-                        infoStage.setScene(infoScene);
+                            Label rmLabel = new Label("remove " +newFeatures.getText()+ ". Are you sure?");
+                            rmgrid.add(rmLabel,0,0);
+                            Button yesRm = new Button("Yes");
+                            Button noRm = new Button("Cancel");
+                            HBox hbynrm = new HBox(10);
+                            hbynrm.getChildren().addAll(yesRm,noRm);
+                            rmgrid.add(hbynrm,0,1);
 
-                        infoScene.getStylesheets().add("lib/TextAreaPage.css");
+                            yesRm.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent e) {
+                                    vbFeatures.getChildren().remove(hbnewFeatures);
+                                    featuresList.remove(newFeatures.getText());
+                                    c.setFeatures(featuresList);
+                                    confirmRm.close();
+                                }
+                            });
+                            noRm.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent e) {
+                                    confirmRm.close();
+                                }
+                            });
+                        }
+                    });
+                    info.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            Stage infoStage = new Stage();
+                            GridPane infoGrid = new GridPane();
+                            infoGrid.setAlignment(Pos.CENTER);
+                            infoGrid.setHgap(10);
+                            infoGrid.setVgap(10);
+                            Scene infoScene = new Scene(infoGrid);
+                            infoStage.setScene(infoScene);
 
-                        Label itemName = new Label();
-                        itemName.setText(newFeatures.getText());
+                            infoScene.getStylesheets().add("lib/TextAreaPage.css");
 
-                        Button done = new Button("Done");
-                        Button saveDesc = new Button("Save");
-                        HBox descBtns = new HBox(10);
-                        descBtns.getChildren().addAll(done,saveDesc);
+                            Label itemName = new Label();
+                            itemName.setText(newFeatures.getText());
 
-                        infoGrid.add(itemName,0,0);
-                        infoGrid.add(description,0,1);
-                        infoGrid.add(descBtns,0,2);
+                            Button done = new Button("Done");
+                            Button saveDesc = new Button("Save");
+                            HBox descBtns = new HBox(10);
+                            descBtns.getChildren().addAll(done,saveDesc);
 
-                        done.setOnAction(new EventHandler<ActionEvent>() {
-                            public void handle(ActionEvent e) {
-                                String newItem = itemName.getText() + "--" + description.getText();
-                                featuresList.set(newRow,newItem);
-                                c.setFeatures(featuresList);
-                                infoStage.close();
-                            }
-                        });
-                        saveDesc.setOnAction(new EventHandler<ActionEvent>() {
-                            public void handle(ActionEvent e) {
-                                String newItem = itemName.getText() + "--" + description.getText();
-                                featuresList.set(newRow,newItem);
-                                c.setFeatures(featuresList);
-                                Text msg = new Text("Saved");
-                                msg.setFill(Color.FIREBRICK);
-                                descBtns.getChildren().remove(msg);
-                                descBtns.getChildren().add(msg);
-                            }
-                        });
-                        infoStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                            public void handle(WindowEvent we) {
-                                String newItem = itemName.getText() + "--" + description.getText();
-                                featuresList.set(newRow,newItem);
-                                c.setFeatures(featuresList);
-                            }
-                        });
-                        infoStage.show();
-                    }
-                });
+                            infoGrid.add(itemName,0,0);
+                            infoGrid.add(description,0,1);
+                            infoGrid.add(descBtns,0,2);
+
+                            done.setOnAction(new EventHandler<ActionEvent>() {
+                                public void handle(ActionEvent e) {
+                                    String newItem = itemName.getText() + "--" + description.getText();
+                                    featuresList.set(newRow,newItem);
+                                    c.setFeatures(featuresList);
+                                    infoStage.close();
+                                }
+                            });
+                            saveDesc.setOnAction(new EventHandler<ActionEvent>() {
+                                public void handle(ActionEvent e) {
+                                    String newItem = itemName.getText() + "--" + description.getText();
+                                    featuresList.set(newRow,newItem);
+                                    c.setFeatures(featuresList);
+                                    Text msg = new Text("Saved");
+                                    msg.setFill(Color.FIREBRICK);
+                                    descBtns.getChildren().remove(msg);
+                                    descBtns.getChildren().add(msg);
+                                }
+                            });
+                            infoStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                                public void handle(WindowEvent we) {
+                                    String newItem = itemName.getText() + "--" + description.getText();
+                                    featuresList.set(newRow,newItem);
+                                    c.setFeatures(featuresList);
+                                }
+                            });
+                            infoStage.show();
+                        }
+                    });
+                }
             }
         });
 
