@@ -17,3 +17,4 @@ Simply download CharacterMgr.jar and run that
 
 ## For the future
 I will probably add automatic stat boosts given from classes and races later. 
+I will also want to add the capability of managing multiclass

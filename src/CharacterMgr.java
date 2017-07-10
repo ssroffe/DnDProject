@@ -243,8 +243,10 @@ public class CharacterMgr extends Application {
         lowLevel.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                c.setLevel(c.getLevel() - 1);
-                level.setText(Integer.toString(c.getLevel()));
+                if (c.getLevel() != 1) {
+                    c.setLevel(c.getLevel() - 1);
+                    level.setText(Integer.toString(c.getLevel()));
+                }
             }
         });       
 
