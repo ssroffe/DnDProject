@@ -7,3 +7,10 @@ Currently it contains:
 * A character manager program
 * A monster class **(INCOMPLETE)**
 
+## v1.0
+
+Basic Character manager.
+Contains information for spells
+
+## For the future
+I will probably add automatic stat boosts given from classes and races later. 
