@@ -1396,10 +1396,11 @@ public class CharacterMgr extends Application {
     ///////// SKILLS PAGE /////////
     ///////////////////////////////
 
+    Stage skillsStage = new Stage();
     skillsBtn.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent e) {
-            Stage skillsStage = new Stage();
+            skillsStage.close();
             skillsStage.setTitle("Skills Page");
 
             Label skillsTitle = new Label("Skills");
@@ -1492,10 +1493,11 @@ public class CharacterMgr extends Application {
     ///////// SAVINGTHROWS PAGE /////////
     ///////////////////////////////
 
+    Stage savingThrowsStage = new Stage();
     savingThrowsBtn.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent e) {
-            Stage savingThrowsStage = new Stage();
+            savingThrowsStage.close();
             savingThrowsStage.setTitle("Saving Throws Page");
 
             Label savingThrowsTitle = new Label("Saving Throws");
@@ -1580,10 +1582,11 @@ public class CharacterMgr extends Application {
     ////////// Inventory Page ////////////
     //////////////////////////////////////
 
+    Stage inventoryStage = new Stage();
     inventoryBtn.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent e) {
-            Stage inventoryStage = new Stage();
+            inventoryStage.close();
             inventoryStage.setTitle("Inventory Page");
 
 
@@ -1620,10 +1623,11 @@ public class CharacterMgr extends Application {
                 index++;
 
                 ////// Remove button ///////
+                Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        Stage confirmRm = new Stage();
+                        confirmRm.close();
                         confirmRm.setTitle("Are you sure?");
                         GridPane rmgrid = new GridPane();
                         rmgrid.setAlignment(Pos.CENTER);
@@ -1659,10 +1663,11 @@ public class CharacterMgr extends Application {
                     }
                 });
 
+                Stage infoStage = new Stage();
                 info.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        Stage infoStage = new Stage();
+                        infoStage.close();
                         GridPane infoGrid = new GridPane();
                         infoGrid.setAlignment(Pos.CENTER);
                         infoGrid.setHgap(10);
@@ -1768,10 +1773,11 @@ public class CharacterMgr extends Application {
                     addInventoryTf.clear();
 
                     ////// Remove button ///////
+                    Stage confirmRm = new Stage();
                     rm.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
-                            Stage confirmRm = new Stage();
+                            confirmRm.close();
                             confirmRm.setTitle("Are you sure?");
                             GridPane rmgrid = new GridPane();
                             rmgrid.setAlignment(Pos.CENTER);
@@ -1807,11 +1813,12 @@ public class CharacterMgr extends Application {
                         }
                     });
 
+                    Stage infoStage = new Stage();
                     info.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
+                            infoStage.close();
 
-                            Stage infoStage = new Stage();
                             GridPane infoGrid = new GridPane();
                             infoGrid.setAlignment(Pos.CENTER);
                             infoGrid.setHgap(10);
@@ -1888,10 +1895,11 @@ public class CharacterMgr extends Application {
     ///////// LANGUAGES PAGE /////////
     //////////////////////////////////
 
+    Stage languagesStage = new Stage();
     languagesBtn.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent e) {
-            Stage languagesStage = new Stage();
+            languagesStage.close();
             languagesStage.setTitle("Languages Page");
 
 
@@ -1914,10 +1922,11 @@ public class CharacterMgr extends Application {
                 vbLanguages.getChildren().add(hbLanguagesList);
 
                 ////// Remove button ///////
+                Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        Stage confirmRm = new Stage();
+                        confirmRm.close();
                         confirmRm.setTitle("Are you sure?");
                         GridPane rmgrid = new GridPane();
                         rmgrid.setAlignment(Pos.CENTER);
@@ -2004,10 +2013,11 @@ public class CharacterMgr extends Application {
                     addLanguagesTf.setValue(null);
 
                     ////// Remove button ///////
+                    Stage confirmRm = new Stage();
                     rm.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
-                            Stage confirmRm = new Stage();
+                            confirmRm.close();
                             confirmRm.setTitle("Are you sure?");
                             GridPane rmgrid = new GridPane();
                             rmgrid.setAlignment(Pos.CENTER);
@@ -2066,10 +2076,11 @@ public class CharacterMgr extends Application {
     //////// WEAPONS PAGE /////////
     ///////////////////////////////
 
+    Stage weaponsStage = new Stage();
     weaponsBtn.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent e) {
-            Stage weaponsStage = new Stage();
+            weaponsStage.close();
             weaponsStage.setTitle("Weapons Page");
 
             Label weaponsTitle = new Label("Weapons");
@@ -2089,7 +2100,7 @@ public class CharacterMgr extends Application {
             Label hitLabel = new Label("Modifier");
             labelsHb.getChildren().addAll(proficient,hitLabel,weaponName,damageLabel);
             
-            weaponsHeader.getChildren().addAll(weaponsTitle,labelsHb);
+            vbWeapons.getChildren().addAll(weaponsTitle,labelsHb);
             
             int index = 0;
 
@@ -2178,10 +2189,11 @@ public class CharacterMgr extends Application {
                 });
 
                 ////// Remove button ///////
+                Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        Stage confirmRm = new Stage();
+                        confirmRm.close();
                         confirmRm.setTitle("Are you sure?");
                         GridPane rmgrid = new GridPane();
                         rmgrid.setAlignment(Pos.CENTER);
@@ -2318,10 +2330,11 @@ public class CharacterMgr extends Application {
                     });
 
                     ////// Remove button ///////
+                    Stage confirmRm = new Stage();
                     rm.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
-                            Stage confirmRm = new Stage();
+                            confirmRm.close();
                             confirmRm.setTitle("Are you sure?");
                             GridPane rmgrid = new GridPane();
                             rmgrid.setAlignment(Pos.CENTER);
@@ -2385,13 +2398,12 @@ public class CharacterMgr extends Application {
     ///////// IDEALS PAGE ////////////
     //////////////////////////////////
 
+    Stage idealsStage = new Stage();
     idealsBtn.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent e) {
-            Stage idealsStage = new Stage();
+            idealsStage.close();
             idealsStage.setTitle("Ideals Page");
-
-
 
             Label idealsTitle = new Label("Ideals");
             idealsTitle.setId("title");
@@ -2411,10 +2423,11 @@ public class CharacterMgr extends Application {
                 vbIdeals.getChildren().add(hbIdealsList);
 
                 ////// Remove button ///////
+                Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        Stage confirmRm = new Stage();
+                        confirmRm.close();
                         confirmRm.setTitle("Are you sure?");
                         GridPane rmgrid = new GridPane();
                         rmgrid.setAlignment(Pos.CENTER);
@@ -2494,10 +2507,11 @@ public class CharacterMgr extends Application {
                     addIdealsTf.clear();
 
                     ////// Remove button ///////
+                    Stage confirmRm = new Stage();
                     rm.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
-                            Stage confirmRm = new Stage();
+                            confirmRm.close();
                             confirmRm.setTitle("Are you sure?");
                             GridPane rmgrid = new GridPane();
                             rmgrid.setAlignment(Pos.CENTER);
@@ -2558,10 +2572,11 @@ public class CharacterMgr extends Application {
     ///////// FLAWS PAGE /////////////
     //////////////////////////////////
 
+    Stage flawsStage = new Stage();
     flawsBtn.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent e) {
-            Stage flawsStage = new Stage();
+            flawsStage.close();
             flawsStage.setTitle("Flaws Page");
 
 
@@ -2584,10 +2599,11 @@ public class CharacterMgr extends Application {
                 vbFlaws.getChildren().add(hbFlawsList);
 
                 ////// Remove button ///////
+                Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        Stage confirmRm = new Stage();
+                        confirmRm.close();
                         confirmRm.setTitle("Are you sure?");
                         GridPane rmgrid = new GridPane();
                         rmgrid.setAlignment(Pos.CENTER);
@@ -2667,10 +2683,11 @@ public class CharacterMgr extends Application {
                     addFlawsTf.clear();
 
                     ////// Remove button ///////
+                    Stage confirmRm = new Stage();
                     rm.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
-                            Stage confirmRm = new Stage();
+                            confirmRm.close();
                             confirmRm.setTitle("Are you sure?");
                             GridPane rmgrid = new GridPane();
                             rmgrid.setAlignment(Pos.CENTER);
@@ -2729,13 +2746,12 @@ public class CharacterMgr extends Application {
     ///////// BONDS PAGE /////////////
     //////////////////////////////////
 
+    Stage bondsStage = new Stage();
     bondsBtn.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent e) {
-            Stage bondsStage = new Stage();
+            bondsStage.close();
             bondsStage.setTitle("Bonds Page");
-
-
 
             Label bondsTitle = new Label("Bonds");
             bondsTitle.setId("title");
@@ -2755,10 +2771,11 @@ public class CharacterMgr extends Application {
                 vbBonds.getChildren().add(hbBondsList);
 
                 ////// Remove button ///////
+                Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        Stage confirmRm = new Stage();
+                        confirmRm.close();
                         confirmRm.setTitle("Are you sure?");
                         GridPane rmgrid = new GridPane();
                         rmgrid.setAlignment(Pos.CENTER);
@@ -2838,10 +2855,11 @@ public class CharacterMgr extends Application {
                     addBondsTf.clear();
 
                     ////// Remove button ///////
+                    Stage confirmRm = new Stage();
                     rm.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
-                            Stage confirmRm = new Stage();
+                            confirmRm.close();
                             confirmRm.setTitle("Are you sure?");
                             GridPane rmgrid = new GridPane();
                             rmgrid.setAlignment(Pos.CENTER);
@@ -2900,13 +2918,12 @@ public class CharacterMgr extends Application {
     ///////// FEATURES PAGE /////////////
     /////////////////////////////////////
 
+    Stage featuresStage = new Stage();
     featuresBtn.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent e) {
-            Stage featuresStage = new Stage();
+            featuresStage.close();
             featuresStage.setTitle("Features Page");
-
-
 
             Label featuresTitle = new Label("Features");
             featuresTitle.setId("title");
@@ -2941,10 +2958,11 @@ public class CharacterMgr extends Application {
                 vbFeatures.getChildren().add(hbFeaturesList);
                 index++;
                 ////// Remove button ///////
+                Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        Stage confirmRm = new Stage();
+                        confirmRm.close();
                         confirmRm.setTitle("Are you sure?");
                         GridPane rmgrid = new GridPane();
                         rmgrid.setAlignment(Pos.CENTER);
@@ -2980,10 +2998,11 @@ public class CharacterMgr extends Application {
                     }
                 });
 
+                Stage infoStage = new Stage();
                 info.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        Stage infoStage = new Stage();
+                        infoStage.close();
                         GridPane infoGrid = new GridPane();
                         infoGrid.setAlignment(Pos.CENTER);
                         infoGrid.setHgap(10);
@@ -3087,10 +3106,11 @@ public class CharacterMgr extends Application {
                     addFeaturesTf.clear();
 
                     ////// Remove button ///////
+                    Stage confirmRm = new Stage();
                     rm.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
-                            Stage confirmRm = new Stage();
+                            confirmRm.close();
                             confirmRm.setTitle("Are you sure?");
                             GridPane rmgrid = new GridPane();
                             rmgrid.setAlignment(Pos.CENTER);
@@ -3125,10 +3145,11 @@ public class CharacterMgr extends Application {
                             });
                         }
                     });
+                    Stage infoStage = new Stage();
                     info.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
-                            Stage infoStage = new Stage();
+                            infoStage.close();
                             GridPane infoGrid = new GridPane();
                             infoGrid.setAlignment(Pos.CENTER);
                             infoGrid.setHgap(10);
@@ -3203,13 +3224,12 @@ public class CharacterMgr extends Application {
     ////////////// NOTES ///////////////
     ////////////////////////////////////
     
+    Stage notesStage = new Stage();
     notesBtn.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent e) {
-            Stage notesStage = new Stage();
+            notesStage.close();
             notesStage.setTitle("Notes Page");
-	    
-	    
 	    
             Label notesTitle = new Label("Notes");
             notesTitle.setId("title");
@@ -3276,13 +3296,12 @@ public class CharacterMgr extends Application {
     ////////////// DESCRIPTION ///////////////
     //////////////////////////////////////////
     
+    Stage descriptionStage = new Stage();
     descriptionBtn.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent e) {
-            Stage descriptionStage = new Stage();
+            descriptionStage.close();
             descriptionStage.setTitle("Description Page");
-	    
-	    
 	    
             Label descriptionTitle = new Label("Description");
             descriptionTitle.setId("title");
@@ -3351,10 +3370,11 @@ public class CharacterMgr extends Application {
     /////////// SPELLS PAGE ////////////
     ////////////////////////////////////
     
+    Stage spellsStage = new Stage();
     spellsBtn.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent e) {
-            Stage spellsStage = new Stage();
+            spellsStage.close();
             spellsStage.setTitle("Spells Page");
 
             Label spellsTitle = new Label("Spells");
@@ -3456,10 +3476,11 @@ public class CharacterMgr extends Application {
                 vbSpells0.getChildren().add(hbSpell);
                 
                 ////// Remove Button ///////
+                Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        Stage confirmRm = new Stage();
+                        confirmRm.close();
                         confirmRm.setTitle("Are you sure?");
                         GridPane rmgrid = new GridPane();
                         rmgrid.setAlignment(Pos.CENTER);
@@ -3495,10 +3516,11 @@ public class CharacterMgr extends Application {
                     }
                 });
                 /////// Info Button ///////
+                Stage infoStage = new Stage();
                 info.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        Stage infoStage = new Stage();
+                        infoStage.close();
                         GridPane infoGrid = new GridPane();
                         infoGrid.setAlignment(Pos.CENTER);
                         infoGrid.setHgap(10);
@@ -3613,10 +3635,11 @@ public class CharacterMgr extends Application {
                     spellBox0.setValue(null);
 
                     ////// Remove Button ///////
+                    Stage confirmRm = new Stage();
                     rm.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
-                            Stage confirmRm = new Stage();
+                            confirmRm.close();
                             confirmRm.setTitle("Are you sure?");
                             GridPane rmgrid = new GridPane();
                             rmgrid.setAlignment(Pos.CENTER);
@@ -3652,10 +3675,11 @@ public class CharacterMgr extends Application {
                         }
                     });
                     /////// Info Button ///////
+                    Stage infoStage = new Stage();
                     info.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
-                            Stage infoStage = new Stage();
+                            infoStage.close();
                             GridPane infoGrid = new GridPane();
                             infoGrid.setAlignment(Pos.CENTER);
                             infoGrid.setHgap(10);
@@ -3813,10 +3837,11 @@ public class CharacterMgr extends Application {
                 vbSpells1.getChildren().add(hbSpell);
                 
                 ////// Remove Button ///////
+                Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        Stage confirmRm = new Stage();
+                        confirmRm.close();
                         confirmRm.setTitle("Are you sure?");
                         GridPane rmgrid = new GridPane();
                         rmgrid.setAlignment(Pos.CENTER);
@@ -3852,10 +3877,11 @@ public class CharacterMgr extends Application {
                     }
                 });
                 /////// Info Button ///////
+                Stage infoStage = new Stage();
                 info.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        Stage infoStage = new Stage();
+                        infoStage.close();
                         GridPane infoGrid = new GridPane();
                         infoGrid.setAlignment(Pos.CENTER);
                         infoGrid.setHgap(10);
@@ -3974,10 +4000,11 @@ public class CharacterMgr extends Application {
                     spells1Box.setValue(null);
 
                     ////// Remove Button ///////
+                    Stage confirmRm = new Stage();
                     rm.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
-                            Stage confirmRm = new Stage();
+                            confirmRm.close();
                             confirmRm.setTitle("Are you sure?");
                             GridPane rmgrid = new GridPane();
                             rmgrid.setAlignment(Pos.CENTER);
@@ -4013,10 +4040,11 @@ public class CharacterMgr extends Application {
                         }
                     });
                     /////// Info Button ///////
+                    Stage infoStage = new Stage();
                     info.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
-                            Stage infoStage = new Stage();
+                            infoStage.close();
                             GridPane infoGrid = new GridPane();
                             infoGrid.setAlignment(Pos.CENTER);
                             infoGrid.setHgap(10);
@@ -4168,10 +4196,11 @@ public class CharacterMgr extends Application {
                 vbSpells2.getChildren().add(hbSpell);
                 
                 ////// Remove Button ///////
+                Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        Stage confirmRm = new Stage();
+                        confirmRm.close();
                         confirmRm.setTitle("Are you sure?");
                         GridPane rmgrid = new GridPane();
                         rmgrid.setAlignment(Pos.CENTER);
@@ -4207,10 +4236,11 @@ public class CharacterMgr extends Application {
                     }
                 });
                 /////// Info Button ///////
+                Stage infoStage = new Stage();
                 info.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        Stage infoStage = new Stage();
+                        infoStage.close();
                         GridPane infoGrid = new GridPane();
                         infoGrid.setAlignment(Pos.CENTER);
                         infoGrid.setHgap(10);
@@ -4329,10 +4359,11 @@ public class CharacterMgr extends Application {
                     spells2Box.setValue(null);
 
                     ////// Remove Button ///////
+                    Stage confirmRm = new Stage();
                     rm.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
-                            Stage confirmRm = new Stage();
+                            confirmRm.close();
                             confirmRm.setTitle("Are you sure?");
                             GridPane rmgrid = new GridPane();
                             rmgrid.setAlignment(Pos.CENTER);
@@ -4368,10 +4399,11 @@ public class CharacterMgr extends Application {
                         }
                     });
                     /////// Info Button ///////
+                    Stage infoStage = new Stage();
                     info.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
-                            Stage infoStage = new Stage();
+                            infoStage.close();
                             GridPane infoGrid = new GridPane();
                             infoGrid.setAlignment(Pos.CENTER);
                             infoGrid.setHgap(10);
@@ -4523,10 +4555,11 @@ public class CharacterMgr extends Application {
                 vbSpells3.getChildren().add(hbSpell);
                 
                 ////// Remove Button ///////
+                Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        Stage confirmRm = new Stage();
+                        confirmRm.close();
                         confirmRm.setTitle("Are you sure?");
                         GridPane rmgrid = new GridPane();
                         rmgrid.setAlignment(Pos.CENTER);
@@ -4562,10 +4595,11 @@ public class CharacterMgr extends Application {
                     }
                 });
                 /////// Info Button ///////
+                Stage infoStage = new Stage();
                 info.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        Stage infoStage = new Stage();
+                        infoStage.close();
                         GridPane infoGrid = new GridPane();
                         infoGrid.setAlignment(Pos.CENTER);
                         infoGrid.setHgap(10);
@@ -4684,10 +4718,11 @@ public class CharacterMgr extends Application {
                     spells3Box.setValue(null);
 
                     ////// Remove Button ///////
+                    Stage confirmRm = new Stage();
                     rm.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
-                            Stage confirmRm = new Stage();
+                            confirmRm.close();
                             confirmRm.setTitle("Are you sure?");
                             GridPane rmgrid = new GridPane();
                             rmgrid.setAlignment(Pos.CENTER);
@@ -4723,10 +4758,11 @@ public class CharacterMgr extends Application {
                         }
                     });
                     /////// Info Button ///////
+                    Stage infoStage = new Stage();
                     info.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
-                            Stage infoStage = new Stage();
+                            infoStage.close();
                             GridPane infoGrid = new GridPane();
                             infoGrid.setAlignment(Pos.CENTER);
                             infoGrid.setHgap(10);
@@ -4877,10 +4913,11 @@ public class CharacterMgr extends Application {
                 vbSpells4.getChildren().add(hbSpell);
                 
                 ////// Remove Button ///////
+                Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        Stage confirmRm = new Stage();
+                        confirmRm.close();
                         confirmRm.setTitle("Are you sure?");
                         GridPane rmgrid = new GridPane();
                         rmgrid.setAlignment(Pos.CENTER);
@@ -4916,10 +4953,11 @@ public class CharacterMgr extends Application {
                     }
                 });
                 /////// Info Button ///////
+                Stage infoStage = new Stage();
                 info.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        Stage infoStage = new Stage();
+                        infoStage.close();
                         GridPane infoGrid = new GridPane();
                         infoGrid.setAlignment(Pos.CENTER);
                         infoGrid.setHgap(10);
@@ -5038,10 +5076,11 @@ public class CharacterMgr extends Application {
                     spells4Box.setValue(null);
 
                     ////// Remove Button ///////
+                    Stage confirmRm = new Stage();
                     rm.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
-                            Stage confirmRm = new Stage();
+                            confirmRm.close();
                             confirmRm.setTitle("Are you sure?");
                             GridPane rmgrid = new GridPane();
                             rmgrid.setAlignment(Pos.CENTER);
@@ -5077,10 +5116,11 @@ public class CharacterMgr extends Application {
                         }
                     });
                     /////// Info Button ///////
+                    Stage infoStage = new Stage();
                     info.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
-                            Stage infoStage = new Stage();
+                            infoStage.close();
                             GridPane infoGrid = new GridPane();
                             infoGrid.setAlignment(Pos.CENTER);
                             infoGrid.setHgap(10);
@@ -5232,10 +5272,11 @@ public class CharacterMgr extends Application {
                 vbSpells5.getChildren().add(hbSpell);
                 
                 ////// Remove Button ///////
+                Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        Stage confirmRm = new Stage();
+                        confirmRm.close();
                         confirmRm.setTitle("Are you sure?");
                         GridPane rmgrid = new GridPane();
                         rmgrid.setAlignment(Pos.CENTER);
@@ -5271,10 +5312,11 @@ public class CharacterMgr extends Application {
                     }
                 });
                 /////// Info Button ///////
+                Stage infoStage = new Stage();
                 info.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        Stage infoStage = new Stage();
+                        infoStage.close();
                         GridPane infoGrid = new GridPane();
                         infoGrid.setAlignment(Pos.CENTER);
                         infoGrid.setHgap(10);
@@ -5393,10 +5435,11 @@ public class CharacterMgr extends Application {
                     spells5Box.setValue(null);
 
                     ////// Remove Button ///////
+                    Stage confirmRm = new Stage();
                     rm.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
-                            Stage confirmRm = new Stage();
+                            confirmRm.close();
                             confirmRm.setTitle("Are you sure?");
                             GridPane rmgrid = new GridPane();
                             rmgrid.setAlignment(Pos.CENTER);
@@ -5432,10 +5475,11 @@ public class CharacterMgr extends Application {
                         }
                     });
                     /////// Info Button ///////
+                    Stage infoStage = new Stage();
                     info.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
-                            Stage infoStage = new Stage();
+                            infoStage.close();
                             GridPane infoGrid = new GridPane();
                             infoGrid.setAlignment(Pos.CENTER);
                             infoGrid.setHgap(10);
@@ -5586,10 +5630,11 @@ public class CharacterMgr extends Application {
                 vbSpells6.getChildren().add(hbSpell);
                 
                 ////// Remove Button ///////
+                Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        Stage confirmRm = new Stage();
+                        confirmRm.close();
                         confirmRm.setTitle("Are you sure?");
                         GridPane rmgrid = new GridPane();
                         rmgrid.setAlignment(Pos.CENTER);
@@ -5625,10 +5670,11 @@ public class CharacterMgr extends Application {
                     }
                 });
                 /////// Info Button ///////
+                Stage infoStage = new Stage();
                 info.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        Stage infoStage = new Stage();
+                        infoStage.close();
                         GridPane infoGrid = new GridPane();
                         infoGrid.setAlignment(Pos.CENTER);
                         infoGrid.setHgap(10);
@@ -5747,10 +5793,11 @@ public class CharacterMgr extends Application {
                     spells6Box.setValue(null);
 
                     ////// Remove Button ///////
+                    Stage confirmRm = new Stage();
                     rm.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
-                            Stage confirmRm = new Stage();
+                            confirmRm.close();
                             confirmRm.setTitle("Are you sure?");
                             GridPane rmgrid = new GridPane();
                             rmgrid.setAlignment(Pos.CENTER);
@@ -5786,10 +5833,11 @@ public class CharacterMgr extends Application {
                         }
                     });
                     /////// Info Button ///////
+                    Stage infoStage = new Stage();
                     info.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
-                            Stage infoStage = new Stage();
+                            infoStage.close();
                             GridPane infoGrid = new GridPane();
                             infoGrid.setAlignment(Pos.CENTER);
                             infoGrid.setHgap(10);
@@ -5941,10 +5989,11 @@ public class CharacterMgr extends Application {
                 vbSpells7.getChildren().add(hbSpell);
                 
                 ////// Remove Button ///////
+                Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        Stage confirmRm = new Stage();
+                        confirmRm.close();
                         confirmRm.setTitle("Are you sure?");
                         GridPane rmgrid = new GridPane();
                         rmgrid.setAlignment(Pos.CENTER);
@@ -5980,10 +6029,11 @@ public class CharacterMgr extends Application {
                     }
                 });
                 /////// Info Button ///////
+                Stage infoStage = new Stage();
                 info.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        Stage infoStage = new Stage();
+                        infoStage.close();
                         GridPane infoGrid = new GridPane();
                         infoGrid.setAlignment(Pos.CENTER);
                         infoGrid.setHgap(10);
@@ -6102,10 +6152,11 @@ public class CharacterMgr extends Application {
                     spells7Box.setValue(null);
 
                     ////// Remove Button ///////
+                    Stage confirmRm = new Stage();
                     rm.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
-                            Stage confirmRm = new Stage();
+                            confirmRm.close();
                             confirmRm.setTitle("Are you sure?");
                             GridPane rmgrid = new GridPane();
                             rmgrid.setAlignment(Pos.CENTER);
@@ -6141,10 +6192,11 @@ public class CharacterMgr extends Application {
                         }
                     });
                     /////// Info Button ///////
+                    Stage infoStage = new Stage();
                     info.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
-                            Stage infoStage = new Stage();
+                            infoStage.close();
                             GridPane infoGrid = new GridPane();
                             infoGrid.setAlignment(Pos.CENTER);
                             infoGrid.setHgap(10);
@@ -6296,10 +6348,11 @@ public class CharacterMgr extends Application {
                 vbSpells8.getChildren().add(hbSpell);
                 
                 ////// Remove Button ///////
+                Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        Stage confirmRm = new Stage();
+                        confirmRm.close();
                         confirmRm.setTitle("Are you sure?");
                         GridPane rmgrid = new GridPane();
                         rmgrid.setAlignment(Pos.CENTER);
@@ -6335,10 +6388,11 @@ public class CharacterMgr extends Application {
                     }
                 });
                 /////// Info Button ///////
+                Stage infoStage = new Stage();
                 info.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        Stage infoStage = new Stage();
+                        infoStage.close();
                         GridPane infoGrid = new GridPane();
                         infoGrid.setAlignment(Pos.CENTER);
                         infoGrid.setHgap(10);
@@ -6457,10 +6511,11 @@ public class CharacterMgr extends Application {
                     spells8Box.setValue(null);
 
                     ////// Remove Button ///////
+                    Stage confirmRm = new Stage();
                     rm.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
-                            Stage confirmRm = new Stage();
+                            confirmRm.close();
                             confirmRm.setTitle("Are you sure?");
                             GridPane rmgrid = new GridPane();
                             rmgrid.setAlignment(Pos.CENTER);
@@ -6496,10 +6551,11 @@ public class CharacterMgr extends Application {
                         }
                     });
                     /////// Info Button ///////
+                    Stage infoStage = new Stage();
                     info.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
-                            Stage infoStage = new Stage();
+                            infoStage.close();
                             GridPane infoGrid = new GridPane();
                             infoGrid.setAlignment(Pos.CENTER);
                             infoGrid.setHgap(10);
@@ -6651,10 +6707,11 @@ public class CharacterMgr extends Application {
                 vbSpells9.getChildren().add(hbSpell);
 
                 ////// Remove Button ///////
+                Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        Stage confirmRm = new Stage();
+                        confirmRm.close();
                         confirmRm.setTitle("Are you sure?");
                         GridPane rmgrid = new GridPane();
                         rmgrid.setAlignment(Pos.CENTER);
@@ -6690,10 +6747,11 @@ public class CharacterMgr extends Application {
                     }
                 });
                 /////// Info Button ///////
+                Stage infoStage = new Stage();
                 info.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        Stage infoStage = new Stage();
+                        infoStage.close();
                         GridPane infoGrid = new GridPane();
                         infoGrid.setAlignment(Pos.CENTER);
                         infoGrid.setHgap(10);
@@ -6807,10 +6865,11 @@ public class CharacterMgr extends Application {
                     spells9Box.setValue(null);
 
                     ////// Remove Button ///////
+                    Stage confirmRm = new Stage();
                     rm.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
-                            Stage confirmRm = new Stage();
+                            confirmRm.close();
                             confirmRm.setTitle("Are you sure?");
                             GridPane rmgrid = new GridPane();
                             rmgrid.setAlignment(Pos.CENTER);
@@ -6846,10 +6905,11 @@ public class CharacterMgr extends Application {
                         }
                     });
                     /////// Info Button ///////
+                    Stage infoStage = new Stage();
                     info.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
-                            Stage infoStage = new Stage();
+                            infoStage.close();
                             GridPane infoGrid = new GridPane();
                             infoGrid.setAlignment(Pos.CENTER);
                             infoGrid.setHgap(10);
@@ -7005,9 +7065,10 @@ public class CharacterMgr extends Application {
             });
 
             Button addCustomSpell = new Button("Add Custom Spell");
+            Stage customStage = new Stage();
             addCustomSpell.setOnAction(new EventHandler<ActionEvent>() {
                 public void handle(ActionEvent e) {
-                    Stage customStage = new Stage();
+                    customStage.close();
                     GridPane customGrid = new GridPane();
                     customGrid.setAlignment(Pos.CENTER);
                     customGrid.setHgap(10);
@@ -7239,10 +7300,11 @@ public class CharacterMgr extends Application {
     ///////////// SAVE ON EXIT /////////////
     ////////////////////////////////////////
     
+    Stage saveExitStage = new Stage();
     stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
         public void handle(WindowEvent we) {
             we.consume();
-            Stage saveExitStage = new Stage();
+            saveExitStage.close();
             saveExitStage.setTitle("Save Character?");
             GridPane segrid = new GridPane();
             segrid.setAlignment(Pos.CENTER);
@@ -7273,6 +7335,7 @@ public class CharacterMgr extends Application {
                     }
                     saveExitStage.close();
                     stage.close();
+                    System.exit(0);
                 }
             });
 
@@ -7281,6 +7344,7 @@ public class CharacterMgr extends Application {
                 public void handle(ActionEvent e) {
                     saveExitStage.close();
                     stage.close();
+                    System.exit(0);
                 }
             });
             cancelSE.setOnAction(new EventHandler<ActionEvent>() {
