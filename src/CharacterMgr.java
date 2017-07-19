@@ -31,6 +31,9 @@ public class CharacterMgr extends Application {
     private DecimalFormat fmt = new DecimalFormat("+0;-0");
     private HashSet<String> classes = new HashSet<String>(Arrays.asList( "Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"));
 
+    private Character c;
+    private int row = 0;
+
     //start the first page - new or load character
     public static void main(String[] args) {
         launch(args);
@@ -87,8 +90,8 @@ public class CharacterMgr extends Application {
                 fileName = LoadCharacterFile(primaryStage);
                 if (!fileName.isEmpty()) {
                     primaryStage.close();
-                    Character c = Character.LoadCharacter(fileName);
-                    CharacterSheet(c);
+                    c = Character.LoadCharacter(fileName);
+                    CharacterSheet();
                 }
                 else {
                     final Text noCharSel = new Text("No Character Selected");
@@ -165,16 +168,16 @@ public class CharacterMgr extends Application {
                     grid.add(noName,0,4);
                 }
                 else if (clssTf.getValue().toString() == null || clssTf.getValue().toString().isEmpty()) {
-                    Character c = new Character(nameTf.getText());
+                    c = new Character(nameTf.getText());
                     c.setProficiencyBonus(2);
                     stage.close();
-                    CharacterSheet(c);
+                    CharacterSheet();
                 }
                 else {
-                    Character c = new Character(nameTf.getText(),clssTf.getValue().toString());
+                    c = new Character(nameTf.getText(),clssTf.getValue().toString());
                     c.setProficiencyBonus(2);
                     stage.close();
-                    CharacterSheet(c);
+                    CharacterSheet();
                 }
             }
         });
@@ -193,7 +196,7 @@ public class CharacterMgr extends Application {
         
 
 
-    public void CharacterSheet(Character c) {
+    public void CharacterSheet() {
 
         Stage stage = new Stage();
         stage.setTitle(c.getName() + " -- Character page");
@@ -627,14 +630,19 @@ public class CharacterMgr extends Application {
     HBox currencyHb = new HBox(10);
 
     Label cpLabel = new Label("cp:");
+    cpLabel.setId("currLabel");
     Label cp = new Label(Integer.toString(currency[0]));
     Label spLabel = new Label("sp:");
+    spLabel.setId("currLabel");
     Label sp = new Label(Integer.toString(currency[1]));
     Label epLabel = new Label("ep:");
+    epLabel.setId("currLabel");
     Label ep = new Label(Integer.toString(currency[2]));
     Label gpLabel = new Label("gp:");
+    gpLabel.setId("currLabel");
     Label gp = new Label(Integer.toString(currency[3]));
     Label ppLabel = new Label("pp:");
+    ppLabel.setId("currLabel");
     Label pp = new Label(Integer.toString(currency[4]));
 
     currencyHb.getChildren().addAll(cpLabel,cp,spLabel,sp,epLabel,ep,gpLabel,gp,ppLabel,pp);
@@ -677,26 +685,36 @@ public class CharacterMgr extends Application {
                         currCurrency[0] = Integer.parseInt(pmGoldTf.getText()) + currCurrency[0];
                         c.setCurrency(currCurrency);
                         cp.setText(Integer.toString(currCurrency[0]));
+                        pmGoldTf.setText("");
+                        currencyChoice.setValue("");
                     }
                     else if (currencyChoice.getValue().equalsIgnoreCase("sp")) {
                         currCurrency[1] = Integer.parseInt(pmGoldTf.getText()) + currCurrency[1];
                         c.setCurrency(currCurrency);
                         sp.setText(Integer.toString(currCurrency[1]));
+                        pmGoldTf.setText("");
+                        currencyChoice.setValue("");
                     }
                     else if (currencyChoice.getValue().equalsIgnoreCase("ep")) {
                         currCurrency[2] = Integer.parseInt(pmGoldTf.getText()) + currCurrency[2];
                         c.setCurrency(currCurrency);
                         ep.setText(Integer.toString(currCurrency[2]));
+                        pmGoldTf.setText("");
+                        currencyChoice.setValue("");
                     }
                     else if (currencyChoice.getValue().equalsIgnoreCase("gp")) {
                         currCurrency[3] = Integer.parseInt(pmGoldTf.getText()) + currCurrency[3];
                         c.setCurrency(currCurrency);
                         gp.setText(Integer.toString(currCurrency[3]));
+                        pmGoldTf.setText("");
+                        currencyChoice.setValue("");
                     }
                     else if (currencyChoice.getValue().equalsIgnoreCase("pp")) {
                         currCurrency[4] = Integer.parseInt(pmGoldTf.getText()) + currCurrency[4];
                         c.setCurrency(currCurrency);
                         pp.setText(Integer.toString(currCurrency[4]));
+                        pmGoldTf.setText("");
+                        currencyChoice.setValue("");
                     }
                 }
                 else {
@@ -725,26 +743,36 @@ public class CharacterMgr extends Application {
                         currCurrency[0] = Integer.parseInt(pmGoldTf.getText()) - currCurrency[0];
                         c.setCurrency(currCurrency);
                         cp.setText(Integer.toString(currCurrency[0]));
+                        pmGoldTf.setText("");
+                        currencyChoice.setValue("");
                     }
                     else if (currencyChoice.getValue().equalsIgnoreCase("sp")) {
                         currCurrency[1] = Integer.parseInt(pmGoldTf.getText()) - currCurrency[1];
                         c.setCurrency(currCurrency);
                         sp.setText(Integer.toString(currCurrency[1]));
+                        pmGoldTf.setText("");
+                        currencyChoice.setValue("");
                     }
                     else if (currencyChoice.getValue().equalsIgnoreCase("ep")) {
                         currCurrency[2] = Integer.parseInt(pmGoldTf.getText()) - currCurrency[2];
                         c.setCurrency(currCurrency);
                         ep.setText(Integer.toString(currCurrency[2]));
+                        pmGoldTf.setText("");
+                        currencyChoice.setValue("");
                     }
                     else if (currencyChoice.getValue().equalsIgnoreCase("gp")) {
                         currCurrency[3] = Integer.parseInt(pmGoldTf.getText()) - currCurrency[3];
                         c.setCurrency(currCurrency);
                         gp.setText(Integer.toString(currCurrency[3]));
+                        pmGoldTf.setText("");
+                        currencyChoice.setValue("");
                     }
                     else if (currencyChoice.getValue().equalsIgnoreCase("pp")) {
                         currCurrency[4] = Integer.parseInt(pmGoldTf.getText()) - currCurrency[4];
                         c.setCurrency(currCurrency);
                         pp.setText(Integer.toString(currCurrency[4]));
+                        pmGoldTf.setText("");
+                        currencyChoice.setValue("");
                     }
                 }
                 else {
@@ -1482,65 +1510,287 @@ public class CharacterMgr extends Application {
     skillsBtn.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent e) {
-            skillsStage.close();
-            skillsStage.setTitle("Skills Page");
+            SkillsPage(skillsStage);
+        }
+    });
 
-            Label skillsTitle = new Label("Skills");
-            skillsTitle.setId("title");
-            VBox vbSkills = new VBox(10);
+    ///////////////////////////////
+    ///////// SAVINGTHROWS PAGE /////////
+    ///////////////////////////////
 
-            boolean[] skillsList = c.getProficiencies();
-            String[] skills = {"Acrobatics (Dex)", "Animal Handling (Wis)", "Arcana (Int)",
-                                "Athletics (Str)", "Deception (Cha)", "History (Int)", "Insight (Wis)",
-                                "Intimidation (Cha)", "Investigation (Int)", "Medicine (Wis)", "Nature (Int)",
-                                "Perception (Wis)", "Performance (Cha)", "Persuasion (Cha)", "Religion (Int)",
-                                "Sleight of Hand (Dex)", "Stealth (Dex)", "Survival (Wis)"};
+    Stage savingThrowsStage = new Stage();
+    savingThrowsBtn.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent e) {
+            SavingThrowsPage(savingThrowsStage);
+        }
+    });
+    //////////////////////////////////////
+    ////////// Inventory Page ////////////
+    //////////////////////////////////////
 
-            int[] skillsMod = {calcMod(c.getDex()), calcMod(c.getWis()), calcMod(c.getInt()),
-                                calcMod(c.getStr()), calcMod(c.getChar()), calcMod(c.getInt()), calcMod(c.getWis()),
-                                calcMod(c.getChar()), calcMod(c.getInt()), calcMod(c.getWis()), calcMod(c.getInt()),
-                                calcMod(c.getWis()), calcMod(c.getChar()), calcMod(c.getChar()), calcMod(c.getInt()),
-                                calcMod(c.getDex()), calcMod(c.getDex()), calcMod(c.getWis())};
+    Stage inventoryStage = new Stage();
+    inventoryBtn.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent e) {
+            InventoryPage(inventoryStage);
+        }
+    });
 
-            for (int i = 0; i < skillsList.length; i++) {
+    //////////////////////////////////
+    ///////// LANGUAGES PAGE /////////
+    //////////////////////////////////
 
-                String nxtItem = skills[i];
-                Label skillsLabel = new Label(nxtItem);
-                Label modLabel = new Label();
-                if (c.getProficiencies()[i]) {
-                    modLabel.setText(fmt.format(skillsMod[i] + c.getProficiencyBonus()));
-                }
-                else {
-                    modLabel.setText(fmt.format(skillsMod[i]));
-                }
-                HBox hbSkillsList = new HBox(10);
-                CheckBox isProficient = new CheckBox();
-                isProficient.setSelected(c.getProficiencies()[i]);
-                isProficient.setAllowIndeterminate(false);
-                final int j = i;
-                isProficient.selectedProperty().addListener(new ChangeListener<Boolean>() {
-                    public void changed(ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) {
-                        c.setProficiencyVal(new_val,j);
-                        if (new_val) {
-                            modLabel.setText(fmt.format(skillsMod[j] + c.getProficiencyBonus()));
-                        }
-                        else if (!new_val) {
-                            modLabel.setText(fmt.format(skillsMod[j]));
-                        }
+    Stage languagesStage = new Stage();
+    languagesBtn.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent e) {
+            LanguagesPage(languagesStage);
+        }
+    });
+
+    ///////////////////////////////
+    //////// WEAPONS PAGE /////////
+    ///////////////////////////////
+
+    Stage weaponsStage = new Stage();
+    weaponsBtn.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent e) {
+            WeaponsPage(weaponsStage);
+        }
+    });
+
+
+
+
+    //////////////////////////////////
+    ///////// IDEALS PAGE ////////////
+    //////////////////////////////////
+
+    Stage idealsStage = new Stage();
+    idealsBtn.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent e) {
+            IdealsPage(idealsStage);
+        }
+    });
+
+    //////////////////////////////////
+    ///////// FLAWS PAGE /////////////
+    //////////////////////////////////
+
+    Stage flawsStage = new Stage();
+    flawsBtn.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent e) {
+        }
+    });
+
+    //////////////////////////////////
+    ///////// BONDS PAGE /////////////
+    //////////////////////////////////
+
+    Stage bondsStage = new Stage();
+    bondsBtn.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent e) {
+            BondsPage(bondsStage);
+        }
+    });
+    
+    /////////////////////////////////////
+    ///////// FEATURES PAGE /////////////
+    /////////////////////////////////////
+
+    Stage featuresStage = new Stage();
+    featuresBtn.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent e) {
+            FeaturesPage(featuresStage);
+        }
+    });
+    
+    ////////////////////////////////////
+    ////////////// NOTES ///////////////
+    ////////////////////////////////////
+    
+    Stage notesStage = new Stage();
+    notesBtn.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent e) {
+            NotesPage(notesStage);
+        }
+    });
+    
+    //////////////////////////////////////////
+    ////////////// DESCRIPTION ///////////////
+    //////////////////////////////////////////
+    
+    Stage descriptionStage = new Stage();
+    descriptionBtn.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent e) {
+        }
+    });
+
+
+    ////////////////////////////////////
+    /////////// SPELLS PAGE ////////////
+    ////////////////////////////////////
+    
+    Stage spellsStage = new Stage();
+    spellsBtn.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent e) {
+            SpellsPage(spellsStage,spellsBtn);
+        }
+    });
+       
+
+
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    
+    ////////////////////////////////////////////
+    ///////////// Border Setup /////////////////
+    ////////////////////////////////////////////
+    
+
+    border.setMargin(characterName, new Insets(10,10,10,10));
+    
+    border.setTop(characterName);
+    border.setCenter(grid);
+    border.setBottom(hbsave);
+    border.setLeft(statvb1);
+
+    ///////////////////////////////////////////
+    ///////////////////////////////////////////
+    
+    ////////////////////////////////////////
+    ///////////// SAVE ON EXIT /////////////
+    ////////////////////////////////////////
+    
+    Stage saveExitStage = new Stage();
+    stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+        public void handle(WindowEvent we) {
+            we.consume();
+            saveExitStage.close();
+            saveExitStage.setTitle("Save Character?");
+            GridPane segrid = new GridPane();
+            segrid.setAlignment(Pos.CENTER);
+            segrid.setHgap(10);
+            segrid.setVgap(10);
+            Scene seScene = new Scene(segrid,400,150);
+            saveExitStage.setScene(seScene);
+            saveExitStage.show();
+
+            Label seLabel = new Label("Save before closing?");
+            segrid.add(seLabel,0,0);
+            HBox sebtns = new HBox(10);
+            Button yesSE = new Button("Yes");
+            Button noSE = new Button("No");
+            Button cancelSE = new Button("Cancel");
+            sebtns.getChildren().addAll(yesSE,noSE,cancelSE);
+            segrid.add(sebtns,0,1);
+
+            yesSE.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    if (fileName.isEmpty()) {
+                        String file = saveCharacterAs(saveExitStage);
+                        Character.SaveCharacter(c,fileName);
                     }
-                });
+                    else {
+                        Character.SaveCharacter(c,fileName);
+                    }
+                    saveExitStage.close();
+                    stage.close();
+                    System.exit(0);
+                }
+            });
 
-                hbSkillsList.getChildren().addAll(isProficient,modLabel, skillsLabel);
+            noSE.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    saveExitStage.close();
+                    stage.close();
+                    System.exit(0);
+                }
+            });
+            cancelSE.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    saveExitStage.close();
+                }
+            });
+        }
+    });
 
-                vbSkills.getChildren().add(hbSkillsList);
 
+	stage.show();	
+	}
 
+    public void SkillsPage(Stage skillsStage) {
+        skillsStage.close();
+        skillsStage.setTitle("Skills Page");
+
+        Label skillsTitle = new Label("Skills");
+        skillsTitle.setId("title");
+        VBox vbSkills = new VBox(10);
+
+        boolean[] skillsList = c.getProficiencies();
+        String[] skills = {"Acrobatics (Dex)", "Animal Handling (Wis)", "Arcana (Int)",
+            "Athletics (Str)", "Deception (Cha)", "History (Int)", "Insight (Wis)",
+            "Intimidation (Cha)", "Investigation (Int)", "Medicine (Wis)", "Nature (Int)",
+            "Perception (Wis)", "Performance (Cha)", "Persuasion (Cha)", "Religion (Int)",
+            "Sleight of Hand (Dex)", "Stealth (Dex)", "Survival (Wis)"};
+
+        int[] skillsMod = {calcMod(c.getDex()), calcMod(c.getWis()), calcMod(c.getInt()),
+            calcMod(c.getStr()), calcMod(c.getChar()), calcMod(c.getInt()), calcMod(c.getWis()),
+            calcMod(c.getChar()), calcMod(c.getInt()), calcMod(c.getWis()), calcMod(c.getInt()),
+            calcMod(c.getWis()), calcMod(c.getChar()), calcMod(c.getChar()), calcMod(c.getInt()),
+            calcMod(c.getDex()), calcMod(c.getDex()), calcMod(c.getWis())};
+
+        for (int i = 0; i < skillsList.length; i++) {
+
+            String nxtItem = skills[i];
+            Label skillsLabel = new Label(nxtItem);
+            Label modLabel = new Label();
+            if (c.getProficiencies()[i]) {
+                modLabel.setText(fmt.format(skillsMod[i] + c.getProficiencyBonus()));
             }
+            else {
+                modLabel.setText(fmt.format(skillsMod[i]));
+            }
+            HBox hbSkillsList = new HBox(10);
+            CheckBox isProficient = new CheckBox();
+            isProficient.setSelected(c.getProficiencies()[i]);
+            isProficient.setAllowIndeterminate(false);
+            final int j = i;
+            isProficient.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                public void changed(ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) {
+                    c.setProficiencyVal(new_val,j);
+                    if (new_val) {
+                        modLabel.setText(fmt.format(skillsMod[j] + c.getProficiencyBonus()));
+                    }
+                    else if (!new_val) {
+                        modLabel.setText(fmt.format(skillsMod[j]));
+                    }
+                }
+            });
+
+            hbSkillsList.getChildren().addAll(isProficient,modLabel, skillsLabel);
+
+            vbSkills.getChildren().add(hbSkillsList);
+
+
+        }
 
         Button doneSkills = new Button("Done");
         HBox hbaddSkills = new HBox(10);
         VBox vbskillsBtns = new VBox(10);
-	    vbskillsBtns.getChildren().addAll(doneSkills);
+        vbskillsBtns.getChildren().addAll(doneSkills);
 
 
         BorderPane bpSkills = new BorderPane();
@@ -1568,69 +1818,62 @@ public class CharacterMgr extends Application {
 
         skillsStage.show();
 
-        }
-    });
 
-    ///////////////////////////////
-    ///////// SAVINGTHROWS PAGE /////////
-    ///////////////////////////////
+    }
 
-    Stage savingThrowsStage = new Stage();
-    savingThrowsBtn.setOnAction(new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent e) {
-            savingThrowsStage.close();
-            savingThrowsStage.setTitle("Saving Throws Page");
+    public void SavingThrowsPage(Stage savingThrowsStage) {
+        savingThrowsStage.close();
+        savingThrowsStage.setTitle("Saving Throws Page");
 
-            Label savingThrowsTitle = new Label("Saving Throws");
-            savingThrowsTitle.setId("title");
-            VBox vbSavingThrows = new VBox(10);
+        Label savingThrowsTitle = new Label("Saving Throws");
+        savingThrowsTitle.setId("title");
+        VBox vbSavingThrows = new VBox(10);
 
-            boolean[] savingThrowsList = c.getSavingThrows();
-            String[] savingThrows = { "Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma" };
+        boolean[] savingThrowsList = c.getSavingThrows();
+        String[] savingThrows = { "Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma" };
 
-            int[] savingThrowsMod = { calcMod(c.getStr()), calcMod(c.getDex()), calcMod(c.getCons()), calcMod(c.getInt()),
-                                        calcMod(c.getWis()), calcMod(c.getChar()) };
+        int[] savingThrowsMod = { calcMod(c.getStr()), calcMod(c.getDex()), calcMod(c.getCons()), calcMod(c.getInt()),
+            calcMod(c.getWis()), calcMod(c.getChar()) };
 
-            for (int i = 0; i < savingThrowsList.length; i++) {
+        for (int i = 0; i < savingThrowsList.length; i++) {
 
-                String nxtItem = savingThrows[i];
-                Label savingThrowsLabel = new Label(nxtItem);
-                Label modLabel = new Label();
-                if (c.getSavingThrows()[i]) {
-                    modLabel.setText(fmt.format(savingThrowsMod[i] + c.getProficiencyBonus()));
-                }
-                else {
-                    modLabel.setText(fmt.format(savingThrowsMod[i]));
-                }
-                HBox hbSavingThrowsList = new HBox(10);
-                CheckBox isProficient = new CheckBox();
-                isProficient.setSelected(c.getSavingThrows()[i]);
-                isProficient.setAllowIndeterminate(false);
-                final int j = i;
-                isProficient.selectedProperty().addListener(new ChangeListener<Boolean>() {
-                    public void changed(ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) {
-                        c.setSavingThrowsVal(new_val,j);
-                        if (new_val) {
-                            modLabel.setText(fmt.format(savingThrowsMod[j] + c.getProficiencyBonus()));
-                        }
-                        else if (!new_val) {
-                            modLabel.setText(fmt.format(savingThrowsMod[j]));
-                        }
-                    }
-                });
-
-                hbSavingThrowsList.getChildren().addAll(isProficient,modLabel, savingThrowsLabel);
-
-                vbSavingThrows.getChildren().add(hbSavingThrowsList);
-
-
+            String nxtItem = savingThrows[i];
+            Label savingThrowsLabel = new Label(nxtItem);
+            Label modLabel = new Label();
+            if (c.getSavingThrows()[i]) {
+                modLabel.setText(fmt.format(savingThrowsMod[i] + c.getProficiencyBonus()));
             }
+            else {
+                modLabel.setText(fmt.format(savingThrowsMod[i]));
+            }
+            HBox hbSavingThrowsList = new HBox(10);
+            CheckBox isProficient = new CheckBox();
+            isProficient.setSelected(c.getSavingThrows()[i]);
+            isProficient.setAllowIndeterminate(false);
+            final int j = i;
+            isProficient.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                public void changed(ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) {
+                    c.setSavingThrowsVal(new_val,j);
+                    if (new_val) {
+                        modLabel.setText(fmt.format(savingThrowsMod[j] + c.getProficiencyBonus()));
+                    }
+                    else if (!new_val) {
+                        modLabel.setText(fmt.format(savingThrowsMod[j]));
+                    }
+                }
+            });
+
+            hbSavingThrowsList.getChildren().addAll(isProficient,modLabel, savingThrowsLabel);
+
+            vbSavingThrows.getChildren().add(hbSavingThrowsList);
+
+
+        }
 
         Button doneSavingThrows = new Button("Done");
         HBox hbaddSavingThrows = new HBox(10);
         VBox vbsavingThrowsBtns = new VBox(10);
-	    vbsavingThrowsBtns.getChildren().addAll(doneSavingThrows);
+        vbsavingThrowsBtns.getChildren().addAll(doneSavingThrows);
 
 
         BorderPane bpSavingThrows = new BorderPane();
@@ -1658,154 +1901,147 @@ public class CharacterMgr extends Application {
 
         savingThrowsStage.show();
 
-        }
-    });
-    //////////////////////////////////////
-    ////////// Inventory Page ////////////
-    //////////////////////////////////////
+    }
 
-    Stage inventoryStage = new Stage();
-    inventoryBtn.setOnAction(new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent e) {
-            inventoryStage.close();
-            inventoryStage.setTitle("Inventory Page");
+    public void InventoryPage(Stage inventoryStage) {
+        inventoryStage.close();
+        inventoryStage.setTitle("Inventory Page");
 
 
 
-            Label inventoryTitle = new Label("Inventory");
-            inventoryTitle.setId("title");
-            VBox vbInventory = new VBox(10);
+        Label inventoryTitle = new Label("Inventory");
+        inventoryTitle.setId("title");
+        VBox vbInventory = new VBox(10);
 
-            ArrayList<String> inventoryList = c.getInventory();
-            Iterator<String> itr = inventoryList.iterator();
-            int index = 0;
-            while (itr.hasNext()) {
-                String nxtItem = itr.next();
-                final int currIndex = index;
-                String[] splitItem = nxtItem.split("--");
-                TextArea description = new TextArea();
-                description.setWrapText(true);
-                description.setPromptText("Item Description");
-                try {
-                    description.setText(splitItem[1]); 
-                }
-                catch (ArrayIndexOutOfBoundsException ioe) {
-                    description.setText("");
-                }
-                Label inventorylabel = new Label(splitItem[0]);
-                HBox hbInventoryList = new HBox(10);
-
-
-                Button rm = new Button("remove");
-                Button info = new Button("info");
-                hbInventoryList.getChildren().addAll(inventorylabel,info,rm);
-
-                vbInventory.getChildren().add(hbInventoryList);
-                index++;
-
-                ////// Remove button ///////
-                Stage confirmRm = new Stage();
-                rm.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent e) {
-                        confirmRm.close();
-                        confirmRm.setTitle("Are you sure?");
-                        GridPane rmgrid = new GridPane();
-                        rmgrid.setAlignment(Pos.CENTER);
-                        rmgrid.setHgap(10);
-                        rmgrid.setVgap(10);
-                        Scene rmscene = new Scene(rmgrid,400,150);
-                        confirmRm.setScene(rmscene);
-                        confirmRm.show();
-
-                        Label rmLabel = new Label("remove " + splitItem[0] + ". Are you sure?");
-                        rmgrid.add(rmLabel,0,0);
-                        Button yesRm = new Button("Yes");
-                        Button noRm = new Button("Cancel");
-                        HBox hbynrm = new HBox(10);
-                        hbynrm.getChildren().addAll(yesRm,noRm);
-                        rmgrid.add(hbynrm,0,1);
-
-                        yesRm.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                vbInventory.getChildren().remove(hbInventoryList);
-                                inventoryList.remove(nxtItem);
-                                c.setInventory(inventoryList);
-                                confirmRm.close();
-                            }
-                        });
-                        noRm.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                confirmRm.close();
-                            }
-                        });
-                    }
-                });
-
-                Stage infoStage = new Stage();
-                info.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent e) {
-                        infoStage.close();
-                        GridPane infoGrid = new GridPane();
-                        infoGrid.setAlignment(Pos.CENTER);
-                        infoGrid.setHgap(10);
-                        infoGrid.setVgap(10);
-                        Scene infoScene = new Scene(infoGrid);
-                        infoStage.setScene(infoScene);
-
-                        infoScene.getStylesheets().add("lib/TextAreaPage.css");
-                        Label itemName = new Label();
-                        itemName.setText(inventorylabel.getText());
-
-                        Button done = new Button("done");
-                        Button saveDesc = new Button("Save");
-                        HBox descBtns = new HBox(10);
-                        descBtns.getChildren().addAll(done,saveDesc);
-
-                        infoGrid.add(itemName,0,0);
-                        infoGrid.add(description,0,1);
-                        infoGrid.add(descBtns,0,2);
-
-                        done.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                String newItem = itemName.getText() + "--" + description.getText();
-                                inventoryList.set(currIndex,newItem);
-                                c.setInventory(inventoryList);
-                                infoStage.close();
-                            }
-                        });
-                        saveDesc.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                String newItem = itemName.getText() + "--" + description.getText();
-                                inventoryList.set(currIndex,newItem);
-                                c.setInventory(inventoryList);
-                                Text msg = new Text("Saved");
-                                msg.setFill(Color.FIREBRICK);
-                                descBtns.getChildren().remove(msg);
-                                descBtns.getChildren().add(msg);
-                            }
-                        });
-                        infoStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                            public void handle(WindowEvent we) {
-                                String newItem = itemName.getText() + "--" + description.getText();
-                                inventoryList.set(currIndex,newItem);
-                                c.setInventory(inventoryList);
-                            }
-                        });
-                        infoStage.show();
-                    }
-                });
-
+        ArrayList<String> inventoryList = c.getInventory();
+        Iterator<String> itr = inventoryList.iterator();
+        int index = 0;
+        while (itr.hasNext()) {
+            String nxtItem = itr.next();
+            final int currIndex = index;
+            String[] splitItem = nxtItem.split("--");
+            TextArea description = new TextArea();
+            description.setWrapText(true);
+            description.setPromptText("Item Description");
+            try {
+                description.setText(splitItem[1]); 
             }
+            catch (ArrayIndexOutOfBoundsException ioe) {
+                description.setText("");
+            }
+            Label inventorylabel = new Label(splitItem[0]);
+            HBox hbInventoryList = new HBox(10);
 
-	    TextField addInventoryTf = new TextField();
-	    addInventoryTf.setPromptText("Add an Item");
+
+            Button rm = new Button("remove");
+            Button info = new Button("info");
+            hbInventoryList.getChildren().addAll(inventorylabel,info,rm);
+
+            vbInventory.getChildren().add(hbInventoryList);
+            index++;
+
+            ////// Remove button ///////
+            Stage confirmRm = new Stage();
+            rm.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    confirmRm.close();
+                    confirmRm.setTitle("Are you sure?");
+                    GridPane rmgrid = new GridPane();
+                    rmgrid.setAlignment(Pos.CENTER);
+                    rmgrid.setHgap(10);
+                    rmgrid.setVgap(10);
+                    Scene rmscene = new Scene(rmgrid,400,150);
+                    confirmRm.setScene(rmscene);
+                    confirmRm.show();
+
+                    Label rmLabel = new Label("remove " + splitItem[0] + ". Are you sure?");
+                    rmgrid.add(rmLabel,0,0);
+                    Button yesRm = new Button("Yes");
+                    Button noRm = new Button("Cancel");
+                    HBox hbynrm = new HBox(10);
+                    hbynrm.getChildren().addAll(yesRm,noRm);
+                    rmgrid.add(hbynrm,0,1);
+
+                    yesRm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            vbInventory.getChildren().remove(hbInventoryList);
+                            inventoryList.remove(nxtItem);
+                            c.setInventory(inventoryList);
+                            confirmRm.close();
+                        }
+                    });
+                    noRm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            confirmRm.close();
+                        }
+                    });
+                }
+            });
+
+            Stage infoStage = new Stage();
+            info.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    infoStage.close();
+                    GridPane infoGrid = new GridPane();
+                    infoGrid.setAlignment(Pos.CENTER);
+                    infoGrid.setHgap(10);
+                    infoGrid.setVgap(10);
+                    Scene infoScene = new Scene(infoGrid);
+                    infoStage.setScene(infoScene);
+
+                    infoScene.getStylesheets().add("lib/TextAreaPage.css");
+                    Label itemName = new Label();
+                    itemName.setText(inventorylabel.getText());
+
+                    Button done = new Button("done");
+                    Button saveDesc = new Button("Save");
+                    HBox descBtns = new HBox(10);
+                    descBtns.getChildren().addAll(done,saveDesc);
+
+                    infoGrid.add(itemName,0,0);
+                    infoGrid.add(description,0,1);
+                    infoGrid.add(descBtns,0,2);
+
+                    done.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            String newItem = itemName.getText() + "--" + description.getText();
+                            inventoryList.set(currIndex,newItem);
+                            c.setInventory(inventoryList);
+                            infoStage.close();
+                        }
+                    });
+                    saveDesc.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            String newItem = itemName.getText() + "--" + description.getText();
+                            inventoryList.set(currIndex,newItem);
+                            c.setInventory(inventoryList);
+                            Text msg = new Text("Saved");
+                            msg.setFill(Color.FIREBRICK);
+                            descBtns.getChildren().remove(msg);
+                            descBtns.getChildren().add(msg);
+                        }
+                    });
+                    infoStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                        public void handle(WindowEvent we) {
+                            String newItem = itemName.getText() + "--" + description.getText();
+                            inventoryList.set(currIndex,newItem);
+                            c.setInventory(inventoryList);
+                        }
+                    });
+                    infoStage.show();
+                }
+            });
+
+        }
+
+        TextField addInventoryTf = new TextField();
+        addInventoryTf.setPromptText("Add an Item");
         Button addInventory = new Button("Add Item");
         Button doneInventory = new Button("Done");
         HBox hbaddInventory = new HBox(10);
@@ -1970,91 +2206,83 @@ public class CharacterMgr extends Application {
 
         inventoryStage.show();
 
+    }
+
+    public void LanguagesPage(Stage languagesStage) {
+        languagesStage.close();
+        languagesStage.setTitle("Languages Page");
+
+
+
+        Label languagesTitle = new Label("Languages");
+        languagesTitle.setId("title");
+        VBox vbLanguages = new VBox(10);
+
+        HashSet<String> languagesList = c.getLanguages();
+        Iterator<String> itr = languagesList.iterator();
+
+        while (itr.hasNext()) {
+            String nxtItem = itr.next();
+            Label languageslabel = new Label(nxtItem);
+            HBox hbLanguagesList = new HBox(10);
+
+            Button rm = new Button("remove");
+            hbLanguagesList.getChildren().addAll(languageslabel,rm);
+
+            vbLanguages.getChildren().add(hbLanguagesList);
+
+            ////// Remove button ///////
+            Stage confirmRm = new Stage();
+            rm.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    confirmRm.close();
+                    confirmRm.setTitle("Are you sure?");
+                    GridPane rmgrid = new GridPane();
+                    rmgrid.setAlignment(Pos.CENTER);
+                    rmgrid.setHgap(10);
+                    rmgrid.setVgap(10);
+                    Scene rmscene = new Scene(rmgrid,400,150);
+                    confirmRm.setScene(rmscene);
+                    confirmRm.show();
+
+                    Label rmLabel = new Label("remove " + nxtItem + ". Are you sure?");
+                    rmgrid.add(rmLabel,0,0);
+                    Button yesRm = new Button("Yes");
+                    Button noRm = new Button("Cancel");
+                    HBox hbynrm = new HBox(10);
+                    hbynrm.getChildren().addAll(yesRm,noRm);
+                    rmgrid.add(hbynrm,0,1);
+
+                    yesRm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            vbLanguages.getChildren().remove(hbLanguagesList);
+                            languagesList.remove(languageslabel.getText());
+                            c.setLanguages(languagesList);
+                            confirmRm.close();
+                        }
+                    });
+                    noRm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            confirmRm.close();
+                        }
+                    });
+                }
+            });
+
         }
-    });
-
-    //////////////////////////////////
-    ///////// LANGUAGES PAGE /////////
-    //////////////////////////////////
-
-    Stage languagesStage = new Stage();
-    languagesBtn.setOnAction(new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent e) {
-            languagesStage.close();
-            languagesStage.setTitle("Languages Page");
-
-
-
-            Label languagesTitle = new Label("Languages");
-            languagesTitle.setId("title");
-            VBox vbLanguages = new VBox(10);
-
-            HashSet<String> languagesList = c.getLanguages();
-            Iterator<String> itr = languagesList.iterator();
-
-            while (itr.hasNext()) {
-                String nxtItem = itr.next();
-                Label languageslabel = new Label(nxtItem);
-                HBox hbLanguagesList = new HBox(10);
-
-                Button rm = new Button("remove");
-                hbLanguagesList.getChildren().addAll(languageslabel,rm);
-
-                vbLanguages.getChildren().add(hbLanguagesList);
-
-                ////// Remove button ///////
-                Stage confirmRm = new Stage();
-                rm.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent e) {
-                        confirmRm.close();
-                        confirmRm.setTitle("Are you sure?");
-                        GridPane rmgrid = new GridPane();
-                        rmgrid.setAlignment(Pos.CENTER);
-                        rmgrid.setHgap(10);
-                        rmgrid.setVgap(10);
-                        Scene rmscene = new Scene(rmgrid,400,150);
-                        confirmRm.setScene(rmscene);
-                        confirmRm.show();
-
-                        Label rmLabel = new Label("remove " + nxtItem + ". Are you sure?");
-                        rmgrid.add(rmLabel,0,0);
-                        Button yesRm = new Button("Yes");
-                        Button noRm = new Button("Cancel");
-                        HBox hbynrm = new HBox(10);
-                        hbynrm.getChildren().addAll(yesRm,noRm);
-                        rmgrid.add(hbynrm,0,1);
-
-                        yesRm.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                vbLanguages.getChildren().remove(hbLanguagesList);
-                                languagesList.remove(languageslabel.getText());
-                                c.setLanguages(languagesList);
-                                confirmRm.close();
-                            }
-                        });
-                        noRm.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                confirmRm.close();
-                            }
-                        });
-                    }
-                });
-
-            }
 
         ObservableList<String> options = FXCollections.observableArrayList( "Common", "Dwarvish", "Elvish",
-                                                                        "Giant", "Gnomish", "Goblin",
-                                                                        "Halfling", "Orc", "Abyssal",
-                                                                        "Celestial", "Draconic", "Deep Speech",
-                                                                        "Infernal", "Primordial", "Sylvan", "Undercommon");
-	    ComboBox<String> addLanguagesTf = new ComboBox<String>(options);
+                "Giant", "Gnomish", "Goblin",
+                "Halfling", "Orc", "Abyssal",
+                "Celestial", "Draconic", "Deep Speech",
+                "Infernal", "Primordial", "Sylvan", "Undercommon");
+        ComboBox<String> addLanguagesTf = new ComboBox<String>(options);
         addLanguagesTf.setEditable(true);
         addLanguagesTf.setTooltip(new Tooltip());
-	    addLanguagesTf.setPromptText("Add a Language");
+        addLanguagesTf.setPromptText("Add a Language");
         Button addLanguages = new Button("Add Language");
         Button doneLanguages = new Button("Done");
         HBox hbaddLanguages = new HBox(10);
@@ -2151,171 +2379,164 @@ public class CharacterMgr extends Application {
 
         languagesStage.show();
 
-        }
-    });
 
-    ///////////////////////////////
-    //////// WEAPONS PAGE /////////
-    ///////////////////////////////
+    }
 
-    Stage weaponsStage = new Stage();
-    weaponsBtn.setOnAction(new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent e) {
-            weaponsStage.close();
-            weaponsStage.setTitle("Weapons Page");
+    public void WeaponsPage(Stage weaponsStage) {
+        weaponsStage.close();
+        weaponsStage.setTitle("Weapons Page");
 
-            Label weaponsTitle = new Label("Weapons");
-            weaponsTitle.setId("title");
-            
-            VBox weaponsHeader = new VBox(10);
-            
-            VBox vbWeapons = new VBox(10);
+        Label weaponsTitle = new Label("Weapons");
+        weaponsTitle.setId("title");
 
-            ArrayList<String> weaponsList = c.getWeapons();
-            Iterator<String> itr = weaponsList.iterator();
+        VBox weaponsHeader = new VBox(10);
 
-            HBox labelsHb = new HBox(10);
-            Label proficient = new Label("Proficient");
-            Label weaponName = new Label("Weapon");
-            Label damageLabel = new Label("Damage");
-            Label hitLabel = new Label("Modifier");
-            labelsHb.getChildren().addAll(proficient,hitLabel,weaponName,damageLabel);
-            
-            vbWeapons.getChildren().addAll(weaponsTitle,labelsHb);
-            
-            int index = 0;
+        VBox vbWeapons = new VBox(10);
 
-            while (itr.hasNext()) {
-                final int currIndex = index;
-                String nxtItem = itr.next();
-                String[] splitItem = nxtItem.split("--");
+        ArrayList<String> weaponsList = c.getWeapons();
+        Iterator<String> itr = weaponsList.iterator();
 
-                CheckBox isProficient = new CheckBox();
-                isProficient.setAllowIndeterminate(false);
+        HBox labelsHb = new HBox(10);
+        Label proficient = new Label("Proficient");
+        Label weaponName = new Label("Weapon");
+        Label damageLabel = new Label("Damage");
+        Label hitLabel = new Label("Modifier");
+        labelsHb.getChildren().addAll(proficient,hitLabel,weaponName,damageLabel);
 
-                TextField weaponsTf = new TextField(splitItem[0]);
-                weaponsTf.setEditable(false);
-                weaponsTf.setId("locked-tf");
+        vbWeapons.getChildren().addAll(weaponsTitle,labelsHb);
 
-                TextField damage = new TextField();
-                damage.setEditable(false);
-                damage.setId("locked-tf");
+        int index = 0;
 
-                Label damageMod = new Label();
-                ToggleButton editBtn = new ToggleButton("edit");
+        while (itr.hasNext()) {
+            final int currIndex = index;
+            String nxtItem = itr.next();
+            String[] splitItem = nxtItem.split("--");
 
-                Label hitMod = new Label();
+            CheckBox isProficient = new CheckBox();
+            isProficient.setAllowIndeterminate(false);
 
-                try {
-                    damage.setText(splitItem[1]);
-                    isProficient.setSelected(Boolean.parseBoolean(splitItem[2]));
-                }
-                catch (ArrayIndexOutOfBoundsException ioe) {
-                    damage.setText("");
-                    isProficient.setSelected(false);
-                }    
+            TextField weaponsTf = new TextField(splitItem[0]);
+            weaponsTf.setEditable(false);
+            weaponsTf.setId("locked-tf");
+
+            TextField damage = new TextField();
+            damage.setEditable(false);
+            damage.setId("locked-tf");
+
+            Label damageMod = new Label();
+            ToggleButton editBtn = new ToggleButton("edit");
+
+            Label hitMod = new Label();
+
+            try {
+                damage.setText(splitItem[1]);
+                isProficient.setSelected(Boolean.parseBoolean(splitItem[2]));
+            }
+            catch (ArrayIndexOutOfBoundsException ioe) {
+                damage.setText("");
+                isProficient.setSelected(false);
+            }    
 
 
-                if (isProficient.isSelected()) {
-                    hitMod.setText(fmt.format(calcMod(c.getStr()) + c.getProficiencyBonus()));
-                }
-                else {
-                    hitMod.setText(fmt.format(calcMod(c.getStr())));
-
-                }
-
-                damageMod.setText(fmt.format(calcMod(c.getStr())));
-
-                HBox hbWeaponsList = new HBox(10);
-
-                Button rm = new Button("remove");
-                hbWeaponsList.getChildren().addAll(isProficient,hitMod,weaponsTf,damage,damageMod,rm,editBtn);
-
-                vbWeapons.getChildren().add(hbWeaponsList);
-
-                ////// Edit button //////
-
-                editBtn.setOnAction(new EventHandler<ActionEvent>() {
-                    public void handle(ActionEvent e) {
-                        if (editBtn.isSelected()) {
-                            damage.setEditable(true);
-                            damage.setId("unlocked-tf");
-                            weaponsTf.setEditable(true);
-                            weaponsTf.setId("unlocked-tf");
-                        }
-                        else {
-                            damage.setEditable(false);
-                            damage.setId("locked-tf");
-                            weaponsTf.setEditable(false);
-                            weaponsTf.setId("locked-tf");
-                            weaponsList.set(currIndex,weaponsTf.getText() + "--" + damage.getText() + "--" + Boolean.toString(isProficient.isSelected()));
-                            c.setWeapons(weaponsList);
-                        }
-                    }
-                });
-
-                isProficient.selectedProperty().addListener(new ChangeListener<Boolean>() {
-                    public void changed(ObservableValue<? extends Boolean> ov, Boolean oldVal, Boolean newVal) {
-                        
-                        weaponsList.set(currIndex,weaponsTf.getText() + "--" + damage.getText() + "--" + Boolean.toString(newVal));
-                        c.setWeapons(weaponsList);
-                        if (newVal) {
-                            hitMod.setText(fmt.format(calcMod(c.getStr()) + c.getProficiencyBonus()));
-                        }
-                        else {
-                            hitMod.setText(fmt.format(calcMod(c.getStr())));
-                        }
-
-                    }
-                });
-
-                ////// Remove button ///////
-                Stage confirmRm = new Stage();
-                rm.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent e) {
-                        confirmRm.close();
-                        confirmRm.setTitle("Are you sure?");
-                        GridPane rmgrid = new GridPane();
-                        rmgrid.setAlignment(Pos.CENTER);
-                        rmgrid.setHgap(10);
-                        rmgrid.setVgap(10);
-                        Scene rmscene = new Scene(rmgrid,400,150);
-                        confirmRm.setScene(rmscene);
-                        confirmRm.show();
-
-                        Label rmLabel = new Label("remove " + nxtItem + ". Are you sure?");
-                        rmgrid.add(rmLabel,0,0);
-                        Button yesRm = new Button("Yes");
-                        Button noRm = new Button("Cancel");
-                        HBox hbynrm = new HBox(10);
-                        hbynrm.getChildren().addAll(yesRm,noRm);
-                        rmgrid.add(hbynrm,0,1);
-
-                        yesRm.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                vbWeapons.getChildren().remove(hbWeaponsList);
-                                weaponsList.remove(currIndex);
-                                c.setWeapons(weaponsList);
-                                confirmRm.close();
-                            }
-                        });
-                        noRm.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                confirmRm.close();
-                            }
-                        });
-                    }
-                });
-                index++;
+            if (isProficient.isSelected()) {
+                hitMod.setText(fmt.format(calcMod(c.getStr()) + c.getProficiencyBonus()));
+            }
+            else {
+                hitMod.setText(fmt.format(calcMod(c.getStr())));
 
             }
 
-	    TextField addWeaponsTf = new TextField();
-	    addWeaponsTf.setPromptText("Add a Weapon");
+            damageMod.setText(fmt.format(calcMod(c.getStr())));
+
+            HBox hbWeaponsList = new HBox(10);
+
+            Button rm = new Button("remove");
+            hbWeaponsList.getChildren().addAll(isProficient,hitMod,weaponsTf,damage,damageMod,rm,editBtn);
+
+            vbWeapons.getChildren().add(hbWeaponsList);
+
+            ////// Edit button //////
+
+            editBtn.setOnAction(new EventHandler<ActionEvent>() {
+                public void handle(ActionEvent e) {
+                    if (editBtn.isSelected()) {
+                        damage.setEditable(true);
+                        damage.setId("unlocked-tf");
+                        weaponsTf.setEditable(true);
+                        weaponsTf.setId("unlocked-tf");
+                    }
+                    else {
+                        damage.setEditable(false);
+                        damage.setId("locked-tf");
+                        weaponsTf.setEditable(false);
+                        weaponsTf.setId("locked-tf");
+                        weaponsList.set(currIndex,weaponsTf.getText() + "--" + damage.getText() + "--" + Boolean.toString(isProficient.isSelected()));
+                        c.setWeapons(weaponsList);
+                    }
+                }
+            });
+
+            isProficient.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                public void changed(ObservableValue<? extends Boolean> ov, Boolean oldVal, Boolean newVal) {
+
+                    weaponsList.set(currIndex,weaponsTf.getText() + "--" + damage.getText() + "--" + Boolean.toString(newVal));
+                    c.setWeapons(weaponsList);
+                    if (newVal) {
+                        hitMod.setText(fmt.format(calcMod(c.getStr()) + c.getProficiencyBonus()));
+                    }
+                    else {
+                        hitMod.setText(fmt.format(calcMod(c.getStr())));
+                    }
+
+                }
+            });
+
+            ////// Remove button ///////
+            Stage confirmRm = new Stage();
+            rm.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    confirmRm.close();
+                    confirmRm.setTitle("Are you sure?");
+                    GridPane rmgrid = new GridPane();
+                    rmgrid.setAlignment(Pos.CENTER);
+                    rmgrid.setHgap(10);
+                    rmgrid.setVgap(10);
+                    Scene rmscene = new Scene(rmgrid,400,150);
+                    confirmRm.setScene(rmscene);
+                    confirmRm.show();
+
+                    Label rmLabel = new Label("remove " + nxtItem + ". Are you sure?");
+                    rmgrid.add(rmLabel,0,0);
+                    Button yesRm = new Button("Yes");
+                    Button noRm = new Button("Cancel");
+                    HBox hbynrm = new HBox(10);
+                    hbynrm.getChildren().addAll(yesRm,noRm);
+                    rmgrid.add(hbynrm,0,1);
+
+                    yesRm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            vbWeapons.getChildren().remove(hbWeaponsList);
+                            weaponsList.remove(currIndex);
+                            c.setWeapons(weaponsList);
+                            confirmRm.close();
+                        }
+                    });
+                    noRm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            confirmRm.close();
+                        }
+                    });
+                }
+            });
+            index++;
+
+        }
+
+        TextField addWeaponsTf = new TextField();
+        addWeaponsTf.setPromptText("Add a Weapon");
         Button addWeapons = new Button("Add Weapon");
         Button doneWeapons = new Button("Done");
         HBox hbaddWeapons = new HBox(10);
@@ -2470,85 +2691,74 @@ public class CharacterMgr extends Application {
 
         weaponsStage.show();
 
+    }
+
+    public void IdealsPage(Stage idealsStage) {
+        idealsStage.close();
+        idealsStage.setTitle("Ideals Page");
+
+        Label idealsTitle = new Label("Ideals");
+        idealsTitle.setId("title");
+        VBox vbIdeals = new VBox(10);
+
+        HashSet<String> idealsList = c.getIdeals();
+        Iterator<String> itr = idealsList.iterator();
+
+        while (itr.hasNext()) {
+            String nxtItem = itr.next();
+            Label idealslabel = new Label(nxtItem);
+            HBox hbIdealsList = new HBox(10);
+
+            Button rm = new Button("remove");
+            hbIdealsList.getChildren().addAll(idealslabel,rm);
+
+            vbIdeals.getChildren().add(hbIdealsList);
+
+            ////// Remove button ///////
+            Stage confirmRm = new Stage();
+            rm.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    confirmRm.close();
+                    confirmRm.setTitle("Are you sure?");
+                    GridPane rmgrid = new GridPane();
+                    rmgrid.setAlignment(Pos.CENTER);
+                    rmgrid.setHgap(10);
+                    rmgrid.setVgap(10);
+                    Scene rmscene = new Scene(rmgrid,400,150);
+                    confirmRm.setScene(rmscene);
+                    confirmRm.show();
+
+                    Label rmLabel = new Label("remove " + nxtItem + ". Are you sure?");
+                    rmgrid.add(rmLabel,0,0);
+                    Button yesRm = new Button("Yes");
+                    Button noRm = new Button("Cancel");
+                    HBox hbynrm = new HBox(10);
+                    hbynrm.getChildren().addAll(yesRm,noRm);
+                    rmgrid.add(hbynrm,0,1);
+
+                    yesRm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            vbIdeals.getChildren().remove(hbIdealsList);
+                            idealsList.remove(idealslabel.getText());
+                            c.setIdeals(idealsList);
+                            confirmRm.close();
+                        }
+                    });
+                    noRm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            confirmRm.close();
+                        }
+                    });
+                }
+            });
+
         }
-    });
 
-
-
-
-    //////////////////////////////////
-    ///////// IDEALS PAGE ////////////
-    //////////////////////////////////
-
-    Stage idealsStage = new Stage();
-    idealsBtn.setOnAction(new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent e) {
-            idealsStage.close();
-            idealsStage.setTitle("Ideals Page");
-
-            Label idealsTitle = new Label("Ideals");
-            idealsTitle.setId("title");
-            VBox vbIdeals = new VBox(10);
-
-            HashSet<String> idealsList = c.getIdeals();
-            Iterator<String> itr = idealsList.iterator();
-
-            while (itr.hasNext()) {
-                String nxtItem = itr.next();
-                Label idealslabel = new Label(nxtItem);
-                HBox hbIdealsList = new HBox(10);
-
-                Button rm = new Button("remove");
-                hbIdealsList.getChildren().addAll(idealslabel,rm);
-
-                vbIdeals.getChildren().add(hbIdealsList);
-
-                ////// Remove button ///////
-                Stage confirmRm = new Stage();
-                rm.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent e) {
-                        confirmRm.close();
-                        confirmRm.setTitle("Are you sure?");
-                        GridPane rmgrid = new GridPane();
-                        rmgrid.setAlignment(Pos.CENTER);
-                        rmgrid.setHgap(10);
-                        rmgrid.setVgap(10);
-                        Scene rmscene = new Scene(rmgrid,400,150);
-                        confirmRm.setScene(rmscene);
-                        confirmRm.show();
-
-                        Label rmLabel = new Label("remove " + nxtItem + ". Are you sure?");
-                        rmgrid.add(rmLabel,0,0);
-                        Button yesRm = new Button("Yes");
-                        Button noRm = new Button("Cancel");
-                        HBox hbynrm = new HBox(10);
-                        hbynrm.getChildren().addAll(yesRm,noRm);
-                        rmgrid.add(hbynrm,0,1);
-
-                        yesRm.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                vbIdeals.getChildren().remove(hbIdealsList);
-                                idealsList.remove(idealslabel.getText());
-                                c.setIdeals(idealsList);
-                                confirmRm.close();
-                            }
-                        });
-                        noRm.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                confirmRm.close();
-                            }
-                        });
-                    }
-                });
-
-            }
-
-	    TextField addIdealsTf = new TextField();
-	    addIdealsTf.setPromptText("Add an Ideal ");
+        TextField addIdealsTf = new TextField();
+        addIdealsTf.setPromptText("Add an Ideal ");
         Button addIdeals = new Button("Add Ideal");
         Button doneIdeals = new Button("Done");
         HBox hbaddIdeals = new HBox(10);
@@ -2634,9 +2844,6 @@ public class CharacterMgr extends Application {
             }
         });
 
-
-
-
         doneIdeals.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -2647,84 +2854,74 @@ public class CharacterMgr extends Application {
 
         idealsStage.show();
 
+    }
+
+    public void FlawsPage(Stage flawsStage) {
+        flawsStage.close();
+        flawsStage.setTitle("Flaws Page");
+
+        Label flawsTitle = new Label("Flaws");
+        flawsTitle.setId("title");
+        VBox vbFlaws = new VBox(10);
+
+        HashSet<String> flawsList = c.getFlaws();
+        Iterator<String> itr = flawsList.iterator();
+
+        while (itr.hasNext()) {
+            String nxtItem = itr.next();
+            Label flawslabel = new Label(nxtItem);
+            HBox hbFlawsList = new HBox(10);
+
+            Button rm = new Button("remove");
+            hbFlawsList.getChildren().addAll(flawslabel,rm);
+
+            vbFlaws.getChildren().add(hbFlawsList);
+
+            ////// Remove button ///////
+            Stage confirmRm = new Stage();
+            rm.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    confirmRm.close();
+                    confirmRm.setTitle("Are you sure?");
+                    GridPane rmgrid = new GridPane();
+                    rmgrid.setAlignment(Pos.CENTER);
+                    rmgrid.setHgap(10);
+                    rmgrid.setVgap(10);
+                    Scene rmscene = new Scene(rmgrid,400,150);
+                    confirmRm.setScene(rmscene);
+                    confirmRm.show();
+
+                    Label rmLabel = new Label("remove " + nxtItem + ". Are you sure?");
+                    rmgrid.add(rmLabel,0,0);
+                    Button yesRm = new Button("Yes");
+                    Button noRm = new Button("Cancel");
+                    HBox hbynrm = new HBox(10);
+                    hbynrm.getChildren().addAll(yesRm,noRm);
+                    rmgrid.add(hbynrm,0,1);
+
+                    yesRm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            vbFlaws.getChildren().remove(hbFlawsList);
+                            flawsList.remove(flawslabel.getText());
+                            c.setFlaws(flawsList);
+                            confirmRm.close();
+                        }
+                    });
+                    noRm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            confirmRm.close();
+                        }
+                    });
+                }
+            });
+
         }
-    });
 
-    //////////////////////////////////
-    ///////// FLAWS PAGE /////////////
-    //////////////////////////////////
-
-    Stage flawsStage = new Stage();
-    flawsBtn.setOnAction(new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent e) {
-            flawsStage.close();
-            flawsStage.setTitle("Flaws Page");
-
-
-
-            Label flawsTitle = new Label("Flaws");
-            flawsTitle.setId("title");
-            VBox vbFlaws = new VBox(10);
-
-            HashSet<String> flawsList = c.getFlaws();
-            Iterator<String> itr = flawsList.iterator();
-
-            while (itr.hasNext()) {
-                String nxtItem = itr.next();
-                Label flawslabel = new Label(nxtItem);
-                HBox hbFlawsList = new HBox(10);
-
-                Button rm = new Button("remove");
-                hbFlawsList.getChildren().addAll(flawslabel,rm);
-
-                vbFlaws.getChildren().add(hbFlawsList);
-
-                ////// Remove button ///////
-                Stage confirmRm = new Stage();
-                rm.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent e) {
-                        confirmRm.close();
-                        confirmRm.setTitle("Are you sure?");
-                        GridPane rmgrid = new GridPane();
-                        rmgrid.setAlignment(Pos.CENTER);
-                        rmgrid.setHgap(10);
-                        rmgrid.setVgap(10);
-                        Scene rmscene = new Scene(rmgrid,400,150);
-                        confirmRm.setScene(rmscene);
-                        confirmRm.show();
-
-                        Label rmLabel = new Label("remove " + nxtItem + ". Are you sure?");
-                        rmgrid.add(rmLabel,0,0);
-                        Button yesRm = new Button("Yes");
-                        Button noRm = new Button("Cancel");
-                        HBox hbynrm = new HBox(10);
-                        hbynrm.getChildren().addAll(yesRm,noRm);
-                        rmgrid.add(hbynrm,0,1);
-
-                        yesRm.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                vbFlaws.getChildren().remove(hbFlawsList);
-                                flawsList.remove(flawslabel.getText());
-                                c.setFlaws(flawsList);
-                                confirmRm.close();
-                            }
-                        });
-                        noRm.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                confirmRm.close();
-                            }
-                        });
-                    }
-                });
-
-            }
-
-	    TextField addFlawsTf = new TextField();
-	    addFlawsTf.setPromptText("Add a Flaw");
+        TextField addFlawsTf = new TextField();
+        addFlawsTf.setPromptText("Add a Flaw");
         Button addFlaws = new Button("Add Flaw");
         Button doneFlaws = new Button("Done");
         HBox hbaddFlaws = new HBox(10);
@@ -2821,82 +3018,74 @@ public class CharacterMgr extends Application {
 
         flawsStage.show();
 
+    }
+
+    public void BondsPage(Stage bondsStage) {
+        bondsStage.close();
+        bondsStage.setTitle("Bonds Page");
+
+        Label bondsTitle = new Label("Bonds");
+        bondsTitle.setId("title");
+        VBox vbBonds = new VBox(10);
+
+        HashSet<String> bondsList = c.getBonds();
+        Iterator<String> itr = bondsList.iterator();
+
+        while (itr.hasNext()) {
+            String nxtItem = itr.next();
+            Label bondslabel = new Label(nxtItem);
+            HBox hbBondsList = new HBox(10);
+
+            Button rm = new Button("remove");
+            hbBondsList.getChildren().addAll(bondslabel,rm);
+
+            vbBonds.getChildren().add(hbBondsList);
+
+            ////// Remove button ///////
+            Stage confirmRm = new Stage();
+            rm.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    confirmRm.close();
+                    confirmRm.setTitle("Are you sure?");
+                    GridPane rmgrid = new GridPane();
+                    rmgrid.setAlignment(Pos.CENTER);
+                    rmgrid.setHgap(10);
+                    rmgrid.setVgap(10);
+                    Scene rmscene = new Scene(rmgrid,400,150);
+                    confirmRm.setScene(rmscene);
+                    confirmRm.show();
+
+                    Label rmLabel = new Label("remove " + nxtItem + ". Are you sure?");
+                    rmgrid.add(rmLabel,0,0);
+                    Button yesRm = new Button("Yes");
+                    Button noRm = new Button("Cancel");
+                    HBox hbynrm = new HBox(10);
+                    hbynrm.getChildren().addAll(yesRm,noRm);
+                    rmgrid.add(hbynrm,0,1);
+
+                    yesRm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            vbBonds.getChildren().remove(hbBondsList);
+                            bondsList.remove(bondslabel.getText());
+                            c.setBonds(bondsList);
+                            confirmRm.close();
+                        }
+                    });
+                    noRm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            confirmRm.close();
+                        }
+                    });
+                }
+            });
+
         }
-    });
 
-    //////////////////////////////////
-    ///////// BONDS PAGE /////////////
-    //////////////////////////////////
-
-    Stage bondsStage = new Stage();
-    bondsBtn.setOnAction(new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent e) {
-            bondsStage.close();
-            bondsStage.setTitle("Bonds Page");
-
-            Label bondsTitle = new Label("Bonds");
-            bondsTitle.setId("title");
-            VBox vbBonds = new VBox(10);
-
-            HashSet<String> bondsList = c.getBonds();
-            Iterator<String> itr = bondsList.iterator();
-
-            while (itr.hasNext()) {
-                String nxtItem = itr.next();
-                Label bondslabel = new Label(nxtItem);
-                HBox hbBondsList = new HBox(10);
-
-                Button rm = new Button("remove");
-                hbBondsList.getChildren().addAll(bondslabel,rm);
-
-                vbBonds.getChildren().add(hbBondsList);
-
-                ////// Remove button ///////
-                Stage confirmRm = new Stage();
-                rm.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent e) {
-                        confirmRm.close();
-                        confirmRm.setTitle("Are you sure?");
-                        GridPane rmgrid = new GridPane();
-                        rmgrid.setAlignment(Pos.CENTER);
-                        rmgrid.setHgap(10);
-                        rmgrid.setVgap(10);
-                        Scene rmscene = new Scene(rmgrid,400,150);
-                        confirmRm.setScene(rmscene);
-                        confirmRm.show();
-
-                        Label rmLabel = new Label("remove " + nxtItem + ". Are you sure?");
-                        rmgrid.add(rmLabel,0,0);
-                        Button yesRm = new Button("Yes");
-                        Button noRm = new Button("Cancel");
-                        HBox hbynrm = new HBox(10);
-                        hbynrm.getChildren().addAll(yesRm,noRm);
-                        rmgrid.add(hbynrm,0,1);
-
-                        yesRm.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                vbBonds.getChildren().remove(hbBondsList);
-                                bondsList.remove(bondslabel.getText());
-                                c.setBonds(bondsList);
-                                confirmRm.close();
-                            }
-                        });
-                        noRm.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                confirmRm.close();
-                            }
-                        });
-                    }
-                });
-
-            }
-
-	    TextField addBondsTf = new TextField();
-	    addBondsTf.setPromptText("Add a Bond");
+        TextField addBondsTf = new TextField();
+        addBondsTf.setPromptText("Add a Bond");
         Button addBonds = new Button("Add Bond");
         Button doneBonds = new Button("Done");
         HBox hbaddBonds = new HBox(10);
@@ -2993,155 +3182,147 @@ public class CharacterMgr extends Application {
 
         bondsStage.show();
 
-        }
-    });
-    
-    /////////////////////////////////////
-    ///////// FEATURES PAGE /////////////
-    /////////////////////////////////////
+    }
 
-    Stage featuresStage = new Stage();
-    featuresBtn.setOnAction(new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent e) {
-            featuresStage.close();
-            featuresStage.setTitle("Features Page");
+    public void FeaturesPage(Stage featuresStage) {
+        featuresStage.close();
+        featuresStage.setTitle("Features Page");
 
-            Label featuresTitle = new Label("Features");
-            featuresTitle.setId("title");
-            VBox vbFeatures = new VBox(10);
+        Label featuresTitle = new Label("Features");
+        featuresTitle.setId("title");
+        VBox vbFeatures = new VBox(10);
 
-            ArrayList<String> featuresList = c.getFeatures();
-            Iterator<String> itr = featuresList.iterator();
-            int index = 0;
+        ArrayList<String> featuresList = c.getFeatures();
+        Iterator<String> itr = featuresList.iterator();
+        int index = 0;
 
-            while (itr.hasNext()) {
-                final int currIndex = index;
-                String nxtItem = itr.next();
-                String[] splitItem = nxtItem.split("--");
-                TextArea description = new TextArea();
-                description.setWrapText(true);
-                description.setPromptText("Item Description");
-                try {
-                    description.setText(splitItem[1]);
-                }
-                catch (ArrayIndexOutOfBoundsException ioe) {
-                    description.setText("");
-                }
-
-
-                Label featuresLabel = new Label(splitItem[0]);
-                HBox hbFeaturesList = new HBox(10);
-
-                Button info = new Button("info");
-                Button rm = new Button("remove");
-                hbFeaturesList.getChildren().addAll(featuresLabel,info,rm);
-
-                vbFeatures.getChildren().add(hbFeaturesList);
-                index++;
-                ////// Remove button ///////
-                Stage confirmRm = new Stage();
-                rm.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent e) {
-                        confirmRm.close();
-                        confirmRm.setTitle("Are you sure?");
-                        GridPane rmgrid = new GridPane();
-                        rmgrid.setAlignment(Pos.CENTER);
-                        rmgrid.setHgap(10);
-                        rmgrid.setVgap(10);
-                        Scene rmscene = new Scene(rmgrid,400,150);
-                        confirmRm.setScene(rmscene);
-                        confirmRm.show();
-
-                        Label rmLabel = new Label("remove " + splitItem[0] + ". Are you sure?");
-                        rmgrid.add(rmLabel,0,0);
-                        Button yesRm = new Button("Yes");
-                        Button noRm = new Button("Cancel");
-                        HBox hbynrm = new HBox(10);
-                        hbynrm.getChildren().addAll(yesRm,noRm);
-                        rmgrid.add(hbynrm,0,1);
-
-                        yesRm.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                vbFeatures.getChildren().remove(hbFeaturesList);
-                                featuresList.remove(nxtItem);
-                                c.setFeatures(featuresList);
-                                confirmRm.close();
-                            }
-                        });
-                        noRm.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                confirmRm.close();
-                            }
-                        });
-                    }
-                });
-
-                Stage infoStage = new Stage();
-                info.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent e) {
-                        infoStage.close();
-                        GridPane infoGrid = new GridPane();
-                        infoGrid.setAlignment(Pos.CENTER);
-                        infoGrid.setHgap(10);
-                        infoGrid.setVgap(10);
-                        Scene infoScene = new Scene(infoGrid);
-                        infoStage.setScene(infoScene);
-
-                        infoScene.getStylesheets().add("lib/TextAreaPage.css");
-
-                        Label itemName = new Label();
-                        itemName.setText(featuresLabel.getText());
-
-                        Button done = new Button("Done");
-                        Button saveDesc = new Button("Save");
-                        HBox descBtns = new HBox(10);
-                        descBtns.getChildren().addAll(done,saveDesc);
-
-                        infoGrid.add(itemName,0,0);
-                        infoGrid.add(description,0,1);
-                        infoGrid.add(descBtns,0,2);
-
-                        done.setOnAction(new EventHandler<ActionEvent>() {
-                            public void handle(ActionEvent e) {
-                                String newItem = itemName.getText() + "--" + description.getText();
-                                featuresList.set(currIndex,newItem);
-                                c.setFeatures(featuresList);
-                                infoStage.close();
-                            }
-                        });
-                        saveDesc.setOnAction(new EventHandler<ActionEvent>() {
-                            public void handle(ActionEvent e) {
-                                String newItem = itemName.getText() + "--" + description.getText();
-                                featuresList.set(currIndex,newItem);
-                                c.setFeatures(featuresList);
-                                Text msg = new Text("Saved");
-                                msg.setFill(Color.FIREBRICK);
-                                descBtns.getChildren().remove(msg);
-                                descBtns.getChildren().add(msg);
-                            }
-                        });
-                        infoStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                            public void handle(WindowEvent we) {
-                                String newItem = itemName.getText() + "--" + description.getText();
-                                featuresList.set(currIndex,newItem);
-                                c.setFeatures(featuresList);
-                            }
-                        });
-                        infoStage.show();
-                    }
-                });
-
-
-
+        while (itr.hasNext()) {
+            final int currIndex = index;
+            String nxtItem = itr.next();
+            String[] splitItem = nxtItem.split("--");
+            TextArea description = new TextArea();
+            description.setWrapText(true);
+            description.setPromptText("Item Description");
+            try {
+                description.setText(splitItem[1]);
+            }
+            catch (ArrayIndexOutOfBoundsException ioe) {
+                description.setText("");
             }
 
-	    TextField addFeaturesTf = new TextField();
-	    addFeaturesTf.setPromptText("Add a Feature");
+
+            Label featuresLabel = new Label(splitItem[0]);
+            HBox hbFeaturesList = new HBox(10);
+
+            Button info = new Button("info");
+            Button rm = new Button("remove");
+            hbFeaturesList.getChildren().addAll(featuresLabel,info,rm);
+
+            vbFeatures.getChildren().add(hbFeaturesList);
+            index++;
+            ////// Remove button ///////
+            Stage confirmRm = new Stage();
+            rm.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    confirmRm.close();
+                    confirmRm.setTitle("Are you sure?");
+                    GridPane rmgrid = new GridPane();
+                    rmgrid.setAlignment(Pos.CENTER);
+                    rmgrid.setHgap(10);
+                    rmgrid.setVgap(10);
+                    Scene rmscene = new Scene(rmgrid,400,150);
+                    confirmRm.setScene(rmscene);
+                    confirmRm.show();
+
+                    Label rmLabel = new Label("remove " + splitItem[0] + ". Are you sure?");
+                    rmgrid.add(rmLabel,0,0);
+                    Button yesRm = new Button("Yes");
+                    Button noRm = new Button("Cancel");
+                    HBox hbynrm = new HBox(10);
+                    hbynrm.getChildren().addAll(yesRm,noRm);
+                    rmgrid.add(hbynrm,0,1);
+
+                    yesRm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            vbFeatures.getChildren().remove(hbFeaturesList);
+                            featuresList.remove(nxtItem);
+                            c.setFeatures(featuresList);
+                            confirmRm.close();
+                        }
+                    });
+                    noRm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            confirmRm.close();
+                        }
+                    });
+                }
+            });
+
+            Stage infoStage = new Stage();
+            info.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    infoStage.close();
+                    GridPane infoGrid = new GridPane();
+                    infoGrid.setAlignment(Pos.CENTER);
+                    infoGrid.setHgap(10);
+                    infoGrid.setVgap(10);
+                    Scene infoScene = new Scene(infoGrid);
+                    infoStage.setScene(infoScene);
+
+                    infoScene.getStylesheets().add("lib/TextAreaPage.css");
+
+                    Label itemName = new Label();
+                    itemName.setText(featuresLabel.getText());
+
+                    Button done = new Button("Done");
+                    Button saveDesc = new Button("Save");
+                    HBox descBtns = new HBox(10);
+                    descBtns.getChildren().addAll(done,saveDesc);
+
+                    infoGrid.add(itemName,0,0);
+                    infoGrid.add(description,0,1);
+                    infoGrid.add(descBtns,0,2);
+
+                    done.setOnAction(new EventHandler<ActionEvent>() {
+                        public void handle(ActionEvent e) {
+                            String newItem = itemName.getText() + "--" + description.getText();
+                            featuresList.set(currIndex,newItem);
+                            c.setFeatures(featuresList);
+                            infoStage.close();
+                        }
+                    });
+                    saveDesc.setOnAction(new EventHandler<ActionEvent>() {
+                        public void handle(ActionEvent e) {
+                            String newItem = itemName.getText() + "--" + description.getText();
+                            featuresList.set(currIndex,newItem);
+                            c.setFeatures(featuresList);
+                            Text msg = new Text("Saved");
+                            msg.setFill(Color.FIREBRICK);
+                            descBtns.getChildren().remove(msg);
+                            descBtns.getChildren().add(msg);
+                        }
+                    });
+                    infoStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                        public void handle(WindowEvent we) {
+                            String newItem = itemName.getText() + "--" + description.getText();
+                            featuresList.set(currIndex,newItem);
+                            c.setFeatures(featuresList);
+                        }
+                    });
+                    infoStage.show();
+                }
+            });
+
+
+
+        }
+
+        TextField addFeaturesTf = new TextField();
+        addFeaturesTf.setPromptText("Add a Feature");
         Button addFeatures = new Button("Add Feature");
         Button doneFeatures = new Button("Done");
         HBox hbaddFeatures = new HBox(10);
@@ -3299,62 +3480,54 @@ public class CharacterMgr extends Application {
 
         featuresStage.show();
 
-        }
-    });
-    
-    ////////////////////////////////////
-    ////////////// NOTES ///////////////
-    ////////////////////////////////////
-    
-    Stage notesStage = new Stage();
-    notesBtn.setOnAction(new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent e) {
-            notesStage.close();
-            notesStage.setTitle("Notes Page");
-	    
-            Label notesTitle = new Label("Notes");
-            notesTitle.setId("title");
-            VBox vbNotes = new VBox(10);
-	    
-            String notesList = c.getNotes();
-	    
-            TextArea notes = new TextArea(c.getNotes());
-            Button saveNotes = new Button("Save Notes");
-            Button doneNotes = new Button("Done");
-            HBox hbNotes = new HBox(10);
-            hbNotes.getChildren().addAll(saveNotes,doneNotes);
+    }
+
+    public void NotesPage(Stage notesStage) {
+        notesStage.close();
+        notesStage.setTitle("Notes Page");
+
+        Label notesTitle = new Label("Notes");
+        notesTitle.setId("title");
+        VBox vbNotes = new VBox(10);
+
+        String notesList = c.getNotes();
+
+        TextArea notes = new TextArea(c.getNotes());
+        Button saveNotes = new Button("Save Notes");
+        Button doneNotes = new Button("Done");
+        HBox hbNotes = new HBox(10);
+        hbNotes.getChildren().addAll(saveNotes,doneNotes);
 
 
-            ScrollPane notesSp = new ScrollPane();
-            notesSp.setContent(vbNotes);
+        ScrollPane notesSp = new ScrollPane();
+        notesSp.setContent(vbNotes);
 
-            BorderPane bpNotes = new BorderPane();
-            bpNotes.setPadding(new Insets(20));
-            bpNotes.setMargin(notesTitle,new Insets(12,12,12,12));
-            bpNotes.setMargin(notes,new Insets(10,10,10,10));
-            bpNotes.setTop(notesTitle);
-            bpNotes.setCenter(notes);
-            bpNotes.setBottom(hbNotes);
+        BorderPane bpNotes = new BorderPane();
+        bpNotes.setPadding(new Insets(20));
+        bpNotes.setMargin(notesTitle,new Insets(12,12,12,12));
+        bpNotes.setMargin(notes,new Insets(10,10,10,10));
+        bpNotes.setTop(notesTitle);
+        bpNotes.setCenter(notes);
+        bpNotes.setBottom(hbNotes);
 
 
-            Scene notesscene = new Scene(bpNotes);
-            notesscene.getStylesheets().add("lib/TextAreaPage.css");
+        Scene notesscene = new Scene(bpNotes);
+        notesscene.getStylesheets().add("lib/TextAreaPage.css");
 
-            notesStage.setScene(notesscene);
+        notesStage.setScene(notesscene);
 
-            //////// Save Notes //////////
-            saveNotes.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent e) {
-                    c.setNotes(notes.getText());
-                    Text msg = new Text("Notes Saved");
-                    msg.setFill(Color.FIREBRICK);
-                    hbNotes.getChildren().remove(msg);
-                    hbNotes.getChildren().add(msg);
+        //////// Save Notes //////////
+        saveNotes.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                c.setNotes(notes.getText());
+                Text msg = new Text("Notes Saved");
+                msg.setFill(Color.FIREBRICK);
+                hbNotes.getChildren().remove(msg);
+                hbNotes.getChildren().add(msg);
 
-                }
-            });
+            }
+        });
 
 
         doneNotes.setOnAction(new EventHandler<ActionEvent>() {
@@ -3371,192 +3544,252 @@ public class CharacterMgr extends Application {
         });
         notesStage.show();
 
-        }
-    });
-    
-    //////////////////////////////////////////
-    ////////////// DESCRIPTION ///////////////
-    //////////////////////////////////////////
-    
-    Stage descriptionStage = new Stage();
-    descriptionBtn.setOnAction(new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent e) {
-            descriptionStage.close();
-            descriptionStage.setTitle("Description Page");
-	    
-            Label descriptionTitle = new Label("Description");
-            descriptionTitle.setId("title");
-            VBox vbDescription = new VBox(10);
-	    
-            String descriptionList = c.getDescription();
-	    
-            TextArea description = new TextArea(c.getDescription());
-            description.setWrapText(true);
-            Button saveDescription = new Button("Save Description");
-            Button doneDescription = new Button("Done");
-            HBox hbDescription = new HBox(10);
-            hbDescription.getChildren().addAll(saveDescription,doneDescription);
+    }
+
+    public void DescriptionPage(Stage descriptionStage) {
+        descriptionStage.close();
+        descriptionStage.setTitle("Description Page");
+
+        Label descriptionTitle = new Label("Description");
+        descriptionTitle.setId("title");
+        VBox vbDescription = new VBox(10);
+
+        String descriptionList = c.getDescription();
+
+        TextArea description = new TextArea(c.getDescription());
+        description.setWrapText(true);
+        Button saveDescription = new Button("Save Description");
+        Button doneDescription = new Button("Done");
+        HBox hbDescription = new HBox(10);
+        hbDescription.getChildren().addAll(saveDescription,doneDescription);
 
 
-            ScrollPane descriptionSp = new ScrollPane();
-            descriptionSp.setContent(vbDescription);
+        ScrollPane descriptionSp = new ScrollPane();
+        descriptionSp.setContent(vbDescription);
 
-            BorderPane bpDescription = new BorderPane();
-            bpDescription.setPadding(new Insets(20));
-            bpDescription.setMargin(descriptionTitle,new Insets(12,12,12,12));
-            bpDescription.setMargin(description,new Insets(10,10,10,10));
-            bpDescription.setTop(descriptionTitle);
-            bpDescription.setCenter(description);
-            bpDescription.setBottom(hbDescription);
-
-
-            Scene descriptionscene = new Scene(bpDescription);
-            descriptionscene.getStylesheets().add("lib/TextAreaPage.css");
-
-            descriptionStage.setScene(descriptionscene);
-
-            //////// Save Description //////////
-            saveDescription.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent e) {
-                    c.setDescription(description.getText());
-                    Text msg = new Text("Description Saved");
-                    msg.setFill(Color.FIREBRICK);
-                    hbDescription.getChildren().remove(msg);
-                    hbDescription.getChildren().add(msg);
-
-                }
-            });
+        BorderPane bpDescription = new BorderPane();
+        bpDescription.setPadding(new Insets(20));
+        bpDescription.setMargin(descriptionTitle,new Insets(12,12,12,12));
+        bpDescription.setMargin(description,new Insets(10,10,10,10));
+        bpDescription.setTop(descriptionTitle);
+        bpDescription.setCenter(description);
+        bpDescription.setBottom(hbDescription);
 
 
-            doneDescription.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent e) {
-                    c.setDescription(description.getText());
-                    descriptionStage.close();
-                }
-            });
-            descriptionStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                public void handle(WindowEvent we) {
-                    c.setDescription(description.getText());
-                }
-            });
-            descriptionStage.show();
+        Scene descriptionscene = new Scene(bpDescription);
+        descriptionscene.getStylesheets().add("lib/TextAreaPage.css");
 
-        }
-    });
+        descriptionStage.setScene(descriptionscene);
 
+        //////// Save Description //////////
+        saveDescription.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                c.setDescription(description.getText());
+                Text msg = new Text("Description Saved");
+                msg.setFill(Color.FIREBRICK);
+                hbDescription.getChildren().remove(msg);
+                hbDescription.getChildren().add(msg);
 
-    ////////////////////////////////////
-    /////////// SPELLS PAGE ////////////
-    ////////////////////////////////////
-    
-    Stage spellsStage = new Stage();
-    spellsBtn.setOnAction(new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent e) {
-            spellsStage.close();
-            spellsStage.setTitle("Spells Page");
-
-            Label spellsTitle = new Label("Spells");
-            spellsTitle.setId("title");
-
-
-            VBox rootVb = new VBox(10);
-
-            
-            // Load the Spells
-            Gson gson = new Gson();
-            Spell[] spellArr;
-            
-            InputStream in = this.getClass().getClassLoader().getResourceAsStream("lib/spells.json");
-            
-            try (Reader reader = new InputStreamReader(in,"UTF-8")) {
-                spellArr = gson.fromJson(reader,Spell[].class);
             }
-            catch (IOException ioe) {
-                ioe.printStackTrace();
-                spellArr = new Spell[0];
+        });
+
+
+        doneDescription.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                c.setDescription(description.getText());
+                descriptionStage.close();
             }
+        });
+        descriptionStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent we) {
+                c.setDescription(description.getText());
+            }
+        });
 
-            // Get only spells associated with your class
-            HashSet<Spell> classSpells = new HashSet<Spell>();
+        descriptionStage.show();
 
-            HashSet<String> spellCasters = new HashSet<String>(Arrays.asList("Bard","Cleric","Druid","Paladin","Ranger","Sorcerer","Warlock","Wizard"));
+    }
 
-            boolean inClassOptions = classes.contains(c.getClss());
+    public void SpellsPage(Stage spellsStage, Button spellsBtn) {
+        String[] subClssSplit = c.getSubClss().split("--");
+        spellsStage.close();
+        spellsStage.setTitle("Spells Page");
 
-            if (spellCasters.contains(c.getClss()) || !inClassOptions) {
+        Label spellsTitle = new Label("Spells");
+        spellsTitle.setId("title");
+
+
+        VBox rootVb = new VBox(10);
+
+
+        // Load the Spells
+        Gson gson = new Gson();
+        Spell[] spellArr;
+
+        InputStream in = this.getClass().getClassLoader().getResourceAsStream("lib/spells.json");
+
+        try (Reader reader = new InputStreamReader(in,"UTF-8")) {
+            spellArr = gson.fromJson(reader,Spell[].class);
+        }
+        catch (IOException ioe) {
+            ioe.printStackTrace();
+            spellArr = new Spell[0];
+        }
+
+        // Get only spells associated with your class
+        HashSet<Spell> classSpells = new HashSet<Spell>();
+
+        HashSet<String> spellCasters = new HashSet<String>(Arrays.asList("Bard","Cleric","Druid","Paladin","Ranger","Sorcerer","Warlock","Wizard"));
+
+        boolean inClassOptions = classes.contains(c.getClss());
+
+        if (spellCasters.contains(c.getClss()) || !inClassOptions) {
+            for (int i = 0; i < spellArr.length; i++) {
+                String currclss = c.getClss();
+                if (spellArr[i].getClss().contains(currclss) && inClassOptions) {
+                    classSpells.add(spellArr[i]);
+                }
+                else if (!inClassOptions) {
+                    classSpells.add(spellArr[i]);
+                }
+            }
+        }
+
+        // For sub classes
+        if (subClssSplit[0] != null && !subClssSplit[0].isEmpty()) {
+            if (subClssSplit[0].equalsIgnoreCase("Eldritch Knight") || subClssSplit[0].equalsIgnoreCase("Arcane Trickster")) {
                 for (int i = 0; i < spellArr.length; i++) {
-                    String currclss = c.getClss();
-                    if (spellArr[i].getClss().contains(currclss) && inClassOptions) {
-                        classSpells.add(spellArr[i]);
-                    }
-                    else if (!inClassOptions) {
+                    if (spellArr[i].getClss().contains("Wizard")) {
                         classSpells.add(spellArr[i]);
                     }
                 }
             }
-            
-            // For sub classes
-            if (subClssSplit[0] != null && !subClssSplit[0].isEmpty()) {
-                if (subClssSplit[0].equalsIgnoreCase("Eldritch Knight") || subClssSplit[0].equalsIgnoreCase("Arcane Trickster")) {
-                    for (int i = 0; i < spellArr.length; i++) {
-                        if (spellArr[i].getClss().contains("Wizard")) {
-                            classSpells.add(spellArr[i]);
+        }
+        if (subClssSplit[0] != null && !subClssSplit[0].isEmpty()) {
+            for (int i = 0; i < spellArr.length; i++) {
+                String currsubclss = subClssSplit[0];
+                if (spellArr[i].getSubClss().contains(currsubclss)) {
+                    classSpells.add(spellArr[i]);
+                }
+            }
+        }
+
+        ////////////////////
+        ///// CANTRIPS /////
+        ////////////////////
+        Label titleSpellSlots0 = new Label("Cantrips");
+        titleSpellSlots0.setId("spellLevelTitle");
+
+        Button addSpells0Btn = new Button("Add Cantrip");
+
+        ComboBox<Spell> spellBox0 = new ComboBox<Spell>();
+        spellBox0.setPromptText("add a cantrip");
+
+        VBox vbSpells0 = new VBox(10);
+        ScrollPane spells0Sp = new ScrollPane();
+        spells0Sp.setContent(vbSpells0);
+
+        for (Spell s : classSpells) {
+            if (s.getLevel() == 0) {
+                spellBox0.getItems().add(s);
+            }
+        }
+
+        HashSet<Spell> spells0List = c.getCantrips();
+        Iterator<Spell> itr0 = spells0List.iterator();
+
+        ScrollPane spSpells0 = new ScrollPane();
+        spSpells0.setContent(vbSpells0);
+
+        while (itr0.hasNext()) {
+            Spell nxtItem = itr0.next();
+            String spellName = nxtItem.getName();
+            Label spellLabel = new Label(spellName);
+            HBox hbSpell = new HBox(10);
+
+            Button rm = new Button("remove");
+            Button info = new Button("info");
+            hbSpell.getChildren().addAll(spellLabel,info,rm);
+
+            vbSpells0.getChildren().add(hbSpell);
+
+            ////// Remove Button ///////
+            Stage confirmRm = new Stage();
+            rm.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    confirmRm.close();
+                    confirmRm.setTitle("Are you sure?");
+                    GridPane rmgrid = new GridPane();
+                    rmgrid.setAlignment(Pos.CENTER);
+                    rmgrid.setHgap(10);
+                    rmgrid.setVgap(10);
+                    Scene rmscene = new Scene(rmgrid,400,150);
+                    confirmRm.setScene(rmscene);
+                    confirmRm.show();
+
+                    Label rmLabel = new Label("remove " + spellName + ". Are you sure?");
+                    rmgrid.add(rmLabel,0,0);
+                    Button yesRm = new Button("Yes");
+                    Button noRm = new Button("Cancel");
+                    HBox hbynrm = new HBox(10);
+                    hbynrm.getChildren().addAll(yesRm,noRm);
+                    rmgrid.add(hbynrm,0,1);
+
+                    yesRm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            vbSpells0.getChildren().remove(hbSpell);
+                            spells0List.remove(nxtItem);
+                            c.setCantrips(spells0List);
+                            confirmRm.close();
                         }
-                    }
+                    });
+                    noRm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            confirmRm.close();
+                        }
+                    });
                 }
-            }
-            if (subClssSplit[0] != null && !subClssSplit[0].isEmpty()) {
-                for (int i = 0; i < spellArr.length; i++) {
-                    String currsubclss = subClssSplit[0];
-                    if (spellArr[i].getSubClss().contains(currsubclss)) {
-                        classSpells.add(spellArr[i]);
-                    }
+            });
+            /////// Info Button ///////
+            Stage infoStage = new Stage();
+            info.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    SpellInfoPage(infoStage,nxtItem);
                 }
-            }
+            }); // close info button
+        } // close while loop
 
-            ////////////////////
-            ///// CANTRIPS /////
-            ////////////////////
-            Label titleSpellSlots0 = new Label("Cantrips");
-            titleSpellSlots0.setId("spellLevelTitle");
 
-            Button addSpells0Btn = new Button("Add Cantrip");
 
-            ComboBox<Spell> spellBox0 = new ComboBox<Spell>();
-            spellBox0.setPromptText("add a cantrip");
-            
-            VBox vbSpells0 = new VBox(10);
-            ScrollPane spells0Sp = new ScrollPane();
-            spells0Sp.setContent(vbSpells0);
 
-            for (Spell s : classSpells) {
-                if (s.getLevel() == 0) {
-                    spellBox0.getItems().add(s);
-                }
-            }
 
-            HashSet<Spell> spells0List = c.getCantrips();
-            Iterator<Spell> itr0 = spells0List.iterator();
 
-            ScrollPane spSpells0 = new ScrollPane();
-            spSpells0.setContent(vbSpells0);
+        VBox spells0Root = new VBox(10);
+        HBox spellSlots0Hb = new HBox(10);
+        spellSlots0Hb.getChildren().addAll(titleSpellSlots0,spellBox0, addSpells0Btn);
+        spells0Root.getChildren().addAll(spellSlots0Hb,spSpells0);
 
-            while (itr0.hasNext()) {
-                Spell nxtItem = itr0.next();
-                String spellName = nxtItem.getName();
-                Label spellLabel = new Label(spellName);
-                HBox hbSpell = new HBox(10);
+        addSpells0Btn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                Spell newSpell = spellBox0.getValue();
+                spells0List.add(newSpell);
+                int newRow = spells0List.size() - 1;
+                c.setCantrips(spells0List);
 
+                Label newSpellName = new Label(newSpell.getName());
                 Button rm = new Button("remove");
                 Button info = new Button("info");
-                hbSpell.getChildren().addAll(spellLabel,info,rm);
+                HBox hbNewSpell = new HBox(10);
+                hbNewSpell.getChildren().addAll(newSpellName,info,rm);
+                vbSpells0.getChildren().add(hbNewSpell);
+                spellBox0.setValue(null);
 
-                vbSpells0.getChildren().add(hbSpell);
-                
                 ////// Remove Button ///////
                 Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
@@ -3572,7 +3805,7 @@ public class CharacterMgr extends Application {
                         confirmRm.setScene(rmscene);
                         confirmRm.show();
 
-                        Label rmLabel = new Label("remove " + spellName + ". Are you sure?");
+                        Label rmLabel = new Label("remove " + newSpellName + ". Are you sure?");
                         rmgrid.add(rmLabel,0,0);
                         Button yesRm = new Button("Yes");
                         Button noRm = new Button("Cancel");
@@ -3583,8 +3816,8 @@ public class CharacterMgr extends Application {
                         yesRm.setOnAction(new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent e) {
-                                vbSpells0.getChildren().remove(hbSpell);
-                                spells0List.remove(nxtItem);
+                                vbSpells0.getChildren().remove(hbNewSpell);
+                                spells0List.remove(newSpell);
                                 c.setCantrips(spells0List);
                                 confirmRm.close();
                             }
@@ -3602,322 +3835,159 @@ public class CharacterMgr extends Application {
                 info.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        infoStage.close();
-                        GridPane infoGrid = new GridPane();
-                        infoGrid.setAlignment(Pos.CENTER);
-                        infoGrid.setHgap(10);
-                        infoGrid.setVgap(10);
-                        infoGrid.setPadding(new Insets(15,15,15,15));
-                        Scene infoScene = new Scene(infoGrid);
-                        infoStage.setScene(infoScene);
-
-                        infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
-                        Label itemName = new Label(nxtItem.getName());
-                        itemName.setId("spellName");
-
-                        Label lvlSchool = new Label();
-                        if (nxtItem.getRitualTruth()) {
-                            lvlSchool.setText("level " + Integer.toString(nxtItem.getLevel()) + " " + nxtItem.getSchool() + " (ritual)");
-                        }
-                        else {
-                            lvlSchool.setText("level " + Integer.toString(nxtItem.getLevel()) + " " + nxtItem.getSchool());
-                        }
-
-                        Label ctLabel = new Label("Casting Time:");
-                        Text ct = new Text(nxtItem.getCastingTime());
-
-                        Label rangeLabel = new Label("Range:");
-                        Text range = new Text(nxtItem.getRange());
-                        
-                        Label compLabel = new Label("Components:");
-                        Text comp = new Text();
-                        for (int i = 0; i < nxtItem.getComponents().size(); i++) {
-                            if (i == 0) {
-                                comp.setText(nxtItem.getComponents().get(i));
-                            }
-                            else if (i == nxtItem.getComponents().size() - 1 && nxtItem.getComponents().get(i).length() > 1) {
-                                comp.setText(comp.getText() + " (" + nxtItem.getComponents().get(i) + ")");
-                            }
-                            else {
-                                comp.setText(comp.getText() + " " + nxtItem.getComponents().get(i));
-                            }
-                        }
-
-                        Label durationLabel = new Label("Duration:");
-                        Text duration = new Text();
-                        if (nxtItem.getConcentrationTruth()) {
-                            duration.setText("Concentration, " + nxtItem.getDuration());
-                        }
-                        else {
-                            duration.setText(nxtItem.getDuration());
-                        }
-
-                        TextArea desc = new TextArea();
-                        desc.setEditable(false);
-                        desc.setWrapText(true);
-                        for (int i = 0; i < nxtItem.getDesc().size(); i++) {
-                            if (i == 0) {
-                                desc.setText(nxtItem.getDesc().get(i));
-                            }
-                            else {
-                                desc.setText(desc.getText() + "\n" + nxtItem.getDesc().get(i));
-                            }
-                        }
-
-                        infoGrid.add(itemName,0,0);
-                        infoGrid.add(lvlSchool,0,1);
-                        infoGrid.add(ctLabel,0,2);
-                        infoGrid.add(ct,1,2);
-                        infoGrid.add(rangeLabel,0,3);
-                        infoGrid.add(range,1,3);
-                        infoGrid.add(compLabel,0,4);
-                        infoGrid.add(comp,1,4);
-                        infoGrid.add(durationLabel,0,5);
-                        infoGrid.add(duration,1,5);
-                        infoGrid.add(desc,0,6);
-
-                        Button done = new Button("OK");
-                        infoGrid.add(done,0,7);
-
-                        infoStage.show();
-
-                        done.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                infoStage.close();
-                            }
-                        });
+                        SpellInfoPage(infoStage, newSpell);
                     }
                 }); // close info button
-            } // close while loop
-                        
+            }
+        }); //close addSpells0btn
+
+
+        ///////////////////
+        ///// LEVEL 1 /////
+        ///////////////////
+
+        // for copy paste - spells#, spellslots#, itr#
+        Label titleSpellslots1 = new Label("Level 1 Spells");
+        titleSpellslots1.setId("spellLevelTitle");
+
+        Button addSpells1Btn = new Button("Add Level 1 Spell");
+
+        ComboBox<Spell> spells1Box = new ComboBox<Spell>();
+        spells1Box.setPromptText("add a spell");
+
+        VBox vbSpells1 = new VBox(10);
+        ScrollPane spells1Sp = new ScrollPane();
+        spells1Sp.setContent(vbSpells1);
+
+        //spell slots
+        ObservableList<Integer> spellSlotsNumbers = FXCollections.observableArrayList();
+        for (int i = 0; i < 100; i++) {
+            spellSlotsNumbers.add(i);
+        }
+
+        ComboBox<Integer> spellSlots1Box = new ComboBox<Integer>(spellSlotsNumbers);
+        spellSlots1Box.setValue(c.getSpellSlots1());
+        spellSlots1Box.valueProperty().addListener(new ChangeListener<Integer>() {
+            public void changed(ObservableValue ov, Integer oldVal, Integer newVal) {
+                c.setSpellSlots1(newVal);
+            }
+        });
+        Button useSpellSlots1 = new Button("Use Spell Slot");
+        useSpellSlots1.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                int currSlot = c.getSpellSlots1();
+                if (currSlot != 0) {		          
+                    c.setSpellSlots1(c.getSpellSlots1() - 1);
+                    spellSlots1Box.setValue(spellSlots1Box.getValue() - 1);
+                }
+            }
+        });
+
+        for (Spell s : classSpells) {
+            if (s.getLevel() == 1) {
+                spells1Box.getItems().add(s);
+            }
+        }
+
+        HashSet<Spell> spells1List = c.getSpells1();
+        Iterator<Spell> itr1 = spells1List.iterator();
+
+
+
+        ScrollPane spSpells1 = new ScrollPane();
+        spSpells1.setContent(vbSpells1);
+
+        while (itr1.hasNext()) {
+            Spell nxtItem = itr1.next();
+            String spellName = nxtItem.getName();
+            Label spellLabel = new Label(spellName);
+            HBox hbSpell = new HBox(10);
+
+            Button rm = new Button("remove");
+            Button info = new Button("info");
+            hbSpell.getChildren().addAll(spellLabel,info,rm);
+
+            vbSpells1.getChildren().add(hbSpell);
+
+            ////// Remove Button ///////
+            Stage confirmRm = new Stage();
+            rm.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    confirmRm.close();
+                    confirmRm.setTitle("Are you sure?");
+                    GridPane rmgrid = new GridPane();
+                    rmgrid.setAlignment(Pos.CENTER);
+                    rmgrid.setHgap(10);
+                    rmgrid.setVgap(10);
+                    Scene rmscene = new Scene(rmgrid,400,150);
+                    confirmRm.setScene(rmscene);
+                    confirmRm.show();
+
+                    Label rmLabel = new Label("remove " + spellName + ". Are you sure?");
+                    rmgrid.add(rmLabel,0,0);
+                    Button yesRm = new Button("Yes");
+                    Button noRm = new Button("Cancel");
+                    HBox hbynrm = new HBox(10);
+                    hbynrm.getChildren().addAll(yesRm,noRm);
+                    rmgrid.add(hbynrm,0,1);
+
+                    yesRm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            vbSpells1.getChildren().remove(hbSpell);
+                            spells1List.remove(nxtItem);
+                            c.setSpells1(spells1List);
+                            confirmRm.close();
+                        }
+                    });
+                    noRm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            confirmRm.close();
+                        }
+                    });
+                }
+            });
+            /////// Info Button ///////
+            Stage infoStage = new Stage();
+            info.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    SpellInfoPage(infoStage, nxtItem);
+                }
+            }); // close info button
+        } // close while loop
+
 
 
                        
 
 
-            VBox spells0Root = new VBox(10);
-            HBox spellSlots0Hb = new HBox(10);
-            spellSlots0Hb.getChildren().addAll(titleSpellSlots0,spellBox0, addSpells0Btn);
-            spells0Root.getChildren().addAll(spellSlots0Hb,spSpells0);
-
-            addSpells0Btn.setOnAction(new EventHandler<ActionEvent>() {
-                public void handle(ActionEvent e) {
-                    Spell newSpell = spellBox0.getValue();
-                    spells0List.add(newSpell);
-                    int newRow = spells0List.size() - 1;
-                    c.setCantrips(spells0List);
-
-                    Label newSpellName = new Label(newSpell.getName());
-                    Button rm = new Button("remove");
-                    Button info = new Button("info");
-                    HBox hbNewSpell = new HBox(10);
-                    hbNewSpell.getChildren().addAll(newSpellName,info,rm);
-                    vbSpells0.getChildren().add(hbNewSpell);
-                    spellBox0.setValue(null);
-
-                    ////// Remove Button ///////
-                    Stage confirmRm = new Stage();
-                    rm.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent e) {
-                            confirmRm.close();
-                            confirmRm.setTitle("Are you sure?");
-                            GridPane rmgrid = new GridPane();
-                            rmgrid.setAlignment(Pos.CENTER);
-                            rmgrid.setHgap(10);
-                            rmgrid.setVgap(10);
-                            Scene rmscene = new Scene(rmgrid,400,150);
-                            confirmRm.setScene(rmscene);
-                            confirmRm.show();
-
-                            Label rmLabel = new Label("remove " + newSpellName + ". Are you sure?");
-                            rmgrid.add(rmLabel,0,0);
-                            Button yesRm = new Button("Yes");
-                            Button noRm = new Button("Cancel");
-                            HBox hbynrm = new HBox(10);
-                            hbynrm.getChildren().addAll(yesRm,noRm);
-                            rmgrid.add(hbynrm,0,1);
-
-                            yesRm.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent e) {
-                                    vbSpells0.getChildren().remove(hbNewSpell);
-                                    spells0List.remove(newSpell);
-                                    c.setCantrips(spells0List);
-                                    confirmRm.close();
-                                }
-                            });
-                            noRm.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent e) {
-                                    confirmRm.close();
-                                }
-                            });
-                        }
-                    });
-                    /////// Info Button ///////
-                    Stage infoStage = new Stage();
-                    info.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent e) {
-                            infoStage.close();
-                            GridPane infoGrid = new GridPane();
-                            infoGrid.setAlignment(Pos.CENTER);
-                            infoGrid.setHgap(10);
-                            infoGrid.setPadding(new Insets(15,15,15,15));
-                            infoGrid.setVgap(10);
-                            Scene infoScene = new Scene(infoGrid);
-                            infoStage.setScene(infoScene);
-
-                            infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
-                            Label itemName = new Label(newSpell.getName());
-                            itemName.setId("spellName");
-
-                            Label lvlSchool = new Label();
-                            if (newSpell.getRitualTruth()) {
-                                lvlSchool.setText("level " + Integer.toString(newSpell.getLevel()) + " " + newSpell.getSchool() + " (ritual)");
-                            }
-                            else {
-                                lvlSchool.setText("level " + Integer.toString(newSpell.getLevel()) + " " + newSpell.getSchool());
-                            }
-
-                            Label ctLabel = new Label("Casting Time:");
-                            Text ct = new Text(newSpell.getCastingTime());
-
-                            Label rangeLabel = new Label("Range:");
-                            Text range = new Text(newSpell.getRange());
-
-                            Label compLabel = new Label("Components:");
-                            Text comp = new Text();
-                            for (int i = 0; i < newSpell.getComponents().size(); i++) {
-                                if (i == 0) {
-                                    comp.setText(newSpell.getComponents().get(i));
-                                }
-                                else if (i == newSpell.getComponents().size() - 1 && newSpell.getComponents().get(i).length() > 1) {
-                                    comp.setText(comp.getText() + " (" + newSpell.getComponents().get(i) + ")");
-                                }
-                                else {
-                                    comp.setText(comp.getText() + " " + newSpell.getComponents().get(i));
-                                }
-                            }
-
-                            Label durationLabel = new Label("Duration:");
-                            Text duration = new Text();
-                            if (newSpell.getConcentrationTruth()) {
-                                duration.setText("Concentration, " + newSpell.getDuration());
-                            }
-                            else {
-                                duration.setText(newSpell.getDuration());
-                            }
-
-                            TextArea desc = new TextArea();
-                            desc.setEditable(false);
-                            desc.setWrapText(true);
-                            for (int i = 0; i < newSpell.getDesc().size(); i++) {
-                                if (i == 0) {
-                                    desc.setText(newSpell.getDesc().get(i));
-                                }
-                                else {
-                                    desc.setText(desc.getText() + "\n" + newSpell.getDesc().get(i));
-                                }
-                            }
-
-                            infoGrid.add(itemName,0,0);
-                            infoGrid.add(lvlSchool,0,1);
-                            infoGrid.add(ctLabel,0,2);
-                            infoGrid.add(ct,1,2);
-                            infoGrid.add(rangeLabel,0,3);
-                            infoGrid.add(range,1,3);
-                            infoGrid.add(compLabel,0,4);
-                            infoGrid.add(comp,1,4);
-                            infoGrid.add(durationLabel,0,5);
-                            infoGrid.add(duration,1,5);
-                            infoGrid.add(desc,0,6,2,1);
-
-                            Button done = new Button("OK");
-                            infoGrid.add(done,0,7);
-                            infoStage.show();
-
-                            done.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent e) {
-                                    infoStage.close();
-                                }
-                            });
-                        }
-                    }); // close info button
-                }
-            }); //close addSpells0btn
+        VBox spells1Root = new VBox(10);
+        HBox spells1Hb = new HBox(10);
+        HBox spellSlots1Hb = new HBox(10);
+        spells1Hb.getChildren().addAll(titleSpellslots1,spells1Box, addSpells1Btn);
+        spellSlots1Hb.getChildren().addAll(spellSlots1Box,useSpellSlots1);
+        spells1Root.getChildren().addAll(spells1Hb,spellSlots1Hb,spSpells1);
 
 
-            ///////////////////
-            ///// LEVEL 1 /////
-            ///////////////////
+        ////// add spells ///////
+        addSpells1Btn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                Spell newSpell = spells1Box.getValue();
+                spells1List.add(newSpell);
+                int newRow = spells1List.size() - 1;
+                c.setSpells1(spells1List);
 
-	    // for copy paste - spells#, spellslots#, itr#
-            Label titleSpellslots1 = new Label("Level 1 Spells");
-            titleSpellslots1.setId("spellLevelTitle");
-
-            Button addSpells1Btn = new Button("Add Level 1 Spell");
-
-            ComboBox<Spell> spells1Box = new ComboBox<Spell>();
-            spells1Box.setPromptText("add a spell");
-            
-            VBox vbSpells1 = new VBox(10);
-            ScrollPane spells1Sp = new ScrollPane();
-            spells1Sp.setContent(vbSpells1);
-
-	    //spell slots
-	    ObservableList<Integer> spellSlotsNumbers = FXCollections.observableArrayList();
-	    for (int i = 0; i < 100; i++) {
-		spellSlotsNumbers.add(i);
-	    }
-	    
-	    ComboBox<Integer> spellSlots1Box = new ComboBox<Integer>(spellSlotsNumbers);
-	    spellSlots1Box.setValue(c.getSpellSlots1());
-	    spellSlots1Box.valueProperty().addListener(new ChangeListener<Integer>() {
-		    public void changed(ObservableValue ov, Integer oldVal, Integer newVal) {
-			c.setSpellSlots1(newVal);
-		    }
-		});
-	    Button useSpellSlots1 = new Button("Use Spell Slot");
-	    useSpellSlots1.setOnAction(new EventHandler<ActionEvent>() {
-		    public void handle(ActionEvent e) {
-			int currSlot = c.getSpellSlots1();
-			if (currSlot != 0) {		          
-			    c.setSpellSlots1(c.getSpellSlots1() - 1);
-			    spellSlots1Box.setValue(spellSlots1Box.getValue() - 1);
-			}
-		    }
-		});
-	    
-            for (Spell s : classSpells) {
-                if (s.getLevel() == 1) {
-                    spells1Box.getItems().add(s);
-                }
-            }
-
-            HashSet<Spell> spells1List = c.getSpells1();
-            Iterator<Spell> itr1 = spells1List.iterator();
-
-	    
-
-            ScrollPane spSpells1 = new ScrollPane();
-            spSpells1.setContent(vbSpells1);
-
-            while (itr1.hasNext()) {
-                Spell nxtItem = itr1.next();
-                String spellName = nxtItem.getName();
-                Label spellLabel = new Label(spellName);
-                HBox hbSpell = new HBox(10);
-
+                Label newSpellName = new Label(newSpell.getName());
                 Button rm = new Button("remove");
                 Button info = new Button("info");
-                hbSpell.getChildren().addAll(spellLabel,info,rm);
+                HBox hbNewSpell = new HBox(10);
+                hbNewSpell.getChildren().addAll(newSpellName,info,rm);
+                vbSpells1.getChildren().add(hbNewSpell);
+                spells1Box.setValue(null);
 
-                vbSpells1.getChildren().add(hbSpell);
-                
                 ////// Remove Button ///////
                 Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
@@ -3933,7 +4003,7 @@ public class CharacterMgr extends Application {
                         confirmRm.setScene(rmscene);
                         confirmRm.show();
 
-                        Label rmLabel = new Label("remove " + spellName + ". Are you sure?");
+                        Label rmLabel = new Label("remove " + newSpellName + ". Are you sure?");
                         rmgrid.add(rmLabel,0,0);
                         Button yesRm = new Button("Yes");
                         Button noRm = new Button("Cancel");
@@ -3944,8 +4014,8 @@ public class CharacterMgr extends Application {
                         yesRm.setOnAction(new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent e) {
-                                vbSpells1.getChildren().remove(hbSpell);
-                                spells1List.remove(nxtItem);
+                                vbSpells1.getChildren().remove(hbNewSpell);
+                                spells1List.remove(newSpell);
                                 c.setSpells1(spells1List);
                                 confirmRm.close();
                             }
@@ -3963,320 +4033,148 @@ public class CharacterMgr extends Application {
                 info.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        infoStage.close();
-                        GridPane infoGrid = new GridPane();
-                        infoGrid.setAlignment(Pos.CENTER);
-                        infoGrid.setHgap(10);
-                        infoGrid.setVgap(10);
-                        infoGrid.setPadding(new Insets(15,15,15,15));
-                        Scene infoScene = new Scene(infoGrid);
-                        infoStage.setScene(infoScene);
-
-                        infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
-                        Label itemName = new Label(nxtItem.getName());
-                        itemName.setId("spellName");
-
-                        Label lvlSchool = new Label();
-                        if (nxtItem.getRitualTruth()) {
-                            lvlSchool.setText("level " + Integer.toString(nxtItem.getLevel()) + " " + nxtItem.getSchool() + " (ritual)");
-                        }
-                        else {
-                            lvlSchool.setText("level " + Integer.toString(nxtItem.getLevel()) + " " + nxtItem.getSchool());
-                        }
-
-                        Label ctLabel = new Label("Casting Time:");
-                        Text ct = new Text(nxtItem.getCastingTime());
-
-                        Label rangeLabel = new Label("Range:");
-                        Text range = new Text(nxtItem.getRange());
-                        
-                        Label compLabel = new Label("Components:");
-                        Text comp = new Text();
-                        for (int i = 0; i < nxtItem.getComponents().size(); i++) {
-                            if (i == 0) {
-                                comp.setText(nxtItem.getComponents().get(i));
-                            }
-                            else if (i == nxtItem.getComponents().size() - 1) {
-                                comp.setText(comp.getText() + " (" + nxtItem.getComponents().get(i) + ")");
-                            }
-                            else {
-                                comp.setText(comp.getText() + " " + nxtItem.getComponents().get(i));
-                            }
-                        }
-
-                        Label durationLabel = new Label("Duration:");
-                        Text duration = new Text();
-                        if (nxtItem.getConcentrationTruth()) {
-                            duration.setText("Concentration, " + nxtItem.getDuration());
-                        }
-                        else {
-                            duration.setText(nxtItem.getDuration());
-                        }
-
-                        TextArea desc = new TextArea();
-                        desc.setEditable(false);
-                        desc.setWrapText(true);
-                        for (int i = 0; i < nxtItem.getDesc().size(); i++) {
-                            if (i == 0) {
-                                desc.setText(nxtItem.getDesc().get(i));
-                            }
-                            else {
-                                desc.setText(desc.getText() + "\n" + nxtItem.getDesc().get(i));
-                            }
-                        }
-
-                        infoGrid.add(itemName,0,0);
-                        infoGrid.add(lvlSchool,0,1);
-                        infoGrid.add(ctLabel,0,2);
-                        infoGrid.add(ct,1,2);
-                        infoGrid.add(rangeLabel,0,3);
-                        infoGrid.add(range,1,3);
-                        infoGrid.add(compLabel,0,4);
-                        infoGrid.add(comp,1,4);
-                        infoGrid.add(durationLabel,0,5);
-                        infoGrid.add(duration,1,5);
-                        infoGrid.add(desc,0,6);
-
-                        Button done = new Button("OK");
-                        infoGrid.add(done,0,7);
-
-                        infoStage.show();
-
-                        done.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                infoStage.close();
-                            }
-                        });
+                        SpellInfoPage(infoStage, newSpell);
                     }
                 }); // close info button
-            } // close while loop
-                        
+            }
+        }); //close addSpells1btn
 
 
-                       
+        ///////////////////
+        ///// LEVEL 2 /////
+        ///////////////////
+
+        // for copy paste - spells#, spellslots#, itr#
+        Label titleSpellslots2 = new Label("Level 2 Spells");
+        titleSpellslots2.setId("spellLevelTitle");
+
+        Button addSpells2Btn = new Button("Add Level 2 Spell");
+
+        ComboBox<Spell> spells2Box = new ComboBox<Spell>();
+        spells2Box.setPromptText("add a spell");
+
+        VBox vbSpells2 = new VBox(10);
+        ScrollPane spells2Sp = new ScrollPane();
+        spells2Sp.setContent(vbSpells2);
+
+        ComboBox<Integer> spellslots2Box = new ComboBox<Integer>(spellSlotsNumbers);
+        spellslots2Box.setValue(c.getSpellSlots2());
+        spellslots2Box.valueProperty().addListener(new ChangeListener<Integer>() {
+            public void changed(ObservableValue ov, Integer oldVal, Integer newVal) {
+                c.setSpellSlots2(newVal);
+            }
+        });
+        Button useSpellslots2 = new Button("Use Spell Slot");
+        useSpellslots2.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                int currSlot = c.getSpellSlots2();
+                if (currSlot != 0) {		          
+                    c.setSpellSlots2(c.getSpellSlots2() - 1);
+                    spellslots2Box.setValue(spellslots2Box.getValue() - 1);
+                }
+            }
+        });
+
+        for (Spell s : classSpells) {
+            if (s.getLevel() == 2) {
+                spells2Box.getItems().add(s);
+            }
+        }
+
+        HashSet<Spell> spells2List = c.getSpells2();
+        Iterator<Spell> itr2 = spells2List.iterator();
 
 
-            VBox spells1Root = new VBox(10);
-            HBox spells1Hb = new HBox(10);
-	    HBox spellSlots1Hb = new HBox(10);
-            spells1Hb.getChildren().addAll(titleSpellslots1,spells1Box, addSpells1Btn);
-	    spellSlots1Hb.getChildren().addAll(spellSlots1Box,useSpellSlots1);
-            spells1Root.getChildren().addAll(spells1Hb,spellSlots1Hb,spSpells1);
 
-	    
-	    ////// add spells ///////
-            addSpells1Btn.setOnAction(new EventHandler<ActionEvent>() {
+        ScrollPane spSpells2 = new ScrollPane();
+        spSpells2.setContent(vbSpells2);
+
+        while (itr2.hasNext()) {
+            Spell nxtItem = itr2.next();
+            String spellName = nxtItem.getName();
+            Label spellLabel = new Label(spellName);
+            HBox hbSpell = new HBox(10);
+
+            Button rm = new Button("remove");
+            Button info = new Button("info");
+            hbSpell.getChildren().addAll(spellLabel,info,rm);
+
+            vbSpells2.getChildren().add(hbSpell);
+
+            ////// Remove Button ///////
+            Stage confirmRm = new Stage();
+            rm.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
                 public void handle(ActionEvent e) {
-                    Spell newSpell = spells1Box.getValue();
-                    spells1List.add(newSpell);
-                    int newRow = spells1List.size() - 1;
-                    c.setSpells1(spells1List);
+                    confirmRm.close();
+                    confirmRm.setTitle("Are you sure?");
+                    GridPane rmgrid = new GridPane();
+                    rmgrid.setAlignment(Pos.CENTER);
+                    rmgrid.setHgap(10);
+                    rmgrid.setVgap(10);
+                    Scene rmscene = new Scene(rmgrid,400,150);
+                    confirmRm.setScene(rmscene);
+                    confirmRm.show();
 
-                    Label newSpellName = new Label(newSpell.getName());
-                    Button rm = new Button("remove");
-                    Button info = new Button("info");
-                    HBox hbNewSpell = new HBox(10);
-                    hbNewSpell.getChildren().addAll(newSpellName,info,rm);
-                    vbSpells1.getChildren().add(hbNewSpell);
-                    spells1Box.setValue(null);
+                    Label rmLabel = new Label("remove " + spellName + ". Are you sure?");
+                    rmgrid.add(rmLabel,0,0);
+                    Button yesRm = new Button("Yes");
+                    Button noRm = new Button("Cancel");
+                    HBox hbynrm = new HBox(10);
+                    hbynrm.getChildren().addAll(yesRm,noRm);
+                    rmgrid.add(hbynrm,0,1);
 
-                    ////// Remove Button ///////
-                    Stage confirmRm = new Stage();
-                    rm.setOnAction(new EventHandler<ActionEvent>() {
+                    yesRm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            vbSpells2.getChildren().remove(hbSpell);
+                            spells2List.remove(nxtItem);
+                            c.setSpells2(spells2List);
+                            confirmRm.close();
+                        }
+                    });
+                    noRm.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
                             confirmRm.close();
-                            confirmRm.setTitle("Are you sure?");
-                            GridPane rmgrid = new GridPane();
-                            rmgrid.setAlignment(Pos.CENTER);
-                            rmgrid.setHgap(10);
-                            rmgrid.setVgap(10);
-                            Scene rmscene = new Scene(rmgrid,400,150);
-                            confirmRm.setScene(rmscene);
-                            confirmRm.show();
-
-                            Label rmLabel = new Label("remove " + newSpellName + ". Are you sure?");
-                            rmgrid.add(rmLabel,0,0);
-                            Button yesRm = new Button("Yes");
-                            Button noRm = new Button("Cancel");
-                            HBox hbynrm = new HBox(10);
-                            hbynrm.getChildren().addAll(yesRm,noRm);
-                            rmgrid.add(hbynrm,0,1);
-
-                            yesRm.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent e) {
-                                    vbSpells1.getChildren().remove(hbNewSpell);
-                                    spells1List.remove(newSpell);
-                                    c.setSpells1(spells1List);
-                                    confirmRm.close();
-                                }
-                            });
-                            noRm.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent e) {
-                                    confirmRm.close();
-                                }
-                            });
                         }
                     });
-                    /////// Info Button ///////
-                    Stage infoStage = new Stage();
-                    info.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent e) {
-                            infoStage.close();
-                            GridPane infoGrid = new GridPane();
-                            infoGrid.setAlignment(Pos.CENTER);
-                            infoGrid.setHgap(10);
-                            infoGrid.setPadding(new Insets(15,15,15,15));
-                            infoGrid.setVgap(10);
-                            Scene infoScene = new Scene(infoGrid);
-                            infoStage.setScene(infoScene);
-
-                            infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
-                            Label itemName = new Label(newSpell.getName());
-                            itemName.setId("spellName");
-
-                            Label lvlSchool = new Label();
-                            if (newSpell.getRitualTruth()) {
-                                lvlSchool.setText("level " + Integer.toString(newSpell.getLevel()) + " " + newSpell.getSchool() + " (ritual)");
-                            }
-                            else {
-                                lvlSchool.setText("level " + Integer.toString(newSpell.getLevel()) + " " + newSpell.getSchool());
-                            }
-
-                            Label ctLabel = new Label("Casting Time:");
-                            Text ct = new Text(newSpell.getCastingTime());
-
-                            Label rangeLabel = new Label("Range:");
-                            Text range = new Text(newSpell.getRange());
-
-                            Label compLabel = new Label("Components:");
-                            Text comp = new Text();
-                            for (int i = 0; i < newSpell.getComponents().size(); i++) {
-                                if (i == 0) {
-                                    comp.setText(newSpell.getComponents().get(i));
-                                }
-                                else if (i == newSpell.getComponents().size() - 1) {
-                                    comp.setText(comp.getText() + " (" + newSpell.getComponents().get(i) + ")");
-                                }
-                                else {
-                                    comp.setText(comp.getText() + " " + newSpell.getComponents().get(i));
-                                }
-                            }
-
-                            Label durationLabel = new Label("Duration:");
-                            Text duration = new Text();
-                            if (newSpell.getConcentrationTruth()) {
-                                duration.setText("Concentration, " + newSpell.getDuration());
-                            }
-                            else {
-                                duration.setText(newSpell.getDuration());
-                            }
-
-                            TextArea desc = new TextArea();
-                            desc.setEditable(false);
-                            desc.setWrapText(true);
-                            for (int i = 0; i < newSpell.getDesc().size(); i++) {
-                                if (i == 0) {
-                                    desc.setText(newSpell.getDesc().get(i));
-                                }
-                                else {
-                                    desc.setText(desc.getText() + "\n" + newSpell.getDesc().get(i));
-                                }
-                            }
-
-                            infoGrid.add(itemName,0,0);
-                            infoGrid.add(lvlSchool,0,1);
-                            infoGrid.add(ctLabel,0,2);
-                            infoGrid.add(ct,1,2);
-                            infoGrid.add(rangeLabel,0,3);
-                            infoGrid.add(range,1,3);
-                            infoGrid.add(compLabel,0,4);
-                            infoGrid.add(comp,1,4);
-                            infoGrid.add(durationLabel,0,5);
-                            infoGrid.add(duration,1,5);
-                            infoGrid.add(desc,0,6,2,1);
-
-                            Button done = new Button("OK");
-                            infoGrid.add(done,0,7);
-                            infoStage.show();
-
-                            done.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent e) {
-                                    infoStage.close();
-                                }
-                            });
-                        }
-                    }); // close info button
                 }
-            }); //close addSpells1btn
-            
-
-            ///////////////////
-            ///// LEVEL 2 /////
-            ///////////////////
-
-	    // for copy paste - spells#, spellslots#, itr#
-            Label titleSpellslots2 = new Label("Level 2 Spells");
-            titleSpellslots2.setId("spellLevelTitle");
-
-            Button addSpells2Btn = new Button("Add Level 2 Spell");
-
-            ComboBox<Spell> spells2Box = new ComboBox<Spell>();
-            spells2Box.setPromptText("add a spell");
-            
-            VBox vbSpells2 = new VBox(10);
-            ScrollPane spells2Sp = new ScrollPane();
-            spells2Sp.setContent(vbSpells2);
-
-	    ComboBox<Integer> spellslots2Box = new ComboBox<Integer>(spellSlotsNumbers);
-	    spellslots2Box.setValue(c.getSpellSlots2());
-	    spellslots2Box.valueProperty().addListener(new ChangeListener<Integer>() {
-		    public void changed(ObservableValue ov, Integer oldVal, Integer newVal) {
-			c.setSpellSlots2(newVal);
-		    }
-		});
-	    Button useSpellslots2 = new Button("Use Spell Slot");
-	    useSpellslots2.setOnAction(new EventHandler<ActionEvent>() {
-		    public void handle(ActionEvent e) {
-			int currSlot = c.getSpellSlots2();
-			if (currSlot != 0) {		          
-			    c.setSpellSlots2(c.getSpellSlots2() - 1);
-			    spellslots2Box.setValue(spellslots2Box.getValue() - 1);
-			}
-		    }
-		});
-	    
-            for (Spell s : classSpells) {
-                if (s.getLevel() == 2) {
-                    spells2Box.getItems().add(s);
+            });
+            /////// Info Button ///////
+            Stage infoStage = new Stage();
+            info.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    SpellInfoPage(infoStage, nxtItem);
                 }
-            }
+            }); // close info button
+        } // close while loop
 
-            HashSet<Spell> spells2List = c.getSpells2();
-            Iterator<Spell> itr2 = spells2List.iterator();
+        VBox spells2Root = new VBox(10);
+        HBox spells2Hb = new HBox(10);
+        HBox spellslots2Hb = new HBox(10);
+        spells2Hb.getChildren().addAll(titleSpellslots2,spells2Box, addSpells2Btn);
+        spellslots2Hb.getChildren().addAll(spellslots2Box,useSpellslots2);
+        spells2Root.getChildren().addAll(spells2Hb,spellslots2Hb,spSpells2);
 
-	    
 
-            ScrollPane spSpells2 = new ScrollPane();
-            spSpells2.setContent(vbSpells2);
+        ////// add spells ///////
+        addSpells2Btn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                Spell newSpell = spells2Box.getValue();
+                spells2List.add(newSpell);
+                int newRow = spells2List.size() - 1;
+                c.setSpells2(spells2List);
 
-            while (itr2.hasNext()) {
-                Spell nxtItem = itr2.next();
-                String spellName = nxtItem.getName();
-                Label spellLabel = new Label(spellName);
-                HBox hbSpell = new HBox(10);
-
+                Label newSpellName = new Label(newSpell.getName());
                 Button rm = new Button("remove");
                 Button info = new Button("info");
-                hbSpell.getChildren().addAll(spellLabel,info,rm);
+                HBox hbNewSpell = new HBox(10);
+                hbNewSpell.getChildren().addAll(newSpellName,info,rm);
+                vbSpells2.getChildren().add(hbNewSpell);
+                spells2Box.setValue(null);
 
-                vbSpells2.getChildren().add(hbSpell);
-                
                 ////// Remove Button ///////
                 Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
@@ -4292,7 +4190,7 @@ public class CharacterMgr extends Application {
                         confirmRm.setScene(rmscene);
                         confirmRm.show();
 
-                        Label rmLabel = new Label("remove " + spellName + ". Are you sure?");
+                        Label rmLabel = new Label("remove " + newSpellName + ". Are you sure?");
                         rmgrid.add(rmLabel,0,0);
                         Button yesRm = new Button("Yes");
                         Button noRm = new Button("Cancel");
@@ -4303,8 +4201,8 @@ public class CharacterMgr extends Application {
                         yesRm.setOnAction(new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent e) {
-                                vbSpells2.getChildren().remove(hbSpell);
-                                spells2List.remove(nxtItem);
+                                vbSpells2.getChildren().remove(hbNewSpell);
+                                spells2List.remove(newSpell);
                                 c.setSpells2(spells2List);
                                 confirmRm.close();
                             }
@@ -4322,320 +4220,149 @@ public class CharacterMgr extends Application {
                 info.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        infoStage.close();
-                        GridPane infoGrid = new GridPane();
-                        infoGrid.setAlignment(Pos.CENTER);
-                        infoGrid.setHgap(10);
-                        infoGrid.setVgap(10);
-                        infoGrid.setPadding(new Insets(15,15,15,15));
-                        Scene infoScene = new Scene(infoGrid);
-                        infoStage.setScene(infoScene);
-
-                        infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
-                        Label itemName = new Label(nxtItem.getName());
-                        itemName.setId("spellName");
-
-                        Label lvlSchool = new Label();
-                        if (nxtItem.getRitualTruth()) {
-                            lvlSchool.setText("level " + Integer.toString(nxtItem.getLevel()) + " " + nxtItem.getSchool() + " (ritual)");
-                        }
-                        else {
-                            lvlSchool.setText("level " + Integer.toString(nxtItem.getLevel()) + " " + nxtItem.getSchool());
-                        }
-
-                        Label ctLabel = new Label("Casting Time:");
-                        Text ct = new Text(nxtItem.getCastingTime());
-
-                        Label rangeLabel = new Label("Range:");
-                        Text range = new Text(nxtItem.getRange());
-                        
-                        Label compLabel = new Label("Components:");
-                        Text comp = new Text();
-                        for (int i = 0; i < nxtItem.getComponents().size(); i++) {
-                            if (i == 0) {
-                                comp.setText(nxtItem.getComponents().get(i));
-                            }
-                            else if (i == nxtItem.getComponents().size() - 1) {
-                                comp.setText(comp.getText() + " (" + nxtItem.getComponents().get(i) + ")");
-                            }
-                            else {
-                                comp.setText(comp.getText() + " " + nxtItem.getComponents().get(i));
-                            }
-                        }
-
-                        Label durationLabel = new Label("Duration:");
-                        Text duration = new Text();
-                        if (nxtItem.getConcentrationTruth()) {
-                            duration.setText("Concentration, " + nxtItem.getDuration());
-                        }
-                        else {
-                            duration.setText(nxtItem.getDuration());
-                        }
-
-                        TextArea desc = new TextArea();
-                        desc.setEditable(false);
-                        desc.setWrapText(true);
-                        for (int i = 0; i < nxtItem.getDesc().size(); i++) {
-                            if (i == 0) {
-                                desc.setText(nxtItem.getDesc().get(i));
-                            }
-                            else {
-                                desc.setText(desc.getText() + "\n" + nxtItem.getDesc().get(i));
-                            }
-                        }
-
-                        infoGrid.add(itemName,0,0);
-                        infoGrid.add(lvlSchool,0,1);
-                        infoGrid.add(ctLabel,0,2);
-                        infoGrid.add(ct,1,2);
-                        infoGrid.add(rangeLabel,0,3);
-                        infoGrid.add(range,1,3);
-                        infoGrid.add(compLabel,0,4);
-                        infoGrid.add(comp,1,4);
-                        infoGrid.add(durationLabel,0,5);
-                        infoGrid.add(duration,1,5);
-                        infoGrid.add(desc,0,6);
-
-                        Button done = new Button("OK");
-                        infoGrid.add(done,0,7);
-
-                        infoStage.show();
-
-                        done.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                infoStage.close();
-                            }
-                        });
+                        SpellInfoPage(infoStage, newSpell);
                     }
                 }); // close info button
-            } // close while loop
-                        
+            }
+        }); //close addSpells2btn
+
+        ///////////////////
+        ///// LEVEL 3 /////
+        ///////////////////
+
+        // for copy paste - spells#, spellslots#, itr#
+        Label titleSpellslots3 = new Label("Level 3 Spells");
+        titleSpellslots3.setId("spellLevelTitle");
+
+        Button addSpells3Btn = new Button("Add Level 3 Spell");
+
+        ComboBox<Spell> spells3Box = new ComboBox<Spell>();
+        spells3Box.setPromptText("add a spell");
+
+        VBox vbSpells3 = new VBox(10);
+        ScrollPane spells3Sp = new ScrollPane();
+        spells3Sp.setContent(vbSpells3);
+
+        ComboBox<Integer> spellslots3Box = new ComboBox<Integer>(spellSlotsNumbers);
+        spellslots3Box.setValue(c.getSpellSlots3());
+        spellslots3Box.valueProperty().addListener(new ChangeListener<Integer>() {
+            public void changed(ObservableValue ov, Integer oldVal, Integer newVal) {
+                c.setSpellSlots3(newVal);
+            }
+        });
+        Button useSpellslots3 = new Button("Use Spell Slot");
+        useSpellslots3.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                int currSlot = c.getSpellSlots3();
+                if (currSlot != 0) {		          
+                    c.setSpellSlots3(c.getSpellSlots3() - 1);
+                    spellslots3Box.setValue(spellslots3Box.getValue() - 1);
+                }
+            }
+        });
 
 
-                       
+        for (Spell s : classSpells) {
+            if (s.getLevel() == 3) {
+                spells3Box.getItems().add(s);
+            }
+        }
+
+        HashSet<Spell> spells3List = c.getSpells3();
+        Iterator<Spell> itr3 = spells3List.iterator();
 
 
-            VBox spells2Root = new VBox(10);
-            HBox spells2Hb = new HBox(10);
-	    HBox spellslots2Hb = new HBox(10);
-            spells2Hb.getChildren().addAll(titleSpellslots2,spells2Box, addSpells2Btn);
-	    spellslots2Hb.getChildren().addAll(spellslots2Box,useSpellslots2);
-            spells2Root.getChildren().addAll(spells2Hb,spellslots2Hb,spSpells2);
 
-	    
-	    ////// add spells ///////
-            addSpells2Btn.setOnAction(new EventHandler<ActionEvent>() {
+        ScrollPane spSpells3 = new ScrollPane();
+        spSpells3.setContent(vbSpells3);
+
+        while (itr3.hasNext()) {
+            Spell nxtItem = itr3.next();
+            String spellName = nxtItem.getName();
+            Label spellLabel = new Label(spellName);
+            HBox hbSpell = new HBox(10);
+
+            Button rm = new Button("remove");
+            Button info = new Button("info");
+            hbSpell.getChildren().addAll(spellLabel,info,rm);
+
+            vbSpells3.getChildren().add(hbSpell);
+
+            ////// Remove Button ///////
+            Stage confirmRm = new Stage();
+            rm.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
                 public void handle(ActionEvent e) {
-                    Spell newSpell = spells2Box.getValue();
-                    spells2List.add(newSpell);
-                    int newRow = spells2List.size() - 1;
-                    c.setSpells2(spells2List);
+                    confirmRm.close();
+                    confirmRm.setTitle("Are you sure?");
+                    GridPane rmgrid = new GridPane();
+                    rmgrid.setAlignment(Pos.CENTER);
+                    rmgrid.setHgap(10);
+                    rmgrid.setVgap(10);
+                    Scene rmscene = new Scene(rmgrid,400,150);
+                    confirmRm.setScene(rmscene);
+                    confirmRm.show();
 
-                    Label newSpellName = new Label(newSpell.getName());
-                    Button rm = new Button("remove");
-                    Button info = new Button("info");
-                    HBox hbNewSpell = new HBox(10);
-                    hbNewSpell.getChildren().addAll(newSpellName,info,rm);
-                    vbSpells2.getChildren().add(hbNewSpell);
-                    spells2Box.setValue(null);
+                    Label rmLabel = new Label("remove " + spellName + ". Are you sure?");
+                    rmgrid.add(rmLabel,0,0);
+                    Button yesRm = new Button("Yes");
+                    Button noRm = new Button("Cancel");
+                    HBox hbynrm = new HBox(10);
+                    hbynrm.getChildren().addAll(yesRm,noRm);
+                    rmgrid.add(hbynrm,0,1);
 
-                    ////// Remove Button ///////
-                    Stage confirmRm = new Stage();
-                    rm.setOnAction(new EventHandler<ActionEvent>() {
+                    yesRm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            vbSpells3.getChildren().remove(hbSpell);
+                            spells3List.remove(nxtItem);
+                            c.setSpells3(spells3List);
+                            confirmRm.close();
+                        }
+                    });
+                    noRm.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
                             confirmRm.close();
-                            confirmRm.setTitle("Are you sure?");
-                            GridPane rmgrid = new GridPane();
-                            rmgrid.setAlignment(Pos.CENTER);
-                            rmgrid.setHgap(10);
-                            rmgrid.setVgap(10);
-                            Scene rmscene = new Scene(rmgrid,400,150);
-                            confirmRm.setScene(rmscene);
-                            confirmRm.show();
-
-                            Label rmLabel = new Label("remove " + newSpellName + ". Are you sure?");
-                            rmgrid.add(rmLabel,0,0);
-                            Button yesRm = new Button("Yes");
-                            Button noRm = new Button("Cancel");
-                            HBox hbynrm = new HBox(10);
-                            hbynrm.getChildren().addAll(yesRm,noRm);
-                            rmgrid.add(hbynrm,0,1);
-
-                            yesRm.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent e) {
-                                    vbSpells2.getChildren().remove(hbNewSpell);
-                                    spells2List.remove(newSpell);
-                                    c.setSpells2(spells2List);
-                                    confirmRm.close();
-                                }
-                            });
-                            noRm.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent e) {
-                                    confirmRm.close();
-                                }
-                            });
                         }
                     });
-                    /////// Info Button ///////
-                    Stage infoStage = new Stage();
-                    info.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent e) {
-                            infoStage.close();
-                            GridPane infoGrid = new GridPane();
-                            infoGrid.setAlignment(Pos.CENTER);
-                            infoGrid.setHgap(10);
-                            infoGrid.setPadding(new Insets(15,15,15,15));
-                            infoGrid.setVgap(10);
-                            Scene infoScene = new Scene(infoGrid);
-                            infoStage.setScene(infoScene);
-
-                            infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
-                            Label itemName = new Label(newSpell.getName());
-                            itemName.setId("spellName");
-
-                            Label lvlSchool = new Label();
-                            if (newSpell.getRitualTruth()) {
-                                lvlSchool.setText("level " + Integer.toString(newSpell.getLevel()) + " " + newSpell.getSchool() + " (ritual)");
-                            }
-                            else {
-                                lvlSchool.setText("level " + Integer.toString(newSpell.getLevel()) + " " + newSpell.getSchool());
-                            }
-
-                            Label ctLabel = new Label("Casting Time:");
-                            Text ct = new Text(newSpell.getCastingTime());
-
-                            Label rangeLabel = new Label("Range:");
-                            Text range = new Text(newSpell.getRange());
-
-                            Label compLabel = new Label("Components:");
-                            Text comp = new Text();
-                            for (int i = 0; i < newSpell.getComponents().size(); i++) {
-                                if (i == 0) {
-                                    comp.setText(newSpell.getComponents().get(i));
-                                }
-                                else if (i == newSpell.getComponents().size() - 1) {
-                                    comp.setText(comp.getText() + " (" + newSpell.getComponents().get(i) + ")");
-                                }
-                                else {
-                                    comp.setText(comp.getText() + " " + newSpell.getComponents().get(i));
-                                }
-                            }
-
-                            Label durationLabel = new Label("Duration:");
-                            Text duration = new Text();
-                            if (newSpell.getConcentrationTruth()) {
-                                duration.setText("Concentration, " + newSpell.getDuration());
-                            }
-                            else {
-                                duration.setText(newSpell.getDuration());
-                            }
-
-                            TextArea desc = new TextArea();
-                            desc.setEditable(false);
-                            desc.setWrapText(true);
-                            for (int i = 0; i < newSpell.getDesc().size(); i++) {
-                                if (i == 0) {
-                                    desc.setText(newSpell.getDesc().get(i));
-                                }
-                                else {
-                                    desc.setText(desc.getText() + "\n" + newSpell.getDesc().get(i));
-                                }
-                            }
-
-                            infoGrid.add(itemName,0,0);
-                            infoGrid.add(lvlSchool,0,1);
-                            infoGrid.add(ctLabel,0,2);
-                            infoGrid.add(ct,1,2);
-                            infoGrid.add(rangeLabel,0,3);
-                            infoGrid.add(range,1,3);
-                            infoGrid.add(compLabel,0,4);
-                            infoGrid.add(comp,1,4);
-                            infoGrid.add(durationLabel,0,5);
-                            infoGrid.add(duration,1,5);
-                            infoGrid.add(desc,0,6,2,1);
-
-                            Button done = new Button("OK");
-                            infoGrid.add(done,0,7);
-                            infoStage.show();
-
-                            done.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent e) {
-                                    infoStage.close();
-                                }
-                            });
-                        }
-                    }); // close info button
                 }
-            }); //close addSpells2btn
-	    
-            ///////////////////
-            ///// LEVEL 3 /////
-            ///////////////////
-
-	    // for copy paste - spells#, spellslots#, itr#
-            Label titleSpellslots3 = new Label("Level 3 Spells");
-            titleSpellslots3.setId("spellLevelTitle");
-
-            Button addSpells3Btn = new Button("Add Level 3 Spell");
-
-            ComboBox<Spell> spells3Box = new ComboBox<Spell>();
-            spells3Box.setPromptText("add a spell");
-            
-            VBox vbSpells3 = new VBox(10);
-            ScrollPane spells3Sp = new ScrollPane();
-            spells3Sp.setContent(vbSpells3);
-
-	    ComboBox<Integer> spellslots3Box = new ComboBox<Integer>(spellSlotsNumbers);
-	    spellslots3Box.setValue(c.getSpellSlots3());
-	    spellslots3Box.valueProperty().addListener(new ChangeListener<Integer>() {
-		    public void changed(ObservableValue ov, Integer oldVal, Integer newVal) {
-			c.setSpellSlots3(newVal);
-		    }
-		});
-	    Button useSpellslots3 = new Button("Use Spell Slot");
-	    useSpellslots3.setOnAction(new EventHandler<ActionEvent>() {
-		    public void handle(ActionEvent e) {
-			int currSlot = c.getSpellSlots3();
-			if (currSlot != 0) {		          
-			    c.setSpellSlots3(c.getSpellSlots3() - 1);
-			    spellslots3Box.setValue(spellslots3Box.getValue() - 1);
-			}
-		    }
-		});
-	    
-
-            for (Spell s : classSpells) {
-                if (s.getLevel() == 3) {
-                    spells3Box.getItems().add(s);
+            });
+            /////// Info Button ///////
+            Stage infoStage = new Stage();
+            info.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    SpellInfoPage(infoStage, nxtItem);
                 }
-            }
+            }); // close info button
+        } // close while loop
 
-            HashSet<Spell> spells3List = c.getSpells3();
-            Iterator<Spell> itr3 = spells3List.iterator();
 
-	    
+        VBox spells3Root = new VBox(10);
+        HBox spells3Hb = new HBox(10);
+        HBox spellslots3Hb = new HBox(10);
+        spells3Hb.getChildren().addAll(titleSpellslots3,spells3Box, addSpells3Btn);
+        spellslots3Hb.getChildren().addAll(spellslots3Box,useSpellslots3);
+        spells3Root.getChildren().addAll(spells3Hb,spellslots3Hb,spSpells3);
 
-            ScrollPane spSpells3 = new ScrollPane();
-            spSpells3.setContent(vbSpells3);
 
-            while (itr3.hasNext()) {
-                Spell nxtItem = itr3.next();
-                String spellName = nxtItem.getName();
-                Label spellLabel = new Label(spellName);
-                HBox hbSpell = new HBox(10);
+        ////// add spells ///////
+        addSpells3Btn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                Spell newSpell = spells3Box.getValue();
+                spells3List.add(newSpell);
+                int newRow = spells3List.size() - 1;
+                c.setSpells3(spells3List);
 
+                Label newSpellName = new Label(newSpell.getName());
                 Button rm = new Button("remove");
                 Button info = new Button("info");
-                hbSpell.getChildren().addAll(spellLabel,info,rm);
+                HBox hbNewSpell = new HBox(10);
+                hbNewSpell.getChildren().addAll(newSpellName,info,rm);
+                vbSpells3.getChildren().add(hbNewSpell);
+                spells3Box.setValue(null);
 
-                vbSpells3.getChildren().add(hbSpell);
-                
                 ////// Remove Button ///////
                 Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
@@ -4651,7 +4378,7 @@ public class CharacterMgr extends Application {
                         confirmRm.setScene(rmscene);
                         confirmRm.show();
 
-                        Label rmLabel = new Label("remove " + spellName + ". Are you sure?");
+                        Label rmLabel = new Label("remove " + newSpellName + ". Are you sure?");
                         rmgrid.add(rmLabel,0,0);
                         Button yesRm = new Button("Yes");
                         Button noRm = new Button("Cancel");
@@ -4662,8 +4389,8 @@ public class CharacterMgr extends Application {
                         yesRm.setOnAction(new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent e) {
-                                vbSpells3.getChildren().remove(hbSpell);
-                                spells3List.remove(nxtItem);
+                                vbSpells3.getChildren().remove(hbNewSpell);
+                                spells3List.remove(newSpell);
                                 c.setSpells3(spells3List);
                                 confirmRm.close();
                             }
@@ -4681,319 +4408,148 @@ public class CharacterMgr extends Application {
                 info.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        infoStage.close();
-                        GridPane infoGrid = new GridPane();
-                        infoGrid.setAlignment(Pos.CENTER);
-                        infoGrid.setHgap(10);
-                        infoGrid.setVgap(10);
-                        infoGrid.setPadding(new Insets(15,15,15,15));
-                        Scene infoScene = new Scene(infoGrid);
-                        infoStage.setScene(infoScene);
-
-                        infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
-                        Label itemName = new Label(nxtItem.getName());
-                        itemName.setId("spellName");
-
-                        Label lvlSchool = new Label();
-                        if (nxtItem.getRitualTruth()) {
-                            lvlSchool.setText("level " + Integer.toString(nxtItem.getLevel()) + " " + nxtItem.getSchool() + " (ritual)");
-                        }
-                        else {
-                            lvlSchool.setText("level " + Integer.toString(nxtItem.getLevel()) + " " + nxtItem.getSchool());
-                        }
-
-                        Label ctLabel = new Label("Casting Time:");
-                        Text ct = new Text(nxtItem.getCastingTime());
-
-                        Label rangeLabel = new Label("Range:");
-                        Text range = new Text(nxtItem.getRange());
-                        
-                        Label compLabel = new Label("Components:");
-                        Text comp = new Text();
-                        for (int i = 0; i < nxtItem.getComponents().size(); i++) {
-                            if (i == 0) {
-                                comp.setText(nxtItem.getComponents().get(i));
-                            }
-                            else if (i == nxtItem.getComponents().size() - 1) {
-                                comp.setText(comp.getText() + " (" + nxtItem.getComponents().get(i) + ")");
-                            }
-                            else {
-                                comp.setText(comp.getText() + " " + nxtItem.getComponents().get(i));
-                            }
-                        }
-
-                        Label durationLabel = new Label("Duration:");
-                        Text duration = new Text();
-                        if (nxtItem.getConcentrationTruth()) {
-                            duration.setText("Concentration, " + nxtItem.getDuration());
-                        }
-                        else {
-                            duration.setText(nxtItem.getDuration());
-                        }
-
-                        TextArea desc = new TextArea();
-                        desc.setEditable(false);
-                        desc.setWrapText(true);
-                        for (int i = 0; i < nxtItem.getDesc().size(); i++) {
-                            if (i == 0) {
-                                desc.setText(nxtItem.getDesc().get(i));
-                            }
-                            else {
-                                desc.setText(desc.getText() + "\n" + nxtItem.getDesc().get(i));
-                            }
-                        }
-
-                        infoGrid.add(itemName,0,0);
-                        infoGrid.add(lvlSchool,0,1);
-                        infoGrid.add(ctLabel,0,2);
-                        infoGrid.add(ct,1,2);
-                        infoGrid.add(rangeLabel,0,3);
-                        infoGrid.add(range,1,3);
-                        infoGrid.add(compLabel,0,4);
-                        infoGrid.add(comp,1,4);
-                        infoGrid.add(durationLabel,0,5);
-                        infoGrid.add(duration,1,5);
-                        infoGrid.add(desc,0,6);
-
-                        Button done = new Button("OK");
-                        infoGrid.add(done,0,7);
-
-                        infoStage.show();
-
-                        done.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                infoStage.close();
-                            }
-                        });
+                        SpellInfoPage(infoStage, newSpell);
                     }
                 }); // close info button
-            } // close while loop
-                        
+            }
+        }); //close addSpells3btn
+
+        ///////////////////
+        ///// LEVEL 4 /////
+        ///////////////////
+
+        // for copy paste - spells#, spellslots#, itr#
+        Label titleSpellslots4 = new Label("Level 4 Spells");
+        titleSpellslots4.setId("spellLevelTitle");
+
+        Button addSpells4Btn = new Button("Add Level 4 Spell");
+
+        ComboBox<Spell> spells4Box = new ComboBox<Spell>();
+        spells4Box.setPromptText("add a spell");
+
+        VBox vbSpells4 = new VBox(10);
+        ScrollPane spells4Sp = new ScrollPane();
+        spells4Sp.setContent(vbSpells4);
+
+        ComboBox<Integer> spellslots4Box = new ComboBox<Integer>(spellSlotsNumbers);
+        spellslots4Box.setValue(c.getSpellSlots4());
+        spellslots4Box.valueProperty().addListener(new ChangeListener<Integer>() {
+            public void changed(ObservableValue ov, Integer oldVal, Integer newVal) {
+                c.setSpellSlots4(newVal);
+            }
+        });
+        Button useSpellslots4 = new Button("Use Spell Slot");
+        useSpellslots4.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                int currSlot = c.getSpellSlots4();
+                if (currSlot != 0) {		          
+                    c.setSpellSlots4(c.getSpellSlots4() - 1);
+                    spellslots4Box.setValue(spellslots4Box.getValue() - 1);
+                }
+            }
+        });
+
+        for (Spell s : classSpells) {
+            if (s.getLevel() == 4) {
+                spells4Box.getItems().add(s);
+            }
+        }
+
+        HashSet<Spell> spells4List = c.getSpells4();
+        Iterator<Spell> itr4 = spells4List.iterator();
 
 
-                       
 
+        ScrollPane spSpells4 = new ScrollPane();
+        spSpells4.setContent(vbSpells4);
 
-            VBox spells3Root = new VBox(10);
-            HBox spells3Hb = new HBox(10);
-	    HBox spellslots3Hb = new HBox(10);
-            spells3Hb.getChildren().addAll(titleSpellslots3,spells3Box, addSpells3Btn);
-	    spellslots3Hb.getChildren().addAll(spellslots3Box,useSpellslots3);
-            spells3Root.getChildren().addAll(spells3Hb,spellslots3Hb,spSpells3);
+        while (itr4.hasNext()) {
+            Spell nxtItem = itr4.next();
+            String spellName = nxtItem.getName();
+            Label spellLabel = new Label(spellName);
+            HBox hbSpell = new HBox(10);
 
-	    
-	    ////// add spells ///////
-            addSpells3Btn.setOnAction(new EventHandler<ActionEvent>() {
+            Button rm = new Button("remove");
+            Button info = new Button("info");
+            hbSpell.getChildren().addAll(spellLabel,info,rm);
+
+            vbSpells4.getChildren().add(hbSpell);
+
+            ////// Remove Button ///////
+            Stage confirmRm = new Stage();
+            rm.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
                 public void handle(ActionEvent e) {
-                    Spell newSpell = spells3Box.getValue();
-                    spells3List.add(newSpell);
-                    int newRow = spells3List.size() - 1;
-                    c.setSpells3(spells3List);
+                    confirmRm.close();
+                    confirmRm.setTitle("Are you sure?");
+                    GridPane rmgrid = new GridPane();
+                    rmgrid.setAlignment(Pos.CENTER);
+                    rmgrid.setHgap(10);
+                    rmgrid.setVgap(10);
+                    Scene rmscene = new Scene(rmgrid,400,150);
+                    confirmRm.setScene(rmscene);
+                    confirmRm.show();
 
-                    Label newSpellName = new Label(newSpell.getName());
-                    Button rm = new Button("remove");
-                    Button info = new Button("info");
-                    HBox hbNewSpell = new HBox(10);
-                    hbNewSpell.getChildren().addAll(newSpellName,info,rm);
-                    vbSpells3.getChildren().add(hbNewSpell);
-                    spells3Box.setValue(null);
+                    Label rmLabel = new Label("remove " + spellName + ". Are you sure?");
+                    rmgrid.add(rmLabel,0,0);
+                    Button yesRm = new Button("Yes");
+                    Button noRm = new Button("Cancel");
+                    HBox hbynrm = new HBox(10);
+                    hbynrm.getChildren().addAll(yesRm,noRm);
+                    rmgrid.add(hbynrm,0,1);
 
-                    ////// Remove Button ///////
-                    Stage confirmRm = new Stage();
-                    rm.setOnAction(new EventHandler<ActionEvent>() {
+                    yesRm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            vbSpells4.getChildren().remove(hbSpell);
+                            spells4List.remove(nxtItem);
+                            c.setSpells4(spells4List);
+                            confirmRm.close();
+                        }
+                    });
+                    noRm.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
                             confirmRm.close();
-                            confirmRm.setTitle("Are you sure?");
-                            GridPane rmgrid = new GridPane();
-                            rmgrid.setAlignment(Pos.CENTER);
-                            rmgrid.setHgap(10);
-                            rmgrid.setVgap(10);
-                            Scene rmscene = new Scene(rmgrid,400,150);
-                            confirmRm.setScene(rmscene);
-                            confirmRm.show();
-
-                            Label rmLabel = new Label("remove " + newSpellName + ". Are you sure?");
-                            rmgrid.add(rmLabel,0,0);
-                            Button yesRm = new Button("Yes");
-                            Button noRm = new Button("Cancel");
-                            HBox hbynrm = new HBox(10);
-                            hbynrm.getChildren().addAll(yesRm,noRm);
-                            rmgrid.add(hbynrm,0,1);
-
-                            yesRm.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent e) {
-                                    vbSpells3.getChildren().remove(hbNewSpell);
-                                    spells3List.remove(newSpell);
-                                    c.setSpells3(spells3List);
-                                    confirmRm.close();
-                                }
-                            });
-                            noRm.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent e) {
-                                    confirmRm.close();
-                                }
-                            });
                         }
                     });
-                    /////// Info Button ///////
-                    Stage infoStage = new Stage();
-                    info.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent e) {
-                            infoStage.close();
-                            GridPane infoGrid = new GridPane();
-                            infoGrid.setAlignment(Pos.CENTER);
-                            infoGrid.setHgap(10);
-                            infoGrid.setPadding(new Insets(15,15,15,15));
-                            infoGrid.setVgap(10);
-                            Scene infoScene = new Scene(infoGrid);
-                            infoStage.setScene(infoScene);
-
-                            infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
-                            Label itemName = new Label(newSpell.getName());
-                            itemName.setId("spellName");
-
-                            Label lvlSchool = new Label();
-                            if (newSpell.getRitualTruth()) {
-                                lvlSchool.setText("level " + Integer.toString(newSpell.getLevel()) + " " + newSpell.getSchool() + " (ritual)");
-                            }
-                            else {
-                                lvlSchool.setText("level " + Integer.toString(newSpell.getLevel()) + " " + newSpell.getSchool());
-                            }
-
-                            Label ctLabel = new Label("Casting Time:");
-                            Text ct = new Text(newSpell.getCastingTime());
-
-                            Label rangeLabel = new Label("Range:");
-                            Text range = new Text(newSpell.getRange());
-
-                            Label compLabel = new Label("Components:");
-                            Text comp = new Text();
-                            for (int i = 0; i < newSpell.getComponents().size(); i++) {
-                                if (i == 0) {
-                                    comp.setText(newSpell.getComponents().get(i));
-                                }
-                                else if (i == newSpell.getComponents().size() - 1) {
-                                    comp.setText(comp.getText() + " (" + newSpell.getComponents().get(i) + ")");
-                                }
-                                else {
-                                    comp.setText(comp.getText() + " " + newSpell.getComponents().get(i));
-                                }
-                            }
-
-                            Label durationLabel = new Label("Duration:");
-                            Text duration = new Text();
-                            if (newSpell.getConcentrationTruth()) {
-                                duration.setText("Concentration, " + newSpell.getDuration());
-                            }
-                            else {
-                                duration.setText(newSpell.getDuration());
-                            }
-
-                            TextArea desc = new TextArea();
-                            desc.setEditable(false);
-                            desc.setWrapText(true);
-                            for (int i = 0; i < newSpell.getDesc().size(); i++) {
-                                if (i == 0) {
-                                    desc.setText(newSpell.getDesc().get(i));
-                                }
-                                else {
-                                    desc.setText(desc.getText() + "\n" + newSpell.getDesc().get(i));
-                                }
-                            }
-
-                            infoGrid.add(itemName,0,0);
-                            infoGrid.add(lvlSchool,0,1);
-                            infoGrid.add(ctLabel,0,2);
-                            infoGrid.add(ct,1,2);
-                            infoGrid.add(rangeLabel,0,3);
-                            infoGrid.add(range,1,3);
-                            infoGrid.add(compLabel,0,4);
-                            infoGrid.add(comp,1,4);
-                            infoGrid.add(durationLabel,0,5);
-                            infoGrid.add(duration,1,5);
-                            infoGrid.add(desc,0,6,2,1);
-
-                            Button done = new Button("OK");
-                            infoGrid.add(done,0,7);
-                            infoStage.show();
-
-                            done.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent e) {
-                                    infoStage.close();
-                                }
-                            });
-                        }
-                    }); // close info button
                 }
-            }); //close addSpells3btn
-
-            ///////////////////
-            ///// LEVEL 4 /////
-            ///////////////////
-
-	    // for copy paste - spells#, spellslots#, itr#
-            Label titleSpellslots4 = new Label("Level 4 Spells");
-            titleSpellslots4.setId("spellLevelTitle");
-
-            Button addSpells4Btn = new Button("Add Level 4 Spell");
-
-            ComboBox<Spell> spells4Box = new ComboBox<Spell>();
-            spells4Box.setPromptText("add a spell");
-            
-            VBox vbSpells4 = new VBox(10);
-            ScrollPane spells4Sp = new ScrollPane();
-            spells4Sp.setContent(vbSpells4);
-
-	    ComboBox<Integer> spellslots4Box = new ComboBox<Integer>(spellSlotsNumbers);
-	    spellslots4Box.setValue(c.getSpellSlots4());
-	    spellslots4Box.valueProperty().addListener(new ChangeListener<Integer>() {
-		    public void changed(ObservableValue ov, Integer oldVal, Integer newVal) {
-			c.setSpellSlots4(newVal);
-		    }
-		});
-	    Button useSpellslots4 = new Button("Use Spell Slot");
-	    useSpellslots4.setOnAction(new EventHandler<ActionEvent>() {
-		    public void handle(ActionEvent e) {
-			int currSlot = c.getSpellSlots4();
-			if (currSlot != 0) {		          
-			    c.setSpellSlots4(c.getSpellSlots4() - 1);
-			    spellslots4Box.setValue(spellslots4Box.getValue() - 1);
-			}
-		    }
-		});
-	    
-            for (Spell s : classSpells) {
-                if (s.getLevel() == 4) {
-                    spells4Box.getItems().add(s);
+            });
+            /////// Info Button ///////
+            Stage infoStage = new Stage();
+            info.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    SpellInfoPage(infoStage, nxtItem);
                 }
-            }
+            }); // close info button
+        } // close while loop
 
-            HashSet<Spell> spells4List = c.getSpells4();
-            Iterator<Spell> itr4 = spells4List.iterator();
 
-	    
+        VBox spells4Root = new VBox(10);
+        HBox spells4Hb = new HBox(10);
+        HBox spellslots4Hb = new HBox(10);
+        spells4Hb.getChildren().addAll(titleSpellslots4,spells4Box, addSpells4Btn);
+        spellslots4Hb.getChildren().addAll(spellslots4Box,useSpellslots4);
+        spells4Root.getChildren().addAll(spells4Hb,spellslots4Hb,spSpells4);
 
-            ScrollPane spSpells4 = new ScrollPane();
-            spSpells4.setContent(vbSpells4);
 
-            while (itr4.hasNext()) {
-                Spell nxtItem = itr4.next();
-                String spellName = nxtItem.getName();
-                Label spellLabel = new Label(spellName);
-                HBox hbSpell = new HBox(10);
+        ////// add spells ///////
+        addSpells4Btn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                Spell newSpell = spells4Box.getValue();
+                spells4List.add(newSpell);
+                int newRow = spells4List.size() - 1;
+                c.setSpells4(spells4List);
 
+                Label newSpellName = new Label(newSpell.getName());
                 Button rm = new Button("remove");
                 Button info = new Button("info");
-                hbSpell.getChildren().addAll(spellLabel,info,rm);
+                HBox hbNewSpell = new HBox(10);
+                hbNewSpell.getChildren().addAll(newSpellName,info,rm);
+                vbSpells4.getChildren().add(hbNewSpell);
+                spells4Box.setValue(null);
 
-                vbSpells4.getChildren().add(hbSpell);
-                
                 ////// Remove Button ///////
                 Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
@@ -5009,7 +4565,7 @@ public class CharacterMgr extends Application {
                         confirmRm.setScene(rmscene);
                         confirmRm.show();
 
-                        Label rmLabel = new Label("remove " + spellName + ". Are you sure?");
+                        Label rmLabel = new Label("remove " + newSpellName + ". Are you sure?");
                         rmgrid.add(rmLabel,0,0);
                         Button yesRm = new Button("Yes");
                         Button noRm = new Button("Cancel");
@@ -5020,8 +4576,8 @@ public class CharacterMgr extends Application {
                         yesRm.setOnAction(new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent e) {
-                                vbSpells4.getChildren().remove(hbSpell);
-                                spells4List.remove(nxtItem);
+                                vbSpells4.getChildren().remove(hbNewSpell);
+                                spells4List.remove(newSpell);
                                 c.setSpells4(spells4List);
                                 confirmRm.close();
                             }
@@ -5039,320 +4595,149 @@ public class CharacterMgr extends Application {
                 info.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        infoStage.close();
-                        GridPane infoGrid = new GridPane();
-                        infoGrid.setAlignment(Pos.CENTER);
-                        infoGrid.setHgap(10);
-                        infoGrid.setVgap(10);
-                        infoGrid.setPadding(new Insets(15,15,15,15));
-                        Scene infoScene = new Scene(infoGrid);
-                        infoStage.setScene(infoScene);
-
-                        infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
-                        Label itemName = new Label(nxtItem.getName());
-                        itemName.setId("spellName");
-
-                        Label lvlSchool = new Label();
-                        if (nxtItem.getRitualTruth()) {
-                            lvlSchool.setText("level " + Integer.toString(nxtItem.getLevel()) + " " + nxtItem.getSchool() + " (ritual)");
-                        }
-                        else {
-                            lvlSchool.setText("level " + Integer.toString(nxtItem.getLevel()) + " " + nxtItem.getSchool());
-                        }
-
-                        Label ctLabel = new Label("Casting Time:");
-                        Text ct = new Text(nxtItem.getCastingTime());
-
-                        Label rangeLabel = new Label("Range:");
-                        Text range = new Text(nxtItem.getRange());
-                        
-                        Label compLabel = new Label("Components:");
-                        Text comp = new Text();
-                        for (int i = 0; i < nxtItem.getComponents().size(); i++) {
-                            if (i == 0) {
-                                comp.setText(nxtItem.getComponents().get(i));
-                            }
-                            else if (i == nxtItem.getComponents().size() - 1) {
-                                comp.setText(comp.getText() + " (" + nxtItem.getComponents().get(i) + ")");
-                            }
-                            else {
-                                comp.setText(comp.getText() + " " + nxtItem.getComponents().get(i));
-                            }
-                        }
-
-                        Label durationLabel = new Label("Duration:");
-                        Text duration = new Text();
-                        if (nxtItem.getConcentrationTruth()) {
-                            duration.setText("Concentration, " + nxtItem.getDuration());
-                        }
-                        else {
-                            duration.setText(nxtItem.getDuration());
-                        }
-
-                        TextArea desc = new TextArea();
-                        desc.setEditable(false);
-                        desc.setWrapText(true);
-                        for (int i = 0; i < nxtItem.getDesc().size(); i++) {
-                            if (i == 0) {
-                                desc.setText(nxtItem.getDesc().get(i));
-                            }
-                            else {
-                                desc.setText(desc.getText() + "\n" + nxtItem.getDesc().get(i));
-                            }
-                        }
-
-                        infoGrid.add(itemName,0,0);
-                        infoGrid.add(lvlSchool,0,1);
-                        infoGrid.add(ctLabel,0,2);
-                        infoGrid.add(ct,1,2);
-                        infoGrid.add(rangeLabel,0,3);
-                        infoGrid.add(range,1,3);
-                        infoGrid.add(compLabel,0,4);
-                        infoGrid.add(comp,1,4);
-                        infoGrid.add(durationLabel,0,5);
-                        infoGrid.add(duration,1,5);
-                        infoGrid.add(desc,0,6);
-
-                        Button done = new Button("OK");
-                        infoGrid.add(done,0,7);
-
-                        infoStage.show();
-
-                        done.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                infoStage.close();
-                            }
-                        });
+                        SpellInfoPage(infoStage, newSpell);
                     }
                 }); // close info button
-            } // close while loop
-                        
+            }
+        }); //close addSpells4Btn
+
+        ///////////////////
+        ///// LEVEL 5 /////
+        ///////////////////
+
+        // for copy paste - spells#, spellslots#, itr#
+        Label titleSpellslots5 = new Label("Level 5 Spells");
+        titleSpellslots5.setId("spellLevelTitle");
+
+        Button addSpells5Btn = new Button("Add Level 5 Spell");
+
+        ComboBox<Spell> spells5Box = new ComboBox<Spell>();
+        spells5Box.setPromptText("add a spell");
+
+        VBox vbSpells5 = new VBox(10);
+        ScrollPane spells5Sp = new ScrollPane();
+        spells5Sp.setContent(vbSpells5);
+
+        ComboBox<Integer> spellslots5Box = new ComboBox<Integer>(spellSlotsNumbers);
+        spellslots5Box.setValue(c.getSpellSlots5());
+        spellslots5Box.valueProperty().addListener(new ChangeListener<Integer>() {
+            public void changed(ObservableValue ov, Integer oldVal, Integer newVal) {
+                c.setSpellSlots5(newVal);
+            }
+        });
+        Button useSpellslots5 = new Button("Use Spell Slot");
+        useSpellslots5.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                int currSlot = c.getSpellSlots5();
+                if (currSlot != 0) {		          
+                    c.setSpellSlots5(c.getSpellSlots5() - 1);
+                    spellslots5Box.setValue(spellslots5Box.getValue() - 1);
+                }
+            }
+        });
 
 
-                       
+        for (Spell s : classSpells) {
+            if (s.getLevel() == 5) {
+                spells5Box.getItems().add(s);
+            }
+        }
+
+        HashSet<Spell> spells5List = c.getSpells5();
+        Iterator<Spell> itr5 = spells5List.iterator();
 
 
-            VBox spells4Root = new VBox(10);
-            HBox spells4Hb = new HBox(10);
-	    HBox spellslots4Hb = new HBox(10);
-            spells4Hb.getChildren().addAll(titleSpellslots4,spells4Box, addSpells4Btn);
-	    spellslots4Hb.getChildren().addAll(spellslots4Box,useSpellslots4);
-            spells4Root.getChildren().addAll(spells4Hb,spellslots4Hb,spSpells4);
 
-	    
-	    ////// add spells ///////
-            addSpells4Btn.setOnAction(new EventHandler<ActionEvent>() {
+        ScrollPane spSpells5 = new ScrollPane();
+        spSpells5.setContent(vbSpells5);
+
+        while (itr5.hasNext()) {
+            Spell nxtItem = itr5.next();
+            String spellName = nxtItem.getName();
+            Label spellLabel = new Label(spellName);
+            HBox hbSpell = new HBox(10);
+
+            Button rm = new Button("remove");
+            Button info = new Button("info");
+            hbSpell.getChildren().addAll(spellLabel,info,rm);
+
+            vbSpells5.getChildren().add(hbSpell);
+
+            ////// Remove Button ///////
+            Stage confirmRm = new Stage();
+            rm.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
                 public void handle(ActionEvent e) {
-                    Spell newSpell = spells4Box.getValue();
-                    spells4List.add(newSpell);
-                    int newRow = spells4List.size() - 1;
-                    c.setSpells4(spells4List);
+                    confirmRm.close();
+                    confirmRm.setTitle("Are you sure?");
+                    GridPane rmgrid = new GridPane();
+                    rmgrid.setAlignment(Pos.CENTER);
+                    rmgrid.setHgap(10);
+                    rmgrid.setVgap(10);
+                    Scene rmscene = new Scene(rmgrid,400,150);
+                    confirmRm.setScene(rmscene);
+                    confirmRm.show();
 
-                    Label newSpellName = new Label(newSpell.getName());
-                    Button rm = new Button("remove");
-                    Button info = new Button("info");
-                    HBox hbNewSpell = new HBox(10);
-                    hbNewSpell.getChildren().addAll(newSpellName,info,rm);
-                    vbSpells4.getChildren().add(hbNewSpell);
-                    spells4Box.setValue(null);
+                    Label rmLabel = new Label("remove " + spellName + ". Are you sure?");
+                    rmgrid.add(rmLabel,0,0);
+                    Button yesRm = new Button("Yes");
+                    Button noRm = new Button("Cancel");
+                    HBox hbynrm = new HBox(10);
+                    hbynrm.getChildren().addAll(yesRm,noRm);
+                    rmgrid.add(hbynrm,0,1);
 
-                    ////// Remove Button ///////
-                    Stage confirmRm = new Stage();
-                    rm.setOnAction(new EventHandler<ActionEvent>() {
+                    yesRm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            vbSpells5.getChildren().remove(hbSpell);
+                            spells5List.remove(nxtItem);
+                            c.setSpells5(spells5List);
+                            confirmRm.close();
+                        }
+                    });
+                    noRm.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
                             confirmRm.close();
-                            confirmRm.setTitle("Are you sure?");
-                            GridPane rmgrid = new GridPane();
-                            rmgrid.setAlignment(Pos.CENTER);
-                            rmgrid.setHgap(10);
-                            rmgrid.setVgap(10);
-                            Scene rmscene = new Scene(rmgrid,400,150);
-                            confirmRm.setScene(rmscene);
-                            confirmRm.show();
-
-                            Label rmLabel = new Label("remove " + newSpellName + ". Are you sure?");
-                            rmgrid.add(rmLabel,0,0);
-                            Button yesRm = new Button("Yes");
-                            Button noRm = new Button("Cancel");
-                            HBox hbynrm = new HBox(10);
-                            hbynrm.getChildren().addAll(yesRm,noRm);
-                            rmgrid.add(hbynrm,0,1);
-
-                            yesRm.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent e) {
-                                    vbSpells4.getChildren().remove(hbNewSpell);
-                                    spells4List.remove(newSpell);
-                                    c.setSpells4(spells4List);
-                                    confirmRm.close();
-                                }
-                            });
-                            noRm.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent e) {
-                                    confirmRm.close();
-                                }
-                            });
                         }
                     });
-                    /////// Info Button ///////
-                    Stage infoStage = new Stage();
-                    info.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent e) {
-                            infoStage.close();
-                            GridPane infoGrid = new GridPane();
-                            infoGrid.setAlignment(Pos.CENTER);
-                            infoGrid.setHgap(10);
-                            infoGrid.setPadding(new Insets(15,15,15,15));
-                            infoGrid.setVgap(10);
-                            Scene infoScene = new Scene(infoGrid);
-                            infoStage.setScene(infoScene);
-
-                            infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
-                            Label itemName = new Label(newSpell.getName());
-                            itemName.setId("spellName");
-
-                            Label lvlSchool = new Label();
-                            if (newSpell.getRitualTruth()) {
-                                lvlSchool.setText("level " + Integer.toString(newSpell.getLevel()) + " " + newSpell.getSchool() + " (ritual)");
-                            }
-                            else {
-                                lvlSchool.setText("level " + Integer.toString(newSpell.getLevel()) + " " + newSpell.getSchool());
-                            }
-
-                            Label ctLabel = new Label("Casting Time:");
-                            Text ct = new Text(newSpell.getCastingTime());
-
-                            Label rangeLabel = new Label("Range:");
-                            Text range = new Text(newSpell.getRange());
-
-                            Label compLabel = new Label("Components:");
-                            Text comp = new Text();
-                            for (int i = 0; i < newSpell.getComponents().size(); i++) {
-                                if (i == 0) {
-                                    comp.setText(newSpell.getComponents().get(i));
-                                }
-                                else if (i == newSpell.getComponents().size() - 1) {
-                                    comp.setText(comp.getText() + " (" + newSpell.getComponents().get(i) + ")");
-                                }
-                                else {
-                                    comp.setText(comp.getText() + " " + newSpell.getComponents().get(i));
-                                }
-                            }
-
-                            Label durationLabel = new Label("Duration:");
-                            Text duration = new Text();
-                            if (newSpell.getConcentrationTruth()) {
-                                duration.setText("Concentration, " + newSpell.getDuration());
-                            }
-                            else {
-                                duration.setText(newSpell.getDuration());
-                            }
-
-                            TextArea desc = new TextArea();
-                            desc.setEditable(false);
-                            desc.setWrapText(true);
-                            for (int i = 0; i < newSpell.getDesc().size(); i++) {
-                                if (i == 0) {
-                                    desc.setText(newSpell.getDesc().get(i));
-                                }
-                                else {
-                                    desc.setText(desc.getText() + "\n" + newSpell.getDesc().get(i));
-                                }
-                            }
-
-                            infoGrid.add(itemName,0,0);
-                            infoGrid.add(lvlSchool,0,1);
-                            infoGrid.add(ctLabel,0,2);
-                            infoGrid.add(ct,1,2);
-                            infoGrid.add(rangeLabel,0,3);
-                            infoGrid.add(range,1,3);
-                            infoGrid.add(compLabel,0,4);
-                            infoGrid.add(comp,1,4);
-                            infoGrid.add(durationLabel,0,5);
-                            infoGrid.add(duration,1,5);
-                            infoGrid.add(desc,0,6,2,1);
-
-                            Button done = new Button("OK");
-                            infoGrid.add(done,0,7);
-                            infoStage.show();
-
-                            done.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent e) {
-                                    infoStage.close();
-                                }
-                            });
-                        }
-                    }); // close info button
                 }
-            }); //close addSpells4Btn
-
-            ///////////////////
-            ///// LEVEL 5 /////
-            ///////////////////
-
-	    // for copy paste - spells#, spellslots#, itr#
-            Label titleSpellslots5 = new Label("Level 5 Spells");
-            titleSpellslots5.setId("spellLevelTitle");
-
-            Button addSpells5Btn = new Button("Add Level 5 Spell");
-
-            ComboBox<Spell> spells5Box = new ComboBox<Spell>();
-            spells5Box.setPromptText("add a spell");
-            
-            VBox vbSpells5 = new VBox(10);
-            ScrollPane spells5Sp = new ScrollPane();
-            spells5Sp.setContent(vbSpells5);
-
-	    ComboBox<Integer> spellslots5Box = new ComboBox<Integer>(spellSlotsNumbers);
-	    spellslots5Box.setValue(c.getSpellSlots5());
-	    spellslots5Box.valueProperty().addListener(new ChangeListener<Integer>() {
-		    public void changed(ObservableValue ov, Integer oldVal, Integer newVal) {
-			c.setSpellSlots5(newVal);
-		    }
-		});
-	    Button useSpellslots5 = new Button("Use Spell Slot");
-	    useSpellslots5.setOnAction(new EventHandler<ActionEvent>() {
-		    public void handle(ActionEvent e) {
-			int currSlot = c.getSpellSlots5();
-			if (currSlot != 0) {		          
-			    c.setSpellSlots5(c.getSpellSlots5() - 1);
-			    spellslots5Box.setValue(spellslots5Box.getValue() - 1);
-			}
-		    }
-		});
-	    
-
-            for (Spell s : classSpells) {
-                if (s.getLevel() == 5) {
-                    spells5Box.getItems().add(s);
+            });
+            /////// Info Button ///////
+            Stage infoStage = new Stage();
+            info.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    SpellInfoPage(infoStage, nxtItem);
                 }
-            }
+            }); // close info button
+        } // close while loop
 
-            HashSet<Spell> spells5List = c.getSpells5();
-            Iterator<Spell> itr5 = spells5List.iterator();
 
-	    
+        VBox spells5Root = new VBox(10);
+        HBox spells5Hb = new HBox(10);
+        HBox spellslots5Hb = new HBox(10);
+        spells5Hb.getChildren().addAll(titleSpellslots5,spells5Box, addSpells5Btn);
+        spellslots5Hb.getChildren().addAll(spellslots5Box,useSpellslots5);
+        spells5Root.getChildren().addAll(spells5Hb,spellslots5Hb,spSpells5);
 
-            ScrollPane spSpells5 = new ScrollPane();
-            spSpells5.setContent(vbSpells5);
 
-            while (itr5.hasNext()) {
-                Spell nxtItem = itr5.next();
-                String spellName = nxtItem.getName();
-                Label spellLabel = new Label(spellName);
-                HBox hbSpell = new HBox(10);
+        ////// add spells ///////
+        addSpells5Btn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                Spell newSpell = spells5Box.getValue();
+                spells5List.add(newSpell);
+                int newRow = spells5List.size() - 1;
+                c.setSpells5(spells5List);
 
+                Label newSpellName = new Label(newSpell.getName());
                 Button rm = new Button("remove");
                 Button info = new Button("info");
-                hbSpell.getChildren().addAll(spellLabel,info,rm);
+                HBox hbNewSpell = new HBox(10);
+                hbNewSpell.getChildren().addAll(newSpellName,info,rm);
+                vbSpells5.getChildren().add(hbNewSpell);
+                spells5Box.setValue(null);
 
-                vbSpells5.getChildren().add(hbSpell);
-                
                 ////// Remove Button ///////
                 Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
@@ -5368,7 +4753,7 @@ public class CharacterMgr extends Application {
                         confirmRm.setScene(rmscene);
                         confirmRm.show();
 
-                        Label rmLabel = new Label("remove " + spellName + ". Are you sure?");
+                        Label rmLabel = new Label("remove " + newSpellName + ". Are you sure?");
                         rmgrid.add(rmLabel,0,0);
                         Button yesRm = new Button("Yes");
                         Button noRm = new Button("Cancel");
@@ -5379,8 +4764,8 @@ public class CharacterMgr extends Application {
                         yesRm.setOnAction(new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent e) {
-                                vbSpells5.getChildren().remove(hbSpell);
-                                spells5List.remove(nxtItem);
+                                vbSpells5.getChildren().remove(hbNewSpell);
+                                spells5List.remove(newSpell);
                                 c.setSpells5(spells5List);
                                 confirmRm.close();
                             }
@@ -5398,319 +4783,148 @@ public class CharacterMgr extends Application {
                 info.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        infoStage.close();
-                        GridPane infoGrid = new GridPane();
-                        infoGrid.setAlignment(Pos.CENTER);
-                        infoGrid.setHgap(10);
-                        infoGrid.setVgap(10);
-                        infoGrid.setPadding(new Insets(15,15,15,15));
-                        Scene infoScene = new Scene(infoGrid);
-                        infoStage.setScene(infoScene);
-
-                        infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
-                        Label itemName = new Label(nxtItem.getName());
-                        itemName.setId("spellName");
-
-                        Label lvlSchool = new Label();
-                        if (nxtItem.getRitualTruth()) {
-                            lvlSchool.setText("level " + Integer.toString(nxtItem.getLevel()) + " " + nxtItem.getSchool() + " (ritual)");
-                        }
-                        else {
-                            lvlSchool.setText("level " + Integer.toString(nxtItem.getLevel()) + " " + nxtItem.getSchool());
-                        }
-
-                        Label ctLabel = new Label("Casting Time:");
-                        Text ct = new Text(nxtItem.getCastingTime());
-
-                        Label rangeLabel = new Label("Range:");
-                        Text range = new Text(nxtItem.getRange());
-                        
-                        Label compLabel = new Label("Components:");
-                        Text comp = new Text();
-                        for (int i = 0; i < nxtItem.getComponents().size(); i++) {
-                            if (i == 0) {
-                                comp.setText(nxtItem.getComponents().get(i));
-                            }
-                            else if (i == nxtItem.getComponents().size() - 1) {
-                                comp.setText(comp.getText() + " (" + nxtItem.getComponents().get(i) + ")");
-                            }
-                            else {
-                                comp.setText(comp.getText() + " " + nxtItem.getComponents().get(i));
-                            }
-                        }
-
-                        Label durationLabel = new Label("Duration:");
-                        Text duration = new Text();
-                        if (nxtItem.getConcentrationTruth()) {
-                            duration.setText("Concentration, " + nxtItem.getDuration());
-                        }
-                        else {
-                            duration.setText(nxtItem.getDuration());
-                        }
-
-                        TextArea desc = new TextArea();
-                        desc.setEditable(false);
-                        desc.setWrapText(true);
-                        for (int i = 0; i < nxtItem.getDesc().size(); i++) {
-                            if (i == 0) {
-                                desc.setText(nxtItem.getDesc().get(i));
-                            }
-                            else {
-                                desc.setText(desc.getText() + "\n" + nxtItem.getDesc().get(i));
-                            }
-                        }
-
-                        infoGrid.add(itemName,0,0);
-                        infoGrid.add(lvlSchool,0,1);
-                        infoGrid.add(ctLabel,0,2);
-                        infoGrid.add(ct,1,2);
-                        infoGrid.add(rangeLabel,0,3);
-                        infoGrid.add(range,1,3);
-                        infoGrid.add(compLabel,0,4);
-                        infoGrid.add(comp,1,4);
-                        infoGrid.add(durationLabel,0,5);
-                        infoGrid.add(duration,1,5);
-                        infoGrid.add(desc,0,6);
-
-                        Button done = new Button("OK");
-                        infoGrid.add(done,0,7);
-
-                        infoStage.show();
-
-                        done.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                infoStage.close();
-                            }
-                        });
+                        SpellInfoPage(infoStage, newSpell);
                     }
                 }); // close info button
-            } // close while loop
-                        
+            }
+        }); //close addSpells5btn
 
+        ///////////////////
+        ///// LEVEL 6 /////
+        ///////////////////
 
-                       
+        Label titleSpellslots6 = new Label("Level 6 Spells");
+        titleSpellslots6.setId("spellLevelTitle");
 
+        Button addSpells6Btn = new Button("Add Level 6 Spell");
 
-            VBox spells5Root = new VBox(10);
-            HBox spells5Hb = new HBox(10);
-            HBox spellslots5Hb = new HBox(10);
-            spells5Hb.getChildren().addAll(titleSpellslots5,spells5Box, addSpells5Btn);
-            spellslots5Hb.getChildren().addAll(spellslots5Box,useSpellslots5);
-            spells5Root.getChildren().addAll(spells5Hb,spellslots5Hb,spSpells5);
+        ComboBox<Spell> spells6Box = new ComboBox<Spell>();
+        spells6Box.setPromptText("add a spell");
 
-	    
-            ////// add spells ///////
-            addSpells5Btn.setOnAction(new EventHandler<ActionEvent>() {
-                public void handle(ActionEvent e) {
-                    Spell newSpell = spells5Box.getValue();
-                    spells5List.add(newSpell);
-                    int newRow = spells5List.size() - 1;
-                    c.setSpells5(spells5List);
+        VBox vbSpells6 = new VBox(10);
+        ScrollPane spells6Sp = new ScrollPane();
+        spells6Sp.setContent(vbSpells6);
 
-                    Label newSpellName = new Label(newSpell.getName());
-                    Button rm = new Button("remove");
-                    Button info = new Button("info");
-                    HBox hbNewSpell = new HBox(10);
-                    hbNewSpell.getChildren().addAll(newSpellName,info,rm);
-                    vbSpells5.getChildren().add(hbNewSpell);
-                    spells5Box.setValue(null);
-
-                    ////// Remove Button ///////
-                    Stage confirmRm = new Stage();
-                    rm.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent e) {
-                            confirmRm.close();
-                            confirmRm.setTitle("Are you sure?");
-                            GridPane rmgrid = new GridPane();
-                            rmgrid.setAlignment(Pos.CENTER);
-                            rmgrid.setHgap(10);
-                            rmgrid.setVgap(10);
-                            Scene rmscene = new Scene(rmgrid,400,150);
-                            confirmRm.setScene(rmscene);
-                            confirmRm.show();
-
-                            Label rmLabel = new Label("remove " + newSpellName + ". Are you sure?");
-                            rmgrid.add(rmLabel,0,0);
-                            Button yesRm = new Button("Yes");
-                            Button noRm = new Button("Cancel");
-                            HBox hbynrm = new HBox(10);
-                            hbynrm.getChildren().addAll(yesRm,noRm);
-                            rmgrid.add(hbynrm,0,1);
-
-                            yesRm.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent e) {
-                                    vbSpells5.getChildren().remove(hbNewSpell);
-                                    spells5List.remove(newSpell);
-                                    c.setSpells5(spells5List);
-                                    confirmRm.close();
-                                }
-                            });
-                            noRm.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent e) {
-                                    confirmRm.close();
-                                }
-                            });
-                        }
-                    });
-                    /////// Info Button ///////
-                    Stage infoStage = new Stage();
-                    info.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent e) {
-                            infoStage.close();
-                            GridPane infoGrid = new GridPane();
-                            infoGrid.setAlignment(Pos.CENTER);
-                            infoGrid.setHgap(10);
-                            infoGrid.setPadding(new Insets(15,15,15,15));
-                            infoGrid.setVgap(10);
-                            Scene infoScene = new Scene(infoGrid);
-                            infoStage.setScene(infoScene);
-
-                            infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
-                            Label itemName = new Label(newSpell.getName());
-                            itemName.setId("spellName");
-
-                            Label lvlSchool = new Label();
-                            if (newSpell.getRitualTruth()) {
-                                lvlSchool.setText("level " + Integer.toString(newSpell.getLevel()) + " " + newSpell.getSchool() + " (ritual)");
-                            }
-                            else {
-                                lvlSchool.setText("level " + Integer.toString(newSpell.getLevel()) + " " + newSpell.getSchool());
-                            }
-
-                            Label ctLabel = new Label("Casting Time:");
-                            Text ct = new Text(newSpell.getCastingTime());
-
-                            Label rangeLabel = new Label("Range:");
-                            Text range = new Text(newSpell.getRange());
-
-                            Label compLabel = new Label("Components:");
-                            Text comp = new Text();
-                            for (int i = 0; i < newSpell.getComponents().size(); i++) {
-                                if (i == 0) {
-                                    comp.setText(newSpell.getComponents().get(i));
-                                }
-                                else if (i == newSpell.getComponents().size() - 1) {
-                                    comp.setText(comp.getText() + " (" + newSpell.getComponents().get(i) + ")");
-                                }
-                                else {
-                                    comp.setText(comp.getText() + " " + newSpell.getComponents().get(i));
-                                }
-                            }
-
-                            Label durationLabel = new Label("Duration:");
-                            Text duration = new Text();
-                            if (newSpell.getConcentrationTruth()) {
-                                duration.setText("Concentration, " + newSpell.getDuration());
-                            }
-                            else {
-                                duration.setText(newSpell.getDuration());
-                            }
-
-                            TextArea desc = new TextArea();
-                            desc.setEditable(false);
-                            desc.setWrapText(true);
-                            for (int i = 0; i < newSpell.getDesc().size(); i++) {
-                                if (i == 0) {
-                                    desc.setText(newSpell.getDesc().get(i));
-                                }
-                                else {
-                                    desc.setText(desc.getText() + "\n" + newSpell.getDesc().get(i));
-                                }
-                            }
-
-                            infoGrid.add(itemName,0,0);
-                            infoGrid.add(lvlSchool,0,1);
-                            infoGrid.add(ctLabel,0,2);
-                            infoGrid.add(ct,1,2);
-                            infoGrid.add(rangeLabel,0,3);
-                            infoGrid.add(range,1,3);
-                            infoGrid.add(compLabel,0,4);
-                            infoGrid.add(comp,1,4);
-                            infoGrid.add(durationLabel,0,5);
-                            infoGrid.add(duration,1,5);
-                            infoGrid.add(desc,0,6,2,1);
-
-                            Button done = new Button("OK");
-                            infoGrid.add(done,0,7);
-                            infoStage.show();
-
-                            done.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent e) {
-                                    infoStage.close();
-                                }
-                            });
-                        }
-                    }); // close info button
-                }
-            }); //close addSpells5btn
-
-            ///////////////////
-            ///// LEVEL 6 /////
-            ///////////////////
-
-            Label titleSpellslots6 = new Label("Level 6 Spells");
-            titleSpellslots6.setId("spellLevelTitle");
-
-            Button addSpells6Btn = new Button("Add Level 6 Spell");
-
-            ComboBox<Spell> spells6Box = new ComboBox<Spell>();
-            spells6Box.setPromptText("add a spell");
-            
-            VBox vbSpells6 = new VBox(10);
-            ScrollPane spells6Sp = new ScrollPane();
-            spells6Sp.setContent(vbSpells6);
-
-	    ComboBox<Integer> spellslots6Box = new ComboBox<Integer>(spellSlotsNumbers);
-	    spellslots6Box.setValue(c.getSpellSlots6());
-	    spellslots6Box.valueProperty().addListener(new ChangeListener<Integer>() {
-		    public void changed(ObservableValue ov, Integer oldVal, Integer newVal) {
-			c.setSpellSlots6(newVal);
-		    }
-		});
-	    Button useSpellslots6 = new Button("Use Spell Slot");
-	    useSpellslots6.setOnAction(new EventHandler<ActionEvent>() {
-		    public void handle(ActionEvent e) {
-			int currSlot = c.getSpellSlots6();
-			if (currSlot != 0) {		          
-			    c.setSpellSlots6(c.getSpellSlots6() - 1);
-			    spellslots6Box.setValue(spellslots6Box.getValue() - 1);
-			}
-		    }
-		});
-	    
-
-            for (Spell s : classSpells) {
-                if (s.getLevel() == 6) {
-                    spells6Box.getItems().add(s);
+        ComboBox<Integer> spellslots6Box = new ComboBox<Integer>(spellSlotsNumbers);
+        spellslots6Box.setValue(c.getSpellSlots6());
+        spellslots6Box.valueProperty().addListener(new ChangeListener<Integer>() {
+            public void changed(ObservableValue ov, Integer oldVal, Integer newVal) {
+                c.setSpellSlots6(newVal);
+            }
+        });
+        Button useSpellslots6 = new Button("Use Spell Slot");
+        useSpellslots6.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                int currSlot = c.getSpellSlots6();
+                if (currSlot != 0) {		          
+                    c.setSpellSlots6(c.getSpellSlots6() - 1);
+                    spellslots6Box.setValue(spellslots6Box.getValue() - 1);
                 }
             }
+        });
 
-            HashSet<Spell> spells6List = c.getSpells6();
-            Iterator<Spell> itr6 = spells6List.iterator();
 
-	    
+        for (Spell s : classSpells) {
+            if (s.getLevel() == 6) {
+                spells6Box.getItems().add(s);
+            }
+        }
 
-            ScrollPane spSpells6 = new ScrollPane();
-            spSpells6.setContent(vbSpells6);
+        HashSet<Spell> spells6List = c.getSpells6();
+        Iterator<Spell> itr6 = spells6List.iterator();
 
-            while (itr6.hasNext()) {
-                Spell nxtItem = itr6.next();
-                String spellName = nxtItem.getName();
-                Label spellLabel = new Label(spellName);
-                HBox hbSpell = new HBox(10);
 
+
+        ScrollPane spSpells6 = new ScrollPane();
+        spSpells6.setContent(vbSpells6);
+
+        while (itr6.hasNext()) {
+            Spell nxtItem = itr6.next();
+            String spellName = nxtItem.getName();
+            Label spellLabel = new Label(spellName);
+            HBox hbSpell = new HBox(10);
+
+            Button rm = new Button("remove");
+            Button info = new Button("info");
+            hbSpell.getChildren().addAll(spellLabel,info,rm);
+
+            vbSpells6.getChildren().add(hbSpell);
+
+            ////// Remove Button ///////
+            Stage confirmRm = new Stage();
+            rm.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    confirmRm.close();
+                    confirmRm.setTitle("Are you sure?");
+                    GridPane rmgrid = new GridPane();
+                    rmgrid.setAlignment(Pos.CENTER);
+                    rmgrid.setHgap(10);
+                    rmgrid.setVgap(10);
+                    Scene rmscene = new Scene(rmgrid,400,150);
+                    confirmRm.setScene(rmscene);
+                    confirmRm.show();
+
+                    Label rmLabel = new Label("remove " + spellName + ". Are you sure?");
+                    rmgrid.add(rmLabel,0,0);
+                    Button yesRm = new Button("Yes");
+                    Button noRm = new Button("Cancel");
+                    HBox hbynrm = new HBox(10);
+                    hbynrm.getChildren().addAll(yesRm,noRm);
+                    rmgrid.add(hbynrm,0,1);
+
+                    yesRm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            vbSpells6.getChildren().remove(hbSpell);
+                            spells6List.remove(nxtItem);
+                            c.setSpells6(spells6List);
+                            confirmRm.close();
+                            }
+                        });
+                    noRm.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent e) {
+                                confirmRm.close();
+                            }
+                    });
+                }
+            });
+            /////// Info Button ///////
+            Stage infoStage = new Stage();
+            info.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    SpellInfoPage(infoStage, nxtItem);
+                }
+            }); // close info button
+        } // close while loop
+
+
+        VBox spells6Root = new VBox(10);
+        HBox spells6Hb = new HBox(10);
+	    HBox spellslots6Hb = new HBox(10);
+        spells6Hb.getChildren().addAll(titleSpellslots6,spells6Box, addSpells6Btn);
+        spellslots6Hb.getChildren().addAll(spellslots6Box,useSpellslots6);
+        spells6Root.getChildren().addAll(spells6Hb,spellslots6Hb,spSpells6);
+
+
+        ////// add spells ///////
+        addSpells6Btn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                Spell newSpell = spells6Box.getValue();
+                spells6List.add(newSpell);
+                int newRow = spells6List.size() - 1;
+                c.setSpells6(spells6List);
+
+                Label newSpellName = new Label(newSpell.getName());
                 Button rm = new Button("remove");
                 Button info = new Button("info");
-                hbSpell.getChildren().addAll(spellLabel,info,rm);
+                HBox hbNewSpell = new HBox(10);
+                hbNewSpell.getChildren().addAll(newSpellName,info,rm);
+                vbSpells6.getChildren().add(hbNewSpell);
+                spells6Box.setValue(null);
 
-                vbSpells6.getChildren().add(hbSpell);
-                
                 ////// Remove Button ///////
                 Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
@@ -5726,7 +4940,7 @@ public class CharacterMgr extends Application {
                         confirmRm.setScene(rmscene);
                         confirmRm.show();
 
-                        Label rmLabel = new Label("remove " + spellName + ". Are you sure?");
+                        Label rmLabel = new Label("remove " + newSpellName + ". Are you sure?");
                         rmgrid.add(rmLabel,0,0);
                         Button yesRm = new Button("Yes");
                         Button noRm = new Button("Cancel");
@@ -5737,8 +4951,8 @@ public class CharacterMgr extends Application {
                         yesRm.setOnAction(new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent e) {
-                                vbSpells6.getChildren().remove(hbSpell);
-                                spells6List.remove(nxtItem);
+                                vbSpells6.getChildren().remove(hbNewSpell);
+                                spells6List.remove(newSpell);
                                 c.setSpells6(spells6List);
                                 confirmRm.close();
                             }
@@ -5756,320 +4970,149 @@ public class CharacterMgr extends Application {
                 info.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        infoStage.close();
-                        GridPane infoGrid = new GridPane();
-                        infoGrid.setAlignment(Pos.CENTER);
-                        infoGrid.setHgap(10);
-                        infoGrid.setVgap(10);
-                        infoGrid.setPadding(new Insets(15,15,15,15));
-                        Scene infoScene = new Scene(infoGrid);
-                        infoStage.setScene(infoScene);
-
-                        infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
-                        Label itemName = new Label(nxtItem.getName());
-                        itemName.setId("spellName");
-
-                        Label lvlSchool = new Label();
-                        if (nxtItem.getRitualTruth()) {
-                            lvlSchool.setText("level " + Integer.toString(nxtItem.getLevel()) + " " + nxtItem.getSchool() + " (ritual)");
-                        }
-                        else {
-                            lvlSchool.setText("level " + Integer.toString(nxtItem.getLevel()) + " " + nxtItem.getSchool());
-                        }
-
-                        Label ctLabel = new Label("Casting Time:");
-                        Text ct = new Text(nxtItem.getCastingTime());
-
-                        Label rangeLabel = new Label("Range:");
-                        Text range = new Text(nxtItem.getRange());
-                        
-                        Label compLabel = new Label("Components:");
-                        Text comp = new Text();
-                        for (int i = 0; i < nxtItem.getComponents().size(); i++) {
-                            if (i == 0) {
-                                comp.setText(nxtItem.getComponents().get(i));
-                            }
-                            else if (i == nxtItem.getComponents().size() - 1) {
-                                comp.setText(comp.getText() + " (" + nxtItem.getComponents().get(i) + ")");
-                            }
-                            else {
-                                comp.setText(comp.getText() + " " + nxtItem.getComponents().get(i));
-                            }
-                        }
-
-                        Label durationLabel = new Label("Duration:");
-                        Text duration = new Text();
-                        if (nxtItem.getConcentrationTruth()) {
-                            duration.setText("Concentration, " + nxtItem.getDuration());
-                        }
-                        else {
-                            duration.setText(nxtItem.getDuration());
-                        }
-
-                        TextArea desc = new TextArea();
-                        desc.setEditable(false);
-                        desc.setWrapText(true);
-                        for (int i = 0; i < nxtItem.getDesc().size(); i++) {
-                            if (i == 0) {
-                                desc.setText(nxtItem.getDesc().get(i));
-                            }
-                            else {
-                                desc.setText(desc.getText() + "\n" + nxtItem.getDesc().get(i));
-                            }
-                        }
-
-                        infoGrid.add(itemName,0,0);
-                        infoGrid.add(lvlSchool,0,1);
-                        infoGrid.add(ctLabel,0,2);
-                        infoGrid.add(ct,1,2);
-                        infoGrid.add(rangeLabel,0,3);
-                        infoGrid.add(range,1,3);
-                        infoGrid.add(compLabel,0,4);
-                        infoGrid.add(comp,1,4);
-                        infoGrid.add(durationLabel,0,5);
-                        infoGrid.add(duration,1,5);
-                        infoGrid.add(desc,0,6);
-
-                        Button done = new Button("OK");
-                        infoGrid.add(done,0,7);
-
-                        infoStage.show();
-
-                        done.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                infoStage.close();
-                            }
-                        });
+                        SpellInfoPage(infoStage, newSpell);
                     }
                 }); // close info button
-            } // close while loop
-                        
+            }
+        }); //close addSpells6btn	   
+
+        ///////////////////
+        ///// LEVEL 7 /////
+        ///////////////////
+
+        // for copy paste - spells#, spellslots#, itr#
+        Label titleSpellslots7 = new Label("Level 7 Spells");
+        titleSpellslots7.setId("spellLevelTitle");
+
+        Button addSpells7Btn = new Button("Add Level 7 Spell");
+
+        ComboBox<Spell> spells7Box = new ComboBox<Spell>();
+        spells7Box.setPromptText("add a spell");
+
+        VBox vbSpells7 = new VBox(10);
+        ScrollPane spells7Sp = new ScrollPane();
+        spells7Sp.setContent(vbSpells7);
+
+        ComboBox<Integer> spellslots7Box = new ComboBox<Integer>(spellSlotsNumbers);
+        spellslots7Box.setValue(c.getSpellSlots7());
+        spellslots7Box.valueProperty().addListener(new ChangeListener<Integer>() {
+            public void changed(ObservableValue ov, Integer oldVal, Integer newVal) {
+                c.setSpellSlots7(newVal);
+            }
+        });
+        Button useSpellslots7 = new Button("Use Spell Slot");
+        useSpellslots7.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                int currSlot = c.getSpellSlots7();
+                if (currSlot != 0) {		          
+                    c.setSpellSlots7(c.getSpellSlots7() - 1);
+                    spellslots7Box.setValue(spellslots7Box.getValue() - 1);
+                }
+            }
+        });
 
 
-                       
+        for (Spell s : classSpells) {
+            if (s.getLevel() == 7) {
+                spells7Box.getItems().add(s);
+            }
+        }
+
+        HashSet<Spell> spells7List = c.getSpells7();
+        Iterator<Spell> itr7 = spells7List.iterator();
 
 
-            VBox spells6Root = new VBox(10);
-            HBox spells6Hb = new HBox(10);
-	    HBox spellslots6Hb = new HBox(10);
-            spells6Hb.getChildren().addAll(titleSpellslots6,spells6Box, addSpells6Btn);
-	    spellslots6Hb.getChildren().addAll(spellslots6Box,useSpellslots6);
-            spells6Root.getChildren().addAll(spells6Hb,spellslots6Hb,spSpells6);
 
-	    
-	    ////// add spells ///////
-            addSpells6Btn.setOnAction(new EventHandler<ActionEvent>() {
+        ScrollPane spSpells7 = new ScrollPane();
+        spSpells7.setContent(vbSpells7);
+
+        while (itr7.hasNext()) {
+            Spell nxtItem = itr7.next();
+            String spellName = nxtItem.getName();
+            Label spellLabel = new Label(spellName);
+            HBox hbSpell = new HBox(10);
+
+            Button rm = new Button("remove");
+            Button info = new Button("info");
+            hbSpell.getChildren().addAll(spellLabel,info,rm);
+
+            vbSpells7.getChildren().add(hbSpell);
+
+            ////// Remove Button ///////
+            Stage confirmRm = new Stage();
+            rm.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
                 public void handle(ActionEvent e) {
-                    Spell newSpell = spells6Box.getValue();
-                    spells6List.add(newSpell);
-                    int newRow = spells6List.size() - 1;
-                    c.setSpells6(spells6List);
+                    confirmRm.close();
+                    confirmRm.setTitle("Are you sure?");
+                    GridPane rmgrid = new GridPane();
+                    rmgrid.setAlignment(Pos.CENTER);
+                    rmgrid.setHgap(10);
+                    rmgrid.setVgap(10);
+                    Scene rmscene = new Scene(rmgrid,400,150);
+                    confirmRm.setScene(rmscene);
+                    confirmRm.show();
 
-                    Label newSpellName = new Label(newSpell.getName());
-                    Button rm = new Button("remove");
-                    Button info = new Button("info");
-                    HBox hbNewSpell = new HBox(10);
-                    hbNewSpell.getChildren().addAll(newSpellName,info,rm);
-                    vbSpells6.getChildren().add(hbNewSpell);
-                    spells6Box.setValue(null);
+                    Label rmLabel = new Label("remove " + spellName + ". Are you sure?");
+                    rmgrid.add(rmLabel,0,0);
+                    Button yesRm = new Button("Yes");
+                    Button noRm = new Button("Cancel");
+                    HBox hbynrm = new HBox(10);
+                    hbynrm.getChildren().addAll(yesRm,noRm);
+                    rmgrid.add(hbynrm,0,1);
 
-                    ////// Remove Button ///////
-                    Stage confirmRm = new Stage();
-                    rm.setOnAction(new EventHandler<ActionEvent>() {
+                    yesRm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            vbSpells7.getChildren().remove(hbSpell);
+                            spells7List.remove(nxtItem);
+                            c.setSpells7(spells7List);
+                            confirmRm.close();
+                        }
+                    });
+                    noRm.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
                             confirmRm.close();
-                            confirmRm.setTitle("Are you sure?");
-                            GridPane rmgrid = new GridPane();
-                            rmgrid.setAlignment(Pos.CENTER);
-                            rmgrid.setHgap(10);
-                            rmgrid.setVgap(10);
-                            Scene rmscene = new Scene(rmgrid,400,150);
-                            confirmRm.setScene(rmscene);
-                            confirmRm.show();
-
-                            Label rmLabel = new Label("remove " + newSpellName + ". Are you sure?");
-                            rmgrid.add(rmLabel,0,0);
-                            Button yesRm = new Button("Yes");
-                            Button noRm = new Button("Cancel");
-                            HBox hbynrm = new HBox(10);
-                            hbynrm.getChildren().addAll(yesRm,noRm);
-                            rmgrid.add(hbynrm,0,1);
-
-                            yesRm.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent e) {
-                                    vbSpells6.getChildren().remove(hbNewSpell);
-                                    spells6List.remove(newSpell);
-                                    c.setSpells6(spells6List);
-                                    confirmRm.close();
-                                }
-                            });
-                            noRm.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent e) {
-                                    confirmRm.close();
-                                }
-                            });
                         }
                     });
-                    /////// Info Button ///////
-                    Stage infoStage = new Stage();
-                    info.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent e) {
-                            infoStage.close();
-                            GridPane infoGrid = new GridPane();
-                            infoGrid.setAlignment(Pos.CENTER);
-                            infoGrid.setHgap(10);
-                            infoGrid.setPadding(new Insets(15,15,15,15));
-                            infoGrid.setVgap(10);
-                            Scene infoScene = new Scene(infoGrid);
-                            infoStage.setScene(infoScene);
-
-                            infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
-                            Label itemName = new Label(newSpell.getName());
-                            itemName.setId("spellName");
-
-                            Label lvlSchool = new Label();
-                            if (newSpell.getRitualTruth()) {
-                                lvlSchool.setText("level " + Integer.toString(newSpell.getLevel()) + " " + newSpell.getSchool() + " (ritual)");
-                            }
-                            else {
-                                lvlSchool.setText("level " + Integer.toString(newSpell.getLevel()) + " " + newSpell.getSchool());
-                            }
-
-                            Label ctLabel = new Label("Casting Time:");
-                            Text ct = new Text(newSpell.getCastingTime());
-
-                            Label rangeLabel = new Label("Range:");
-                            Text range = new Text(newSpell.getRange());
-
-                            Label compLabel = new Label("Components:");
-                            Text comp = new Text();
-                            for (int i = 0; i < newSpell.getComponents().size(); i++) {
-                                if (i == 0) {
-                                    comp.setText(newSpell.getComponents().get(i));
-                                }
-                                else if (i == newSpell.getComponents().size() - 1) {
-                                    comp.setText(comp.getText() + " (" + newSpell.getComponents().get(i) + ")");
-                                }
-                                else {
-                                    comp.setText(comp.getText() + " " + newSpell.getComponents().get(i));
-                                }
-                            }
-
-                            Label durationLabel = new Label("Duration:");
-                            Text duration = new Text();
-                            if (newSpell.getConcentrationTruth()) {
-                                duration.setText("Concentration, " + newSpell.getDuration());
-                            }
-                            else {
-                                duration.setText(newSpell.getDuration());
-                            }
-
-                            TextArea desc = new TextArea();
-                            desc.setEditable(false);
-                            desc.setWrapText(true);
-                            for (int i = 0; i < newSpell.getDesc().size(); i++) {
-                                if (i == 0) {
-                                    desc.setText(newSpell.getDesc().get(i));
-                                }
-                                else {
-                                    desc.setText(desc.getText() + "\n" + newSpell.getDesc().get(i));
-                                }
-                            }
-
-                            infoGrid.add(itemName,0,0);
-                            infoGrid.add(lvlSchool,0,1);
-                            infoGrid.add(ctLabel,0,2);
-                            infoGrid.add(ct,1,2);
-                            infoGrid.add(rangeLabel,0,3);
-                            infoGrid.add(range,1,3);
-                            infoGrid.add(compLabel,0,4);
-                            infoGrid.add(comp,1,4);
-                            infoGrid.add(durationLabel,0,5);
-                            infoGrid.add(duration,1,5);
-                            infoGrid.add(desc,0,6,2,1);
-
-                            Button done = new Button("OK");
-                            infoGrid.add(done,0,7);
-                            infoStage.show();
-
-                            done.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent e) {
-                                    infoStage.close();
-                                }
-                            });
-                        }
-                    }); // close info button
                 }
-            }); //close addSpells6btn	   
-
-            ///////////////////
-            ///// LEVEL 7 /////
-            ///////////////////
-
-            // for copy paste - spells#, spellslots#, itr#
-            Label titleSpellslots7 = new Label("Level 7 Spells");
-            titleSpellslots7.setId("spellLevelTitle");
-
-            Button addSpells7Btn = new Button("Add Level 7 Spell");
-
-            ComboBox<Spell> spells7Box = new ComboBox<Spell>();
-            spells7Box.setPromptText("add a spell");
-            
-            VBox vbSpells7 = new VBox(10);
-            ScrollPane spells7Sp = new ScrollPane();
-            spells7Sp.setContent(vbSpells7);
-
-	    ComboBox<Integer> spellslots7Box = new ComboBox<Integer>(spellSlotsNumbers);
-	    spellslots7Box.setValue(c.getSpellSlots7());
-	    spellslots7Box.valueProperty().addListener(new ChangeListener<Integer>() {
-		    public void changed(ObservableValue ov, Integer oldVal, Integer newVal) {
-			c.setSpellSlots7(newVal);
-		    }
-		});
-	    Button useSpellslots7 = new Button("Use Spell Slot");
-	    useSpellslots7.setOnAction(new EventHandler<ActionEvent>() {
-		    public void handle(ActionEvent e) {
-			int currSlot = c.getSpellSlots7();
-			if (currSlot != 0) {		          
-			    c.setSpellSlots7(c.getSpellSlots7() - 1);
-			    spellslots7Box.setValue(spellslots7Box.getValue() - 1);
-			}
-		    }
-		});
-	    
-
-            for (Spell s : classSpells) {
-                if (s.getLevel() == 7) {
-                    spells7Box.getItems().add(s);
+            });
+            /////// Info Button ///////
+            Stage infoStage = new Stage();
+            info.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    SpellInfoPage(infoStage, nxtItem);
                 }
-            }
+            }); // close info button
+        } // close while loop
 
-            HashSet<Spell> spells7List = c.getSpells7();
-            Iterator<Spell> itr7 = spells7List.iterator();
 
-	    
+        VBox spells7Root = new VBox(10);
+        HBox spells7Hb = new HBox(10);
+        HBox spellslots7Hb = new HBox(10);
+        spells7Hb.getChildren().addAll(titleSpellslots7,spells7Box, addSpells7Btn);
+        spellslots7Hb.getChildren().addAll(spellslots7Box,useSpellslots7);
+        spells7Root.getChildren().addAll(spells7Hb,spellslots7Hb,spSpells7);
 
-            ScrollPane spSpells7 = new ScrollPane();
-            spSpells7.setContent(vbSpells7);
 
-            while (itr7.hasNext()) {
-                Spell nxtItem = itr7.next();
-                String spellName = nxtItem.getName();
-                Label spellLabel = new Label(spellName);
-                HBox hbSpell = new HBox(10);
+        ////// add spells ///////
+        addSpells7Btn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                Spell newSpell = spells7Box.getValue();
+                spells7List.add(newSpell);
+                int newRow = spells7List.size() - 1;
+                c.setSpells7(spells7List);
 
+                Label newSpellName = new Label(newSpell.getName());
                 Button rm = new Button("remove");
                 Button info = new Button("info");
-                hbSpell.getChildren().addAll(spellLabel,info,rm);
+                HBox hbNewSpell = new HBox(10);
+                hbNewSpell.getChildren().addAll(newSpellName,info,rm);
+                vbSpells7.getChildren().add(hbNewSpell);
+                spells7Box.setValue(null);
 
-                vbSpells7.getChildren().add(hbSpell);
-                
                 ////// Remove Button ///////
                 Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
@@ -6085,7 +5128,7 @@ public class CharacterMgr extends Application {
                         confirmRm.setScene(rmscene);
                         confirmRm.show();
 
-                        Label rmLabel = new Label("remove " + spellName + ". Are you sure?");
+                        Label rmLabel = new Label("remove " + newSpellName + ". Are you sure?");
                         rmgrid.add(rmLabel,0,0);
                         Button yesRm = new Button("Yes");
                         Button noRm = new Button("Cancel");
@@ -6096,8 +5139,8 @@ public class CharacterMgr extends Application {
                         yesRm.setOnAction(new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent e) {
-                                vbSpells7.getChildren().remove(hbSpell);
-                                spells7List.remove(nxtItem);
+                                vbSpells7.getChildren().remove(hbNewSpell);
+                                spells7List.remove(newSpell);
                                 c.setSpells7(spells7List);
                                 confirmRm.close();
                             }
@@ -6115,320 +5158,149 @@ public class CharacterMgr extends Application {
                 info.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        infoStage.close();
-                        GridPane infoGrid = new GridPane();
-                        infoGrid.setAlignment(Pos.CENTER);
-                        infoGrid.setHgap(10);
-                        infoGrid.setVgap(10);
-                        infoGrid.setPadding(new Insets(15,15,15,15));
-                        Scene infoScene = new Scene(infoGrid);
-                        infoStage.setScene(infoScene);
-
-                        infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
-                        Label itemName = new Label(nxtItem.getName());
-                        itemName.setId("spellName");
-
-                        Label lvlSchool = new Label();
-                        if (nxtItem.getRitualTruth()) {
-                            lvlSchool.setText("level " + Integer.toString(nxtItem.getLevel()) + " " + nxtItem.getSchool() + " (ritual)");
-                        }
-                        else {
-                            lvlSchool.setText("level " + Integer.toString(nxtItem.getLevel()) + " " + nxtItem.getSchool());
-                        }
-
-                        Label ctLabel = new Label("Casting Time:");
-                        Text ct = new Text(nxtItem.getCastingTime());
-
-                        Label rangeLabel = new Label("Range:");
-                        Text range = new Text(nxtItem.getRange());
-                        
-                        Label compLabel = new Label("Components:");
-                        Text comp = new Text();
-                        for (int i = 0; i < nxtItem.getComponents().size(); i++) {
-                            if (i == 0) {
-                                comp.setText(nxtItem.getComponents().get(i));
-                            }
-                            else if (i == nxtItem.getComponents().size() - 1) {
-                                comp.setText(comp.getText() + " (" + nxtItem.getComponents().get(i) + ")");
-                            }
-                            else {
-                                comp.setText(comp.getText() + " " + nxtItem.getComponents().get(i));
-                            }
-                        }
-
-                        Label durationLabel = new Label("Duration:");
-                        Text duration = new Text();
-                        if (nxtItem.getConcentrationTruth()) {
-                            duration.setText("Concentration, " + nxtItem.getDuration());
-                        }
-                        else {
-                            duration.setText(nxtItem.getDuration());
-                        }
-
-                        TextArea desc = new TextArea();
-                        desc.setEditable(false);
-                        desc.setWrapText(true);
-                        for (int i = 0; i < nxtItem.getDesc().size(); i++) {
-                            if (i == 0) {
-                                desc.setText(nxtItem.getDesc().get(i));
-                            }
-                            else {
-                                desc.setText(desc.getText() + "\n" + nxtItem.getDesc().get(i));
-                            }
-                        }
-
-                        infoGrid.add(itemName,0,0);
-                        infoGrid.add(lvlSchool,0,1);
-                        infoGrid.add(ctLabel,0,2);
-                        infoGrid.add(ct,1,2);
-                        infoGrid.add(rangeLabel,0,3);
-                        infoGrid.add(range,1,3);
-                        infoGrid.add(compLabel,0,4);
-                        infoGrid.add(comp,1,4);
-                        infoGrid.add(durationLabel,0,5);
-                        infoGrid.add(duration,1,5);
-                        infoGrid.add(desc,0,6);
-
-                        Button done = new Button("OK");
-                        infoGrid.add(done,0,7);
-
-                        infoStage.show();
-
-                        done.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                infoStage.close();
-                            }
-                        });
+                        SpellInfoPage(infoStage, newSpell);
                     }
                 }); // close info button
-            } // close while loop
-                        
+            }
+        }); //close addSpells7btn
+
+        ///////////////////
+        ///// LEVEL 8 /////
+        ///////////////////
+
+        // for copy paste - spells#, spellslots#, itr#
+        Label titleSpellslots8 = new Label("Level 8 Spells");
+        titleSpellslots8.setId("spellLevelTitle");
+
+        Button addSpells8Btn = new Button("Add Level 8 Spell");
+
+        ComboBox<Spell> spells8Box = new ComboBox<Spell>();
+        spells8Box.setPromptText("add a spell");
+
+        VBox vbSpells8 = new VBox(10);
+        ScrollPane spells8Sp = new ScrollPane();
+        spells8Sp.setContent(vbSpells8);
+
+        ComboBox<Integer> spellslots8Box = new ComboBox<Integer>(spellSlotsNumbers);
+        spellslots8Box.setValue(c.getSpellSlots8());
+        spellslots8Box.valueProperty().addListener(new ChangeListener<Integer>() {
+            public void changed(ObservableValue ov, Integer oldVal, Integer newVal) {
+                c.setSpellSlots8(newVal);
+            }
+        });
+        Button useSpellslots8 = new Button("Use Spell Slot");
+        useSpellslots8.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                int currSlot = c.getSpellSlots8();
+                if (currSlot != 0) {		          
+                    c.setSpellSlots8(c.getSpellSlots8() - 1);
+                    spellslots8Box.setValue(spellslots8Box.getValue() - 1);
+                }
+            }
+        });
 
 
-                       
+        for (Spell s : classSpells) {
+            if (s.getLevel() == 8) {
+                spells8Box.getItems().add(s);
+            }
+        }
+
+        HashSet<Spell> spells8List = c.getSpells8();
+        Iterator<Spell> itr8 = spells8List.iterator();
 
 
-            VBox spells7Root = new VBox(10);
-            HBox spells7Hb = new HBox(10);
-	    HBox spellslots7Hb = new HBox(10);
-            spells7Hb.getChildren().addAll(titleSpellslots7,spells7Box, addSpells7Btn);
-	    spellslots7Hb.getChildren().addAll(spellslots7Box,useSpellslots7);
-            spells7Root.getChildren().addAll(spells7Hb,spellslots7Hb,spSpells7);
 
-	    
-	    ////// add spells ///////
-            addSpells7Btn.setOnAction(new EventHandler<ActionEvent>() {
+        ScrollPane spSpells8 = new ScrollPane();
+        spSpells8.setContent(vbSpells8);
+
+        while (itr8.hasNext()) {
+            Spell nxtItem = itr8.next();
+            String spellName = nxtItem.getName();
+            Label spellLabel = new Label(spellName);
+            HBox hbSpell = new HBox(10);
+
+            Button rm = new Button("remove");
+            Button info = new Button("info");
+            hbSpell.getChildren().addAll(spellLabel,info,rm);
+
+            vbSpells8.getChildren().add(hbSpell);
+
+            ////// Remove Button ///////
+            Stage confirmRm = new Stage();
+            rm.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
                 public void handle(ActionEvent e) {
-                    Spell newSpell = spells7Box.getValue();
-                    spells7List.add(newSpell);
-                    int newRow = spells7List.size() - 1;
-                    c.setSpells7(spells7List);
+                    confirmRm.close();
+                    confirmRm.setTitle("Are you sure?");
+                    GridPane rmgrid = new GridPane();
+                    rmgrid.setAlignment(Pos.CENTER);
+                    rmgrid.setHgap(10);
+                    rmgrid.setVgap(10);
+                    Scene rmscene = new Scene(rmgrid,400,150);
+                    confirmRm.setScene(rmscene);
+                    confirmRm.show();
 
-                    Label newSpellName = new Label(newSpell.getName());
-                    Button rm = new Button("remove");
-                    Button info = new Button("info");
-                    HBox hbNewSpell = new HBox(10);
-                    hbNewSpell.getChildren().addAll(newSpellName,info,rm);
-                    vbSpells7.getChildren().add(hbNewSpell);
-                    spells7Box.setValue(null);
+                    Label rmLabel = new Label("remove " + spellName + ". Are you sure?");
+                    rmgrid.add(rmLabel,0,0);
+                    Button yesRm = new Button("Yes");
+                    Button noRm = new Button("Cancel");
+                    HBox hbynrm = new HBox(10);
+                    hbynrm.getChildren().addAll(yesRm,noRm);
+                    rmgrid.add(hbynrm,0,1);
 
-                    ////// Remove Button ///////
-                    Stage confirmRm = new Stage();
-                    rm.setOnAction(new EventHandler<ActionEvent>() {
+                    yesRm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            vbSpells8.getChildren().remove(hbSpell);
+                            spells8List.remove(nxtItem);
+                            c.setSpells8(spells8List);
+                            confirmRm.close();
+                        }
+                    });
+                    noRm.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
                             confirmRm.close();
-                            confirmRm.setTitle("Are you sure?");
-                            GridPane rmgrid = new GridPane();
-                            rmgrid.setAlignment(Pos.CENTER);
-                            rmgrid.setHgap(10);
-                            rmgrid.setVgap(10);
-                            Scene rmscene = new Scene(rmgrid,400,150);
-                            confirmRm.setScene(rmscene);
-                            confirmRm.show();
-
-                            Label rmLabel = new Label("remove " + newSpellName + ". Are you sure?");
-                            rmgrid.add(rmLabel,0,0);
-                            Button yesRm = new Button("Yes");
-                            Button noRm = new Button("Cancel");
-                            HBox hbynrm = new HBox(10);
-                            hbynrm.getChildren().addAll(yesRm,noRm);
-                            rmgrid.add(hbynrm,0,1);
-
-                            yesRm.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent e) {
-                                    vbSpells7.getChildren().remove(hbNewSpell);
-                                    spells7List.remove(newSpell);
-                                    c.setSpells7(spells7List);
-                                    confirmRm.close();
-                                }
-                            });
-                            noRm.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent e) {
-                                    confirmRm.close();
-                                }
-                            });
                         }
                     });
-                    /////// Info Button ///////
-                    Stage infoStage = new Stage();
-                    info.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent e) {
-                            infoStage.close();
-                            GridPane infoGrid = new GridPane();
-                            infoGrid.setAlignment(Pos.CENTER);
-                            infoGrid.setHgap(10);
-                            infoGrid.setPadding(new Insets(15,15,15,15));
-                            infoGrid.setVgap(10);
-                            Scene infoScene = new Scene(infoGrid);
-                            infoStage.setScene(infoScene);
-
-                            infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
-                            Label itemName = new Label(newSpell.getName());
-                            itemName.setId("spellName");
-
-                            Label lvlSchool = new Label();
-                            if (newSpell.getRitualTruth()) {
-                                lvlSchool.setText("level " + Integer.toString(newSpell.getLevel()) + " " + newSpell.getSchool() + " (ritual)");
-                            }
-                            else {
-                                lvlSchool.setText("level " + Integer.toString(newSpell.getLevel()) + " " + newSpell.getSchool());
-                            }
-
-                            Label ctLabel = new Label("Casting Time:");
-                            Text ct = new Text(newSpell.getCastingTime());
-
-                            Label rangeLabel = new Label("Range:");
-                            Text range = new Text(newSpell.getRange());
-
-                            Label compLabel = new Label("Components:");
-                            Text comp = new Text();
-                            for (int i = 0; i < newSpell.getComponents().size(); i++) {
-                                if (i == 0) {
-                                    comp.setText(newSpell.getComponents().get(i));
-                                }
-                                else if (i == newSpell.getComponents().size() - 1) {
-                                    comp.setText(comp.getText() + " (" + newSpell.getComponents().get(i) + ")");
-                                }
-                                else {
-                                    comp.setText(comp.getText() + " " + newSpell.getComponents().get(i));
-                                }
-                            }
-
-                            Label durationLabel = new Label("Duration:");
-                            Text duration = new Text();
-                            if (newSpell.getConcentrationTruth()) {
-                                duration.setText("Concentration, " + newSpell.getDuration());
-                            }
-                            else {
-                                duration.setText(newSpell.getDuration());
-                            }
-
-                            TextArea desc = new TextArea();
-                            desc.setEditable(false);
-                            desc.setWrapText(true);
-                            for (int i = 0; i < newSpell.getDesc().size(); i++) {
-                                if (i == 0) {
-                                    desc.setText(newSpell.getDesc().get(i));
-                                }
-                                else {
-                                    desc.setText(desc.getText() + "\n" + newSpell.getDesc().get(i));
-                                }
-                            }
-
-                            infoGrid.add(itemName,0,0);
-                            infoGrid.add(lvlSchool,0,1);
-                            infoGrid.add(ctLabel,0,2);
-                            infoGrid.add(ct,1,2);
-                            infoGrid.add(rangeLabel,0,3);
-                            infoGrid.add(range,1,3);
-                            infoGrid.add(compLabel,0,4);
-                            infoGrid.add(comp,1,4);
-                            infoGrid.add(durationLabel,0,5);
-                            infoGrid.add(duration,1,5);
-                            infoGrid.add(desc,0,6,2,1);
-
-                            Button done = new Button("OK");
-                            infoGrid.add(done,0,7);
-                            infoStage.show();
-
-                            done.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent e) {
-                                    infoStage.close();
-                                }
-                            });
-                        }
-                    }); // close info button
-                }
-            }); //close addSpells7btn
-
-            ///////////////////
-            ///// LEVEL 8 /////
-            ///////////////////
-
-            // for copy paste - spells#, spellslots#, itr#
-            Label titleSpellslots8 = new Label("Level 8 Spells");
-            titleSpellslots8.setId("spellLevelTitle");
-
-            Button addSpells8Btn = new Button("Add Level 8 Spell");
-
-            ComboBox<Spell> spells8Box = new ComboBox<Spell>();
-            spells8Box.setPromptText("add a spell");
-
-            VBox vbSpells8 = new VBox(10);
-            ScrollPane spells8Sp = new ScrollPane();
-            spells8Sp.setContent(vbSpells8);
-
-            ComboBox<Integer> spellslots8Box = new ComboBox<Integer>(spellSlotsNumbers);
-            spellslots8Box.setValue(c.getSpellSlots8());
-            spellslots8Box.valueProperty().addListener(new ChangeListener<Integer>() {
-                public void changed(ObservableValue ov, Integer oldVal, Integer newVal) {
-                    c.setSpellSlots8(newVal);
                 }
             });
-            Button useSpellslots8 = new Button("Use Spell Slot");
-            useSpellslots8.setOnAction(new EventHandler<ActionEvent>() {
+            /////// Info Button ///////
+            Stage infoStage = new Stage();
+            info.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
                 public void handle(ActionEvent e) {
-                    int currSlot = c.getSpellSlots8();
-                    if (currSlot != 0) {		          
-                        c.setSpellSlots8(c.getSpellSlots8() - 1);
-                        spellslots8Box.setValue(spellslots8Box.getValue() - 1);
-                    }
+                    SpellInfoPage(infoStage, nxtItem);
                 }
-            });
+            }); // close info button
+        } // close while loop
 
 
-            for (Spell s : classSpells) {
-                if (s.getLevel() == 8) {
-                    spells8Box.getItems().add(s);
-                }
-            }
+        VBox spells8Root = new VBox(10);
+        HBox spells8Hb = new HBox(10);
+        HBox spellslots8Hb = new HBox(10);
+        spells8Hb.getChildren().addAll(titleSpellslots8,spells8Box, addSpells8Btn);
+        spellslots8Hb.getChildren().addAll(spellslots8Box,useSpellslots8);
+        spells8Root.getChildren().addAll(spells8Hb,spellslots8Hb,spSpells8);
 
-            HashSet<Spell> spells8List = c.getSpells8();
-            Iterator<Spell> itr8 = spells8List.iterator();
 
-	    
+        ////// add spells ///////
+        addSpells8Btn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                Spell newSpell = spells8Box.getValue();
+                spells8List.add(newSpell);
+                int newRow = spells8List.size() - 1;
+                c.setSpells8(spells8List);
 
-            ScrollPane spSpells8 = new ScrollPane();
-            spSpells8.setContent(vbSpells8);
-
-            while (itr8.hasNext()) {
-                Spell nxtItem = itr8.next();
-                String spellName = nxtItem.getName();
-                Label spellLabel = new Label(spellName);
-                HBox hbSpell = new HBox(10);
-
+                Label newSpellName = new Label(newSpell.getName());
                 Button rm = new Button("remove");
                 Button info = new Button("info");
-                hbSpell.getChildren().addAll(spellLabel,info,rm);
+                HBox hbNewSpell = new HBox(10);
+                hbNewSpell.getChildren().addAll(newSpellName,info,rm);
+                vbSpells8.getChildren().add(hbNewSpell);
+                spells8Box.setValue(null);
 
-                vbSpells8.getChildren().add(hbSpell);
-                
                 ////// Remove Button ///////
                 Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
@@ -6444,7 +5316,7 @@ public class CharacterMgr extends Application {
                         confirmRm.setScene(rmscene);
                         confirmRm.show();
 
-                        Label rmLabel = new Label("remove " + spellName + ". Are you sure?");
+                        Label rmLabel = new Label("remove " + newSpellName + ". Are you sure?");
                         rmgrid.add(rmLabel,0,0);
                         Button yesRm = new Button("Yes");
                         Button noRm = new Button("Cancel");
@@ -6455,8 +5327,8 @@ public class CharacterMgr extends Application {
                         yesRm.setOnAction(new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent e) {
-                                vbSpells8.getChildren().remove(hbSpell);
-                                spells8List.remove(nxtItem);
+                                vbSpells8.getChildren().remove(hbNewSpell);
+                                spells8List.remove(newSpell);
                                 c.setSpells8(spells8List);
                                 confirmRm.close();
                             }
@@ -6474,319 +5346,147 @@ public class CharacterMgr extends Application {
                 info.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        infoStage.close();
-                        GridPane infoGrid = new GridPane();
-                        infoGrid.setAlignment(Pos.CENTER);
-                        infoGrid.setHgap(10);
-                        infoGrid.setVgap(10);
-                        infoGrid.setPadding(new Insets(15,15,15,15));
-                        Scene infoScene = new Scene(infoGrid);
-                        infoStage.setScene(infoScene);
-
-                        infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
-                        Label itemName = new Label(nxtItem.getName());
-                        itemName.setId("spellName");
-
-                        Label lvlSchool = new Label();
-                        if (nxtItem.getRitualTruth()) {
-                            lvlSchool.setText("level " + Integer.toString(nxtItem.getLevel()) + " " + nxtItem.getSchool() + " (ritual)");
-                        }
-                        else {
-                            lvlSchool.setText("level " + Integer.toString(nxtItem.getLevel()) + " " + nxtItem.getSchool());
-                        }
-
-                        Label ctLabel = new Label("Casting Time:");
-                        Text ct = new Text(nxtItem.getCastingTime());
-
-                        Label rangeLabel = new Label("Range:");
-                        Text range = new Text(nxtItem.getRange());
-                        
-                        Label compLabel = new Label("Components:");
-                        Text comp = new Text();
-                        for (int i = 0; i < nxtItem.getComponents().size(); i++) {
-                            if (i == 0) {
-                                comp.setText(nxtItem.getComponents().get(i));
-                            }
-                            else if (i == nxtItem.getComponents().size() - 1) {
-                                comp.setText(comp.getText() + " (" + nxtItem.getComponents().get(i) + ")");
-                            }
-                            else {
-                                comp.setText(comp.getText() + " " + nxtItem.getComponents().get(i));
-                            }
-                        }
-
-                        Label durationLabel = new Label("Duration:");
-                        Text duration = new Text();
-                        if (nxtItem.getConcentrationTruth()) {
-                            duration.setText("Concentration, " + nxtItem.getDuration());
-                        }
-                        else {
-                            duration.setText(nxtItem.getDuration());
-                        }
-
-                        TextArea desc = new TextArea();
-                        desc.setEditable(false);
-                        desc.setWrapText(true);
-                        for (int i = 0; i < nxtItem.getDesc().size(); i++) {
-                            if (i == 0) {
-                                desc.setText(nxtItem.getDesc().get(i));
-                            }
-                            else {
-                                desc.setText(desc.getText() + "\n" + nxtItem.getDesc().get(i));
-                            }
-                        }
-
-                        infoGrid.add(itemName,0,0);
-                        infoGrid.add(lvlSchool,0,1);
-                        infoGrid.add(ctLabel,0,2);
-                        infoGrid.add(ct,1,2);
-                        infoGrid.add(rangeLabel,0,3);
-                        infoGrid.add(range,1,3);
-                        infoGrid.add(compLabel,0,4);
-                        infoGrid.add(comp,1,4);
-                        infoGrid.add(durationLabel,0,5);
-                        infoGrid.add(duration,1,5);
-                        infoGrid.add(desc,0,6);
-
-                        Button done = new Button("OK");
-                        infoGrid.add(done,0,7);
-
-                        infoStage.show();
-
-                        done.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                infoStage.close();
-                            }
-                        });
+                        SpellInfoPage(infoStage, newSpell);
                     }
                 }); // close info button
-            } // close while loop
-                        
+            }
+        }); //close addSpells8btn
+
+        ///////////////////
+        ///// LEVEL 9 /////
+        ///////////////////
+
+        // for copy paste - spells#, spellslots#, itr#
+        Label titleSpellslots9 = new Label("Level 9 Spells");
+        titleSpellslots9.setId("spellLevelTitle");
+
+        Button addSpells9Btn = new Button("Add Level 9 Spell");
+
+        ComboBox<Spell> spells9Box = new ComboBox<Spell>();
+        spells9Box.setPromptText("add a spell");
+
+        VBox vbSpells9 = new VBox(10);
+        ScrollPane spells9Sp = new ScrollPane();
+        spells9Sp.setContent(vbSpells9);
+
+        ComboBox<Integer> spellslots9Box = new ComboBox<Integer>(spellSlotsNumbers);
+        spellslots9Box.setValue(c.getSpellSlots9());
+        spellslots9Box.valueProperty().addListener(new ChangeListener<Integer>() {
+            public void changed(ObservableValue ov, Integer oldVal, Integer newVal) {
+                c.setSpellSlots9(newVal);
+            }
+        });
+        Button useSpellslots9 = new Button("Use Spell Slot");
+        useSpellslots9.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                int currSlot = c.getSpellSlots9();
+                if (currSlot != 0) {		          
+                    c.setSpellSlots9(c.getSpellSlots9() - 1);
+                    spellslots9Box.setValue(spellslots9Box.getValue() - 1);
+                }
+            }
+        });
 
 
-                       
+        for (Spell s : classSpells) {
+            if (s.getLevel() == 9) {
+                spells9Box.getItems().add(s);
+            }
+        }
+
+        HashSet<Spell> spells9List = c.getSpells9();
+        Iterator<Spell> itr9 = spells9List.iterator();
 
 
-            VBox spells8Root = new VBox(10);
-            HBox spells8Hb = new HBox(10);
-            HBox spellslots8Hb = new HBox(10);
-            spells8Hb.getChildren().addAll(titleSpellslots8,spells8Box, addSpells8Btn);
-            spellslots8Hb.getChildren().addAll(spellslots8Box,useSpellslots8);
-            spells8Root.getChildren().addAll(spells8Hb,spellslots8Hb,spSpells8);
 
-	    
-	    ////// add spells ///////
-            addSpells8Btn.setOnAction(new EventHandler<ActionEvent>() {
+        ScrollPane spSpells9 = new ScrollPane();
+        spSpells9.setContent(vbSpells9);
+
+        while (itr9.hasNext()) {
+            Spell nxtItem = itr9.next();
+            String spellName = nxtItem.getName();
+            Label spellLabel = new Label(spellName);
+            HBox hbSpell = new HBox(10);
+
+            Button rm = new Button("remove");
+            Button info = new Button("info");
+            hbSpell.getChildren().addAll(spellLabel,info,rm);
+
+            vbSpells9.getChildren().add(hbSpell);
+
+            ////// Remove Button ///////
+            Stage confirmRm = new Stage();
+            rm.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
                 public void handle(ActionEvent e) {
-                    Spell newSpell = spells8Box.getValue();
-                    spells8List.add(newSpell);
-                    int newRow = spells8List.size() - 1;
-                    c.setSpells8(spells8List);
+                    confirmRm.close();
+                    confirmRm.setTitle("Are you sure?");
+                    GridPane rmgrid = new GridPane();
+                    rmgrid.setAlignment(Pos.CENTER);
+                    rmgrid.setHgap(10);
+                    rmgrid.setVgap(10);
+                    Scene rmscene = new Scene(rmgrid,400,150);
+                    confirmRm.setScene(rmscene);
+                    confirmRm.show();
 
-                    Label newSpellName = new Label(newSpell.getName());
-                    Button rm = new Button("remove");
-                    Button info = new Button("info");
-                    HBox hbNewSpell = new HBox(10);
-                    hbNewSpell.getChildren().addAll(newSpellName,info,rm);
-                    vbSpells8.getChildren().add(hbNewSpell);
-                    spells8Box.setValue(null);
+                    Label rmLabel = new Label("remove " + spellName + ". Are you sure?");
+                    rmgrid.add(rmLabel,0,0);
+                    Button yesRm = new Button("Yes");
+                    Button noRm = new Button("Cancel");
+                    HBox hbynrm = new HBox(10);
+                    hbynrm.getChildren().addAll(yesRm,noRm);
+                    rmgrid.add(hbynrm,0,1);
 
-                    ////// Remove Button ///////
-                    Stage confirmRm = new Stage();
-                    rm.setOnAction(new EventHandler<ActionEvent>() {
+                    yesRm.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            vbSpells9.getChildren().remove(hbSpell);
+                            spells9List.remove(nxtItem);
+                            c.setSpells9(spells9List);
+                            confirmRm.close();
+                        }
+                    });
+                    noRm.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent e) {
                             confirmRm.close();
-                            confirmRm.setTitle("Are you sure?");
-                            GridPane rmgrid = new GridPane();
-                            rmgrid.setAlignment(Pos.CENTER);
-                            rmgrid.setHgap(10);
-                            rmgrid.setVgap(10);
-                            Scene rmscene = new Scene(rmgrid,400,150);
-                            confirmRm.setScene(rmscene);
-                            confirmRm.show();
-
-                            Label rmLabel = new Label("remove " + newSpellName + ". Are you sure?");
-                            rmgrid.add(rmLabel,0,0);
-                            Button yesRm = new Button("Yes");
-                            Button noRm = new Button("Cancel");
-                            HBox hbynrm = new HBox(10);
-                            hbynrm.getChildren().addAll(yesRm,noRm);
-                            rmgrid.add(hbynrm,0,1);
-
-                            yesRm.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent e) {
-                                    vbSpells8.getChildren().remove(hbNewSpell);
-                                    spells8List.remove(newSpell);
-                                    c.setSpells8(spells8List);
-                                    confirmRm.close();
-                                }
-                            });
-                            noRm.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent e) {
-                                    confirmRm.close();
-                                }
-                            });
                         }
                     });
-                    /////// Info Button ///////
-                    Stage infoStage = new Stage();
-                    info.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent e) {
-                            infoStage.close();
-                            GridPane infoGrid = new GridPane();
-                            infoGrid.setAlignment(Pos.CENTER);
-                            infoGrid.setHgap(10);
-                            infoGrid.setPadding(new Insets(15,15,15,15));
-                            infoGrid.setVgap(10);
-                            Scene infoScene = new Scene(infoGrid);
-                            infoStage.setScene(infoScene);
-
-                            infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
-                            Label itemName = new Label(newSpell.getName());
-                            itemName.setId("spellName");
-
-                            Label lvlSchool = new Label();
-                            if (newSpell.getRitualTruth()) {
-                                lvlSchool.setText("level " + Integer.toString(newSpell.getLevel()) + " " + newSpell.getSchool() + " (ritual)");
-                            }
-                            else {
-                                lvlSchool.setText("level " + Integer.toString(newSpell.getLevel()) + " " + newSpell.getSchool());
-                            }
-
-                            Label ctLabel = new Label("Casting Time:");
-                            Text ct = new Text(newSpell.getCastingTime());
-
-                            Label rangeLabel = new Label("Range:");
-                            Text range = new Text(newSpell.getRange());
-
-                            Label compLabel = new Label("Components:");
-                            Text comp = new Text();
-                            for (int i = 0; i < newSpell.getComponents().size(); i++) {
-                                if (i == 0) {
-                                    comp.setText(newSpell.getComponents().get(i));
-                                }
-                                else if (i == newSpell.getComponents().size() - 1) {
-                                    comp.setText(comp.getText() + " (" + newSpell.getComponents().get(i) + ")");
-                                }
-                                else {
-                                    comp.setText(comp.getText() + " " + newSpell.getComponents().get(i));
-                                }
-                            }
-
-                            Label durationLabel = new Label("Duration:");
-                            Text duration = new Text();
-                            if (newSpell.getConcentrationTruth()) {
-                                duration.setText("Concentration, " + newSpell.getDuration());
-                            }
-                            else {
-                                duration.setText(newSpell.getDuration());
-                            }
-
-                            TextArea desc = new TextArea();
-                            desc.setEditable(false);
-                            desc.setWrapText(true);
-                            for (int i = 0; i < newSpell.getDesc().size(); i++) {
-                                if (i == 0) {
-                                    desc.setText(newSpell.getDesc().get(i));
-                                }
-                                else {
-                                    desc.setText(desc.getText() + "\n" + newSpell.getDesc().get(i));
-                                }
-                            }
-
-                            infoGrid.add(itemName,0,0);
-                            infoGrid.add(lvlSchool,0,1);
-                            infoGrid.add(ctLabel,0,2);
-                            infoGrid.add(ct,1,2);
-                            infoGrid.add(rangeLabel,0,3);
-                            infoGrid.add(range,1,3);
-                            infoGrid.add(compLabel,0,4);
-                            infoGrid.add(comp,1,4);
-                            infoGrid.add(durationLabel,0,5);
-                            infoGrid.add(duration,1,5);
-                            infoGrid.add(desc,0,6,2,1);
-
-                            Button done = new Button("OK");
-                            infoGrid.add(done,0,7);
-                            infoStage.show();
-
-                            done.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent e) {
-                                    infoStage.close();
-                                }
-                            });
-                        }
-                    }); // close info button
-                }
-            }); //close addSpells8btn
-
-            ///////////////////
-            ///// LEVEL 9 /////
-            ///////////////////
-
-            // for copy paste - spells#, spellslots#, itr#
-            Label titleSpellslots9 = new Label("Level 9 Spells");
-            titleSpellslots9.setId("spellLevelTitle");
-
-            Button addSpells9Btn = new Button("Add Level 9 Spell");
-
-            ComboBox<Spell> spells9Box = new ComboBox<Spell>();
-            spells9Box.setPromptText("add a spell");
-
-            VBox vbSpells9 = new VBox(10);
-            ScrollPane spells9Sp = new ScrollPane();
-            spells9Sp.setContent(vbSpells9);
-
-            ComboBox<Integer> spellslots9Box = new ComboBox<Integer>(spellSlotsNumbers);
-            spellslots9Box.setValue(c.getSpellSlots9());
-            spellslots9Box.valueProperty().addListener(new ChangeListener<Integer>() {
-                public void changed(ObservableValue ov, Integer oldVal, Integer newVal) {
-                    c.setSpellSlots9(newVal);
                 }
             });
-            Button useSpellslots9 = new Button("Use Spell Slot");
-            useSpellslots9.setOnAction(new EventHandler<ActionEvent>() {
+            /////// Info Button ///////
+            Stage infoStage = new Stage();
+            info.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
                 public void handle(ActionEvent e) {
-                    int currSlot = c.getSpellSlots9();
-                    if (currSlot != 0) {		          
-                        c.setSpellSlots9(c.getSpellSlots9() - 1);
-                        spellslots9Box.setValue(spellslots9Box.getValue() - 1);
-                    }
+                    SpellInfoPage(infoStage,nxtItem);
                 }
-            });
+            }); // close info button
+        } // close while loop
+
+        VBox spells9Root = new VBox(10);
+        HBox spells9Hb = new HBox(10);
+        HBox spellslots9Hb = new HBox(10);
+        spells9Hb.getChildren().addAll(titleSpellslots9,spells9Box, addSpells9Btn);
+        spellslots9Hb.getChildren().addAll(spellslots9Box,useSpellslots9);
+        spells9Root.getChildren().addAll(spells9Hb,spellslots9Hb,spSpells9);
 
 
-            for (Spell s : classSpells) {
-                if (s.getLevel() == 9) {
-                    spells9Box.getItems().add(s);
-                }
-            }
+        ////// add spells ///////
+        addSpells9Btn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                Spell newSpell = spells9Box.getValue();
+                spells9List.add(newSpell);
+                int newRow = spells9List.size() - 1;
+                c.setSpells9(spells9List);
 
-            HashSet<Spell> spells9List = c.getSpells9();
-            Iterator<Spell> itr9 = spells9List.iterator();
-
-
-
-            ScrollPane spSpells9 = new ScrollPane();
-            spSpells9.setContent(vbSpells9);
-
-            while (itr9.hasNext()) {
-                Spell nxtItem = itr9.next();
-                String spellName = nxtItem.getName();
-                Label spellLabel = new Label(spellName);
-                HBox hbSpell = new HBox(10);
-
+                Label newSpellName = new Label(newSpell.getName());
                 Button rm = new Button("remove");
                 Button info = new Button("info");
-                hbSpell.getChildren().addAll(spellLabel,info,rm);
-
-                vbSpells9.getChildren().add(hbSpell);
+                HBox hbNewSpell = new HBox(10);
+                hbNewSpell.getChildren().addAll(newSpellName,info,rm);
+                vbSpells9.getChildren().add(hbNewSpell);
+                spells9Box.setValue(null);
 
                 ////// Remove Button ///////
                 Stage confirmRm = new Stage();
@@ -6803,7 +5503,7 @@ public class CharacterMgr extends Application {
                         confirmRm.setScene(rmscene);
                         confirmRm.show();
 
-                        Label rmLabel = new Label("remove " + spellName + ". Are you sure?");
+                        Label rmLabel = new Label("remove " + newSpellName + ". Are you sure?");
                         rmgrid.add(rmLabel,0,0);
                         Button yesRm = new Button("Yes");
                         Button noRm = new Button("Cancel");
@@ -6814,8 +5514,8 @@ public class CharacterMgr extends Application {
                         yesRm.setOnAction(new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent e) {
-                                vbSpells9.getChildren().remove(hbSpell);
-                                spells9List.remove(nxtItem);
+                                vbSpells9.getChildren().remove(hbNewSpell);
+                                spells9List.remove(newSpell);
                                 c.setSpells9(spells9List);
                                 confirmRm.close();
                             }
@@ -6833,615 +5533,376 @@ public class CharacterMgr extends Application {
                 info.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        infoStage.close();
-                        GridPane infoGrid = new GridPane();
-                        infoGrid.setAlignment(Pos.CENTER);
-                        infoGrid.setHgap(10);
-                        infoGrid.setVgap(10);
-                        infoGrid.setPadding(new Insets(15,15,15,15));
-                        Scene infoScene = new Scene(infoGrid);
-                        infoStage.setScene(infoScene);
-
-                        infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
-                        Label itemName = new Label(nxtItem.getName());
-                        itemName.setId("spellName");
-
-                        Label lvlSchool = new Label();
-                        if (nxtItem.getRitualTruth()) {
-                            lvlSchool.setText("level " + Integer.toString(nxtItem.getLevel()) + " " + nxtItem.getSchool() + " (ritual)");
-                        }
-                        else {
-                            lvlSchool.setText("level " + Integer.toString(nxtItem.getLevel()) + " " + nxtItem.getSchool());
-                        }
-
-                        Label ctLabel = new Label("Casting Time:");
-                        Text ct = new Text(nxtItem.getCastingTime());
-
-                        Label rangeLabel = new Label("Range:");
-                        Text range = new Text(nxtItem.getRange());
-                        
-                        Label compLabel = new Label("Components:");
-                        Text comp = new Text();
-                        for (int i = 0; i < nxtItem.getComponents().size(); i++) {
-                            if (i == 0) {
-                                comp.setText(nxtItem.getComponents().get(i));
-                            }
-                            else if (i == nxtItem.getComponents().size() - 1) {
-                                comp.setText(comp.getText() + " (" + nxtItem.getComponents().get(i) + ")");
-                            }
-                            else {
-                                comp.setText(comp.getText() + " " + nxtItem.getComponents().get(i));
-                            }
-                        }
-
-                        Label durationLabel = new Label("Duration:");
-                        Text duration = new Text();
-                        if (nxtItem.getConcentrationTruth()) {
-                            duration.setText("Concentration, " + nxtItem.getDuration());
-                        }
-                        else {
-                            duration.setText(nxtItem.getDuration());
-                        }
-
-                        TextArea desc = new TextArea();
-                        desc.setEditable(false);
-                        desc.setWrapText(true);
-                        for (int i = 0; i < nxtItem.getDesc().size(); i++) {
-                            if (i == 0) {
-                                desc.setText(nxtItem.getDesc().get(i));
-                            }
-                            else {
-                                desc.setText(desc.getText() + "\n" + nxtItem.getDesc().get(i));
-                            }
-                        }
-
-                        infoGrid.add(itemName,0,0);
-                        infoGrid.add(lvlSchool,0,1);
-                        infoGrid.add(ctLabel,0,2);
-                        infoGrid.add(ct,1,2);
-                        infoGrid.add(rangeLabel,0,3);
-                        infoGrid.add(range,1,3);
-                        infoGrid.add(compLabel,0,4);
-                        infoGrid.add(comp,1,4);
-                        infoGrid.add(durationLabel,0,5);
-                        infoGrid.add(duration,1,5);
-                        infoGrid.add(desc,0,6);
-
-                        Button done = new Button("OK");
-                        infoGrid.add(done,0,7);
-
-                        infoStage.show();
-
-                        done.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent e) {
-                                infoStage.close();
-                            }
-                        });
+                        SpellInfoPage(infoStage, newSpell);
                     }
                 }); // close info button
-            } // close while loop
-                        
-            VBox spells9Root = new VBox(10);
-            HBox spells9Hb = new HBox(10);
-            HBox spellslots9Hb = new HBox(10);
-            spells9Hb.getChildren().addAll(titleSpellslots9,spells9Box, addSpells9Btn);
-            spellslots9Hb.getChildren().addAll(spellslots9Box,useSpellslots9);
-            spells9Root.getChildren().addAll(spells9Hb,spellslots9Hb,spSpells9);
-
-	    
-	    ////// add spells ///////
-            addSpells9Btn.setOnAction(new EventHandler<ActionEvent>() {
-                public void handle(ActionEvent e) {
-                    Spell newSpell = spells9Box.getValue();
-                    spells9List.add(newSpell);
-                    int newRow = spells9List.size() - 1;
-                    c.setSpells9(spells9List);
-
-                    Label newSpellName = new Label(newSpell.getName());
-                    Button rm = new Button("remove");
-                    Button info = new Button("info");
-                    HBox hbNewSpell = new HBox(10);
-                    hbNewSpell.getChildren().addAll(newSpellName,info,rm);
-                    vbSpells9.getChildren().add(hbNewSpell);
-                    spells9Box.setValue(null);
-
-                    ////// Remove Button ///////
-                    Stage confirmRm = new Stage();
-                    rm.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent e) {
-                            confirmRm.close();
-                            confirmRm.setTitle("Are you sure?");
-                            GridPane rmgrid = new GridPane();
-                            rmgrid.setAlignment(Pos.CENTER);
-                            rmgrid.setHgap(10);
-                            rmgrid.setVgap(10);
-                            Scene rmscene = new Scene(rmgrid,400,150);
-                            confirmRm.setScene(rmscene);
-                            confirmRm.show();
-
-                            Label rmLabel = new Label("remove " + newSpellName + ". Are you sure?");
-                            rmgrid.add(rmLabel,0,0);
-                            Button yesRm = new Button("Yes");
-                            Button noRm = new Button("Cancel");
-                            HBox hbynrm = new HBox(10);
-                            hbynrm.getChildren().addAll(yesRm,noRm);
-                            rmgrid.add(hbynrm,0,1);
-
-                            yesRm.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent e) {
-                                    vbSpells9.getChildren().remove(hbNewSpell);
-                                    spells9List.remove(newSpell);
-                                    c.setSpells9(spells9List);
-                                    confirmRm.close();
-                                }
-                            });
-                            noRm.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent e) {
-                                    confirmRm.close();
-                                }
-                            });
-                        }
-                    });
-                    /////// Info Button ///////
-                    Stage infoStage = new Stage();
-                    info.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent e) {
-                            infoStage.close();
-                            GridPane infoGrid = new GridPane();
-                            infoGrid.setAlignment(Pos.CENTER);
-                            infoGrid.setHgap(10);
-                            infoGrid.setPadding(new Insets(15,15,15,15));
-                            infoGrid.setVgap(10);
-                            Scene infoScene = new Scene(infoGrid);
-                            infoStage.setScene(infoScene);
-
-                            infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
-                            Label itemName = new Label(newSpell.getName());
-                            itemName.setId("spellName");
-
-                            Label lvlSchool = new Label();
-                            if (newSpell.getRitualTruth()) {
-                                lvlSchool.setText("level " + Integer.toString(newSpell.getLevel()) + " " + newSpell.getSchool() + " (ritual)");
-                            }
-                            else {
-                                lvlSchool.setText("level " + Integer.toString(newSpell.getLevel()) + " " + newSpell.getSchool());
-                            }
-
-                            Label ctLabel = new Label("Casting Time:");
-                            Text ct = new Text(newSpell.getCastingTime());
-
-                            Label rangeLabel = new Label("Range:");
-                            Text range = new Text(newSpell.getRange());
-
-                            Label compLabel = new Label("Components:");
-                            Text comp = new Text();
-                            for (int i = 0; i < newSpell.getComponents().size(); i++) {
-                                if (i == 0) {
-                                    comp.setText(newSpell.getComponents().get(i));
-                                }
-                                else if (i == newSpell.getComponents().size() - 1) {
-                                    comp.setText(comp.getText() + " (" + newSpell.getComponents().get(i) + ")");
-                                }
-                                else {
-                                    comp.setText(comp.getText() + " " + newSpell.getComponents().get(i));
-                                }
-                            }
-
-                            Label durationLabel = new Label("Duration:");
-                            Text duration = new Text();
-                            if (newSpell.getConcentrationTruth()) {
-                                duration.setText("Concentration, " + newSpell.getDuration());
-                            }
-                            else {
-                                duration.setText(newSpell.getDuration());
-                            }
-
-                            TextArea desc = new TextArea();
-                            desc.setEditable(false);
-                            desc.setWrapText(true);
-                            for (int i = 0; i < newSpell.getDesc().size(); i++) {
-                                if (i == 0) {
-                                    desc.setText(newSpell.getDesc().get(i));
-                                }
-                                else {
-                                    desc.setText(desc.getText() + "\n" + newSpell.getDesc().get(i));
-                                }
-                            }
-
-                            infoGrid.add(itemName,0,0);
-                            infoGrid.add(lvlSchool,0,1);
-                            infoGrid.add(ctLabel,0,2);
-                            infoGrid.add(ct,1,2);
-                            infoGrid.add(rangeLabel,0,3);
-                            infoGrid.add(range,1,3);
-                            infoGrid.add(compLabel,0,4);
-                            infoGrid.add(comp,1,4);
-                            infoGrid.add(durationLabel,0,5);
-                            infoGrid.add(duration,1,5);
-                            infoGrid.add(desc,0,6,2,1);
-
-                            Button done = new Button("OK");
-                            infoGrid.add(done,0,7);
-                            infoStage.show();
-
-                            done.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent e) {
-                                    infoStage.close();
-                                }
-                            });
-                        }
-                    }); // close info button
-                }
-            }); //close addSpells9btn
-
-
-            ///////////////////////////////////
-            ////// Bottom of spells page //////
-            ///////////////////////////////////
-
-            VBox botSpellsVb = new VBox(10);
-            ComboBox<Spell> allSpellsBox = new ComboBox<Spell>();
-            Button addAllSpellsBtn = new Button("Add Spell");
-            allSpellsBox.setPromptText("All Spells");
-
-            for (int i = 0; i < spellArr.length; i++) {
-                allSpellsBox.getItems().add(spellArr[i]);
             }
+        }); //close addSpells9btn
 
-            HBox addAllSpellsHb = new HBox();
-            addAllSpellsHb.getChildren().addAll(allSpellsBox,addAllSpellsBtn);
-            
-            addAllSpellsBtn.setOnAction(new EventHandler<ActionEvent>() {
-                public void handle(ActionEvent e) {
-                    Spell newSpell = allSpellsBox.getValue();
-                    int lvl = newSpell.getLevel();
-                    if (lvl == 0) {
-                        spells0List.add(newSpell);
-                        c.setCantrips(spells0List);
-                    }
-                    else if (lvl == 1) {
-                        spells1List.add(newSpell);
-                        c.setSpells1(spells1List);
-                    }
-                    else if (lvl == 2) {
-                        spells2List.add(newSpell);
-                        c.setSpells2(spells2List);
-                    }
-                    else if (lvl == 3) {
-                        spells3List.add(newSpell);
-                        c.setSpells3(spells3List);
-                    }
-                    else if (lvl == 4) {
-                        spells4List.add(newSpell);
-                        c.setSpells4(spells4List);
-                    }
-                    else if (lvl == 5) {
-                        spells1List.add(newSpell);
-                        c.setSpells5(spells5List);
-                    }
-                    else if (lvl == 6) {
-                        spells6List.add(newSpell);
-                        c.setSpells6(spells6List);
-                    }
-                    else if (lvl == 7) {
-                        spells7List.add(newSpell);
-                        c.setSpells7(spells7List);
-                    }
-                    else if (lvl == 8) {
-                        spells8List.add(newSpell);
-                        c.setSpells8(spells8List);
-                    }
-                    else if (lvl == 9) {
-                        spells9List.add(newSpell);
-                        c.setSpells9(spells9List);
-                    }
-                    spellsStage.close();
-                    spellsBtn.fire();
+
+        ///////////////////////////////////
+        ////// Bottom of spells page //////
+        ///////////////////////////////////
+
+        VBox botSpellsVb = new VBox(10);
+        ComboBox<Spell> allSpellsBox = new ComboBox<Spell>();
+        Button addAllSpellsBtn = new Button("Add Spell");
+        allSpellsBox.setPromptText("All Spells");
+
+        for (int i = 0; i < spellArr.length; i++) {
+            allSpellsBox.getItems().add(spellArr[i]);
+        }
+
+        HBox addAllSpellsHb = new HBox();
+        addAllSpellsHb.getChildren().addAll(allSpellsBox,addAllSpellsBtn);
+
+        addAllSpellsBtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                Spell newSpell = allSpellsBox.getValue();
+                int lvl = newSpell.getLevel();
+                if (lvl == 0) {
+                    spells0List.add(newSpell);
+                    c.setCantrips(spells0List);
                 }
-            });
+                else if (lvl == 1) {
+                    spells1List.add(newSpell);
+                    c.setSpells1(spells1List);
+                }
+                else if (lvl == 2) {
+                    spells2List.add(newSpell);
+                    c.setSpells2(spells2List);
+                }
+                else if (lvl == 3) {
+                    spells3List.add(newSpell);
+                    c.setSpells3(spells3List);
+                }
+                else if (lvl == 4) {
+                    spells4List.add(newSpell);
+                    c.setSpells4(spells4List);
+                }
+                else if (lvl == 5) {
+                    spells1List.add(newSpell);
+                    c.setSpells5(spells5List);
+                }
+                else if (lvl == 6) {
+                    spells6List.add(newSpell);
+                    c.setSpells6(spells6List);
+                }
+                else if (lvl == 7) {
+                    spells7List.add(newSpell);
+                    c.setSpells7(spells7List);
+                }
+                else if (lvl == 8) {
+                    spells8List.add(newSpell);
+                    c.setSpells8(spells8List);
+                }
+                else if (lvl == 9) {
+                    spells9List.add(newSpell);
+                    c.setSpells9(spells9List);
+                }
+                spellsStage.close();
+                spellsBtn.fire();
+            }
+        });
 
-            Button addCustomSpell = new Button("Add Custom Spell");
-            Stage customStage = new Stage();
-            addCustomSpell.setOnAction(new EventHandler<ActionEvent>() {
-                public void handle(ActionEvent e) {
-                    customStage.close();
-                    GridPane customGrid = new GridPane();
-                    customGrid.setAlignment(Pos.CENTER);
-                    customGrid.setHgap(10);
-                    customGrid.setVgap(10);
-                    customGrid.setPadding(new Insets(15,15,15,15));
-                    Scene customScene = new Scene(customGrid);
-                    customStage.setScene(customScene);
+        Button addCustomSpell = new Button("Add Custom Spell");
+        Stage customStage = new Stage();
+        addCustomSpell.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                customStage.close();
+                GridPane customGrid = new GridPane();
+                customGrid.setAlignment(Pos.CENTER);
+                customGrid.setHgap(10);
+                customGrid.setVgap(10);
+                customGrid.setPadding(new Insets(15,15,15,15));
+                Scene customScene = new Scene(customGrid);
+                customStage.setScene(customScene);
 
-                    customScene.getStylesheets().add("lib/SpellDescriptionPage.css");
-                    Label itemName = new Label("Spell Name:");
-                    TextField newName = new TextField();
+                customScene.getStylesheets().add("lib/SpellDescriptionPage.css");
+                Label itemName = new Label("Spell Name:");
+                TextField newName = new TextField();
 
-                    Label levelLabel = new Label("Level:");
-                    ObservableList<Integer> levels = FXCollections.observableArrayList();
-                    for (int i = 0; i< 10; i++) {
-                        levels.add(i);
-                    }
-                    ComboBox<Integer> levelBox = new ComboBox<Integer>(levels);
-                    levelBox.setValue(0);
-                    
-                    Label school = new Label("School:");
-                    TextField customSchool = new TextField();
-                    
-                    Label ritual = new Label("Ritual:");
-                    ObservableList<String> ritualOptions = FXCollections.observableArrayList();
-                    ritualOptions.add("yes");
-                    ritualOptions.add("no");
-                    ComboBox<String> ritualBox = new ComboBox<String>(ritualOptions);
-                    ritualBox.setValue("no");
+                Label levelLabel = new Label("Level:");
+                ObservableList<Integer> levels = FXCollections.observableArrayList();
+                for (int i = 0; i< 10; i++) {
+                    levels.add(i);
+                }
+                ComboBox<Integer> levelBox = new ComboBox<Integer>(levels);
+                levelBox.setValue(0);
 
-                    Label ctLabel = new Label("Casting Time:");
-                    TextField ct = new TextField();
+                Label school = new Label("School:");
+                TextField customSchool = new TextField();
 
-                    Label rangeLabel = new Label("Range:");
-                    TextField range = new TextField();
+                Label ritual = new Label("Ritual:");
+                ObservableList<String> ritualOptions = FXCollections.observableArrayList();
+                ritualOptions.add("yes");
+                ritualOptions.add("no");
+                ComboBox<String> ritualBox = new ComboBox<String>(ritualOptions);
+                ritualBox.setValue("no");
 
-                    Label compLabel = new Label("Components:");
-                    TextField comp = new TextField();
+                Label ctLabel = new Label("Casting Time:");
+                TextField ct = new TextField();
 
-                    Label durationLabel = new Label("Duration:");
-                    TextField duration = new TextField();
+                Label rangeLabel = new Label("Range:");
+                TextField range = new TextField();
 
-                    Label concentrationLabel = new Label("Concentration:");
-                    ObservableList<String> concentrationOptions = FXCollections.observableArrayList();
-                    concentrationOptions.add("yes");
-                    concentrationOptions.add("no");
-                    ComboBox<String> concentrationBox = new ComboBox<String>(concentrationOptions);
-                    concentrationBox.setValue("no");
+                Label compLabel = new Label("Components:");
+                TextField comp = new TextField();
 
-                    Label descLabel = new Label("Description:");
-                    TextArea desc = new TextArea();
-                    desc.setEditable(true);
-                    desc.setWrapText(true);
+                Label durationLabel = new Label("Duration:");
+                TextField duration = new TextField();
 
-                    customGrid.add(itemName,0,0);
-                    customGrid.add(newName,1,0);
-                    customGrid.add(levelLabel,0,1);
-                    customGrid.add(levelBox,1,1);
-                    customGrid.add(school,0,2);
-                    customGrid.add(customSchool,1,2);
-                    customGrid.add(ritual, 0,3);
-                    customGrid.add(ritualBox,1,3);
-                    customGrid.add(ctLabel,0,4);
-                    customGrid.add(ct,1,4);
-                    customGrid.add(rangeLabel,0,5);
-                    customGrid.add(range,1,5);
-                    customGrid.add(compLabel,0,6);
-                    customGrid.add(comp,1,6);
-                    customGrid.add(durationLabel,0,7);
-                    customGrid.add(duration,1,7);
-                    customGrid.add(concentrationLabel,0,8);
-                    customGrid.add(concentrationBox,1,8);
+                Label concentrationLabel = new Label("Concentration:");
+                ObservableList<String> concentrationOptions = FXCollections.observableArrayList();
+                concentrationOptions.add("yes");
+                concentrationOptions.add("no");
+                ComboBox<String> concentrationBox = new ComboBox<String>(concentrationOptions);
+                concentrationBox.setValue("no");
 
-                    customGrid.add(descLabel,0,9);
-                    customGrid.add(desc,1,9);
+                Label descLabel = new Label("Description:");
+                TextArea desc = new TextArea();
+                desc.setEditable(true);
+                desc.setWrapText(true);
 
-                    Button done = new Button("Add Spell");
-                    Button cancel = new Button("Cancel");
-                    HBox customBtnsHb = new HBox(10);
-                    customBtnsHb.getChildren().addAll(done,cancel);
-                    customGrid.add(customBtnsHb,0,10);
+                customGrid.add(itemName,0,0);
+                customGrid.add(newName,1,0);
+                customGrid.add(levelLabel,0,1);
+                customGrid.add(levelBox,1,1);
+                customGrid.add(school,0,2);
+                customGrid.add(customSchool,1,2);
+                customGrid.add(ritual, 0,3);
+                customGrid.add(ritualBox,1,3);
+                customGrid.add(ctLabel,0,4);
+                customGrid.add(ct,1,4);
+                customGrid.add(rangeLabel,0,5);
+                customGrid.add(range,1,5);
+                customGrid.add(compLabel,0,6);
+                customGrid.add(comp,1,6);
+                customGrid.add(durationLabel,0,7);
+                customGrid.add(duration,1,7);
+                customGrid.add(concentrationLabel,0,8);
+                customGrid.add(concentrationBox,1,8);
 
-                    customStage.show();
+                customGrid.add(descLabel,0,9);
+                customGrid.add(desc,1,9);
 
-                    done.setOnAction(new EventHandler<ActionEvent>() {
-                        Text errMsg = new Text("The spell needs a name!");
-                        @Override
-                        public void handle(ActionEvent e) {
-                            if ( newName.getText().isEmpty()) {
-                                errMsg.setFill(Color.FIREBRICK);
-                                customGrid.getChildren().remove(errMsg);
-                                customGrid.add(errMsg,1,10);
-                            }
-                            else {
-                                Spell customSpell = new Spell();
-                                
-                                customSpell.setName(newName.getText());
-                                customSpell.setRange(range.getText());
-                                customSpell.setRitual(ritualBox.getValue());
-                                customSpell.setDuration(duration.getText());
-                                customSpell.setCastingTime(ct.getText());
-                                customSpell.setLevel(levelBox.getValue());
-                                customSpell.setSchool(customSchool.getText());
-                                customSpell.setConcentration(concentrationBox.getValue());
+                Button done = new Button("Add Spell");
+                Button cancel = new Button("Cancel");
+                HBox customBtnsHb = new HBox(10);
+                customBtnsHb.getChildren().addAll(done,cancel);
+                customGrid.add(customBtnsHb,0,10);
 
-                                ArrayList<String> customDesc = new ArrayList<String>();
-                                customDesc.add(desc.getText());
-                                customSpell.setDesc(customDesc);
+                customStage.show();
 
-                                ArrayList<String> customComp = new ArrayList<String>();
-                                customComp.add(comp.getText());
-                                customSpell.setComponents(customComp);
-                                
-                                int lvl = levelBox.getValue();
-                                if (lvl == 0) {
-                                    spells0List.add(customSpell);
-                                    c.setCantrips(spells0List);
-                                }
-                                else if (lvl == 1) {
-                                    spells1List.add(customSpell);
-                                    c.setSpells1(spells1List);
-                                }
-                                else if (lvl == 2) {
-                                    spells2List.add(customSpell);
-                                    c.setSpells2(spells2List);
-                                }
-                                else if (lvl == 3) {
-                                    spells3List.add(customSpell);
-                                    c.setSpells3(spells3List);
-                                }
-                                else if (lvl == 4) {
-                                    spells4List.add(customSpell);
-                                    c.setSpells4(spells4List);
-                                }
-                                else if (lvl == 5) {
-                                    spells1List.add(customSpell);
-                                    c.setSpells5(spells5List);
-                                }
-                                else if (lvl == 6) {
-                                    spells6List.add(customSpell);
-                                    c.setSpells6(spells6List);
-                                }
-                                else if (lvl == 7) {
-                                    spells7List.add(customSpell);
-                                    c.setSpells7(spells7List);
-                                }
-                                else if (lvl == 8) {
-                                    spells8List.add(customSpell);
-                                    c.setSpells8(spells8List);
-                                }
-                                else if (lvl == 9) {
-                                    spells9List.add(customSpell);
-                                    c.setSpells9(spells9List);
-                                }
-
-                                customStage.close();
-                                spellsStage.close();
-                                spellsBtn.fire();
-                            }
+                done.setOnAction(new EventHandler<ActionEvent>() {
+                    Text errMsg = new Text("The spell needs a name!");
+                    @Override
+                    public void handle(ActionEvent e) {
+                        if ( newName.getText().isEmpty()) {
+                            errMsg.setFill(Color.FIREBRICK);
+                            customGrid.getChildren().remove(errMsg);
+                            customGrid.add(errMsg,1,10);
                         }
-                    }); // close done spell
+                        else {
+                            Spell customSpell = new Spell();
 
-                    cancel.setOnAction(new EventHandler<ActionEvent>() {
-                        public void handle(ActionEvent e) {
+                            customSpell.setName(newName.getText());
+                            customSpell.setRange(range.getText());
+                            customSpell.setRitual(ritualBox.getValue());
+                            customSpell.setDuration(duration.getText());
+                            customSpell.setCastingTime(ct.getText());
+                            customSpell.setLevel(levelBox.getValue());
+                            customSpell.setSchool(customSchool.getText());
+                            customSpell.setConcentration(concentrationBox.getValue());
+
+                            ArrayList<String> customDesc = new ArrayList<String>();
+                            customDesc.add(desc.getText());
+                            customSpell.setDesc(customDesc);
+
+                            ArrayList<String> customComp = new ArrayList<String>();
+                            customComp.add(comp.getText());
+                            customSpell.setComponents(customComp);
+
+                            int lvl = levelBox.getValue();
+                            if (lvl == 0) {
+                                spells0List.add(customSpell);
+                                c.setCantrips(spells0List);
+                            }
+                            else if (lvl == 1) {
+                                spells1List.add(customSpell);
+                                c.setSpells1(spells1List);
+                            }
+                            else if (lvl == 2) {
+                                spells2List.add(customSpell);
+                                c.setSpells2(spells2List);
+                            }
+                            else if (lvl == 3) {
+                                spells3List.add(customSpell);
+                                c.setSpells3(spells3List);
+                            }
+                            else if (lvl == 4) {
+                                spells4List.add(customSpell);
+                                c.setSpells4(spells4List);
+                            }
+                            else if (lvl == 5) {
+                                spells1List.add(customSpell);
+                                c.setSpells5(spells5List);
+                            }
+                            else if (lvl == 6) {
+                                spells6List.add(customSpell);
+                                c.setSpells6(spells6List);
+                            }
+                            else if (lvl == 7) {
+                                spells7List.add(customSpell);
+                                c.setSpells7(spells7List);
+                            }
+                            else if (lvl == 8) {
+                                spells8List.add(customSpell);
+                                c.setSpells8(spells8List);
+                            }
+                            else if (lvl == 9) {
+                                spells9List.add(customSpell);
+                                c.setSpells9(spells9List);
+                            }
+
                             customStage.close();
+                            spellsStage.close();
+                            spellsBtn.fire();
                         }
-                    });
-
-                }
-            }); // close add custom spell button
-
-
-            Button doneSpells = new Button("Done");
-            doneSpells.setOnAction(new EventHandler<ActionEvent>() {
-                public void handle(ActionEvent e) {
-                    spellsStage.close();
-                }
-            });
-
-            botSpellsVb.getChildren().addAll(addAllSpellsHb,addCustomSpell,doneSpells);
-            /////////////////////////////
-            ///// Spells page setup /////
-            /////////////////////////////
-            BorderPane spellsBp = new BorderPane();
-            spellsBp.setPadding(new Insets(20));
-            spellsBp.setMargin(spellsTitle,new Insets(12,12,12,12));
-            spellsBp.setMargin(botSpellsVb,new Insets(12,12,12,12));
-            spellsBp.setTop(spellsTitle);
-            spellsBp.setCenter(rootVb);
-            spellsBp.setBottom(botSpellsVb);
-
-            ScrollPane spellsSp = new ScrollPane();
-            spellsSp.setContent(spellsBp);
-            
-            Scene spellsscene = new Scene(spellsSp,500,800);
-
-            spellsStage.setScene(spellsscene);
-            spellsscene.getStylesheets().add("lib/SpellsPage.css");
-            
-            rootVb.getChildren().addAll(spells0Root,spells1Root,spells2Root,spells3Root,spells4Root,spells5Root,spells6Root,spells7Root,spells8Root,spells9Root);
-            spellsStage.show();
-
-            
-
-        }
-    });
-       
-
-
-    ////////////////////////////////////////////
-    ////////////////////////////////////////////
-    
-    ////////////////////////////////////////////
-    ///////////// Border Setup /////////////////
-    ////////////////////////////////////////////
-    
-
-    border.setMargin(characterName, new Insets(10,10,10,10));
-    
-    border.setTop(characterName);
-    border.setCenter(grid);
-    border.setBottom(hbsave);
-    border.setLeft(statvb1);
-
-    ///////////////////////////////////////////
-    ///////////////////////////////////////////
-    
-    ////////////////////////////////////////
-    ///////////// SAVE ON EXIT /////////////
-    ////////////////////////////////////////
-    
-    Stage saveExitStage = new Stage();
-    stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-        public void handle(WindowEvent we) {
-            we.consume();
-            saveExitStage.close();
-            saveExitStage.setTitle("Save Character?");
-            GridPane segrid = new GridPane();
-            segrid.setAlignment(Pos.CENTER);
-            segrid.setHgap(10);
-            segrid.setVgap(10);
-            Scene seScene = new Scene(segrid,400,150);
-            saveExitStage.setScene(seScene);
-            saveExitStage.show();
-
-            Label seLabel = new Label("Save before closing?");
-            segrid.add(seLabel,0,0);
-            HBox sebtns = new HBox(10);
-            Button yesSE = new Button("Yes");
-            Button noSE = new Button("No");
-            Button cancelSE = new Button("Cancel");
-            sebtns.getChildren().addAll(yesSE,noSE,cancelSE);
-            segrid.add(sebtns,0,1);
-
-            yesSE.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent e) {
-                    if (fileName.isEmpty()) {
-                        String file = saveCharacterAs(saveExitStage);
-                        Character.SaveCharacter(c,fileName);
                     }
-                    else {
-                        Character.SaveCharacter(c,fileName);
+                }); // close done spell
+
+                cancel.setOnAction(new EventHandler<ActionEvent>() {
+                    public void handle(ActionEvent e) {
+                        customStage.close();
                     }
-                    saveExitStage.close();
-                    stage.close();
-                    System.exit(0);
-                }
-            });
+                });
 
-            noSE.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent e) {
-                    saveExitStage.close();
-                    stage.close();
-                    System.exit(0);
-                }
-            });
-            cancelSE.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent e) {
-                    saveExitStage.close();
-                }
-            });
+            }
+        }); // close add custom spell button
+
+
+        Button doneSpells = new Button("Done");
+        doneSpells.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                spellsStage.close();
+            }
+        });
+
+        botSpellsVb.getChildren().addAll(addAllSpellsHb,addCustomSpell,doneSpells);
+        /////////////////////////////
+        ///// Spells page setup /////
+        /////////////////////////////
+        BorderPane spellsBp = new BorderPane();
+        spellsBp.setPadding(new Insets(20));
+        spellsBp.setMargin(spellsTitle,new Insets(12,12,12,12));
+        spellsBp.setMargin(botSpellsVb,new Insets(12,12,12,12));
+        spellsBp.setTop(spellsTitle);
+        spellsBp.setCenter(rootVb);
+        spellsBp.setBottom(botSpellsVb);
+
+        ScrollPane spellsSp = new ScrollPane();
+        spellsSp.setContent(spellsBp);
+
+        Scene spellsscene = new Scene(spellsSp,500,800);
+
+        spellsStage.setScene(spellsscene);
+        spellsscene.getStylesheets().add("lib/SpellsPage.css");
+
+        rootVb.getChildren().addAll(spells0Root,spells1Root,spells2Root,spells3Root,spells4Root,spells5Root,spells6Root,spells7Root,spells8Root,spells9Root);
+        spellsStage.show();
+
+
+    }
+
+    public void SpellInfoPage(Stage infoStage, Spell spell) {
+        infoStage.close();
+        GridPane infoGrid = new GridPane();
+        infoGrid.setAlignment(Pos.CENTER);
+        infoGrid.setHgap(10);
+        infoGrid.setVgap(10);
+        infoGrid.setPadding(new Insets(15,15,15,15));
+        Scene infoScene = new Scene(infoGrid);
+        infoStage.setScene(infoScene);
+
+        infoScene.getStylesheets().add("lib/SpellDescriptionPage.css");
+        Label itemName = new Label(spell.getName());
+        itemName.setId("spellName");
+
+        Label lvlSchool = new Label();
+        if (spell.getRitualTruth()) {
+            lvlSchool.setText("level " + Integer.toString(spell.getLevel()) + " " + spell.getSchool() + " (ritual)");
         }
-    });
+        else {
+            lvlSchool.setText("level " + Integer.toString(spell.getLevel()) + " " + spell.getSchool());
+        }
 
+        Label ctLabel = new Label("Casting Time:");
+        Text ct = new Text(spell.getCastingTime());
 
-	stage.show();	
-	}
+        Label rangeLabel = new Label("Range:");
+        Text range = new Text(spell.getRange());
 
+        Label compLabel = new Label("Components:");
+        Text comp = new Text();
+        for (int i = 0; i < spell.getComponents().size(); i++) {
+            if (i == 0) {
+                comp.setText(spell.getComponents().get(i));
+            }
+            else if (i == spell.getComponents().size() - 1 && spell.getComponents().get(i).length() > 1) {
+                comp.setText(comp.getText() + " (" + spell.getComponents().get(i) + ")");
+            }
+            else {
+                comp.setText(comp.getText() + " " + spell.getComponents().get(i));
+            }
+        }
+
+        Label durationLabel = new Label("Duration:");
+        Text duration = new Text();
+        if (spell.getConcentrationTruth()) {
+            duration.setText("Concentration, " + spell.getDuration());
+        }
+        else {
+            duration.setText(spell.getDuration());
+        }
+
+        TextArea desc = new TextArea();
+        desc.setEditable(false);
+        desc.setWrapText(true);
+        for (int i = 0; i < spell.getDesc().size(); i++) {
+            if (i == 0) {
+                desc.setText(spell.getDesc().get(i));
+            }
+            else {
+                desc.setText(desc.getText() + "\n" + spell.getDesc().get(i));
+            }
+        }
+
+        infoGrid.add(itemName,0,0);
+        infoGrid.add(lvlSchool,0,1);
+        infoGrid.add(ctLabel,0,2);
+        infoGrid.add(ct,1,2);
+        infoGrid.add(rangeLabel,0,3);
+        infoGrid.add(range,1,3);
+        infoGrid.add(compLabel,0,4);
+        infoGrid.add(comp,1,4);
+        infoGrid.add(durationLabel,0,5);
+        infoGrid.add(duration,1,5);
+        infoGrid.add(desc,0,6);
+
+        Button done = new Button("OK");
+        infoGrid.add(done,0,7);
+
+        infoStage.show();
+
+        done.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                infoStage.close();
+            }
+        });
+
+    }
 
     //Load a previously made character file
     public static String LoadCharacterFile(Stage primaryStage) {
