@@ -2,14 +2,14 @@
 
 if [[ `uname` == "CYGWIN_NT-10.0" ]]; then 
     javac -d . -cp ".;jars/*" src/CharacterMgr.java;
-    echo "Compiled"
+    echo "javac -d . -cp .;jars/* src/CharacterMgr.java"
 else
     javac -d . -cp ".:jars/*" src/CharacterMgr.java;
-    echo "Compiled"
+    echo "javac -d . -cp .:jars/* src/CharacterMgr.java"
 fi
 
-jar cvfm root/main/CharacterMgr.jar manifest.mf dnd/*
+jar cfm root/main/CharacterMgr.jar manifest.mf dnd/*
 
 cd root/
 
-jar -cvfm ../CharacterMgr.jar boot-manifest.mf .
+jar -cfm ../CharacterMgr.jar boot-manifest.mf .

@@ -614,67 +614,149 @@ public class CharacterMgr extends Application {
     stage.show();
 
     ///////////// Gold /////////////////
+    //////////// Currency //////////////
+    /*
     Label goldLabel = new Label("Gold:");
     grid.add(goldLabel,0,row);
     Label gold = new Label(Double.toString(c.getGold()));
     grid.add(gold,1,row);
     gold.setId("gold");
+    */ 
+    int[] currency = c.getCurrency();
+    Label currencyLabel = new Label("Currencyi:");
+    HBox currencyHb = new HBox(10);
+
+    Label cpLabel = new Label("cp:");
+    Label cp = new Label(Integer.toString(currency[0]));
+    Label spLabel = new Label("sp:");
+    Label sp = new Label(Integer.toString(currency[1]));
+    Label epLabel = new Label("ep:");
+    Label ep = new Label(Integer.toString(currency[2]));
+    Label gpLabel = new Label("gp:");
+    Label gp = new Label(Integer.toString(currency[3]));
+    Label ppLabel = new Label("pp:");
+    Label pp = new Label(Integer.toString(currency[4]));
+
+    currencyHb.getChildren().addAll(cpLabel,cp,spLabel,sp,epLabel,ep,gpLabel,gp,ppLabel,pp);
+    grid.add(currencyLabel,0,row);
+    grid.add(currencyHb,1,row);
 
     row++;
 
-    ////////// ADD/LOSE GOLD ///////////
+    ////////// ADD/LOSE CURRENCY///////////
+    ObservableList<String> currencyOptions = FXCollections.observableArrayList("","cp","sp","ep","gp","pp");
+    ComboBox<String> currencyChoice = new ComboBox<String>(currencyOptions);
+    currencyChoice.setValue("");
+    HBox addCurrencyHb = new HBox(10);
     TextField pmGoldTf = new TextField();
-    pmGoldTf.setPromptText("Add or Subtract Gold");
-    grid.add(pmGoldTf,1,row);
+    pmGoldTf.setPromptText("Add or Subtract Currency");
+    addCurrencyHb.getChildren().addAll(pmGoldTf,currencyChoice);
+    grid.add(addCurrencyHb,1,row);
 
-    Button plusGold = new Button("Add Gold");
-    Button minusGold = new Button("Spend Gold");
+    Button plusGold = new Button("Add");
+    Button minusGold = new Button("Spend");
     HBox hbpmGold = new HBox(10);
     hbpmGold.getChildren().addAll(plusGold,minusGold);
     grid.add(hbpmGold,2,row);
 
     final int addGoldRow = row;
 
+    Text errMsg = new Text("Inputted Value was not a number!");
+    Text errMsg2 = new Text("Please input a currency type!");
+
     plusGold.setOnAction(new EventHandler<ActionEvent>() {
-        Text errMsg = new Text("Inputted Value was not a number!");
         @Override
         public void handle(ActionEvent e) {
             boolean isDbl = isDouble(pmGoldTf.getText());
-            if (isDbl) {
-                double addGoldVal = Double.parseDouble(pmGoldTf.getText()) + c.getGold();
-                c.setGold(addGoldVal);
-                gold.setText(Double.toString(c.getGold()));
-                grid.getChildren().remove(errMsg);
+            grid.getChildren().remove(errMsg);
+            grid.getChildren().remove(errMsg2);
+            int[] currCurrency = c.getCurrency();
+            if (!currencyChoice.getValue().isEmpty()) {
+                if (isDbl) {
+                    if (currencyChoice.getValue().equalsIgnoreCase("cp")) {
+                        currCurrency[0] = Integer.parseInt(pmGoldTf.getText()) + currCurrency[0];
+                        c.setCurrency(currCurrency);
+                        cp.setText(Integer.toString(currCurrency[0]));
+                    }
+                    else if (currencyChoice.getValue().equalsIgnoreCase("sp")) {
+                        currCurrency[1] = Integer.parseInt(pmGoldTf.getText()) + currCurrency[1];
+                        c.setCurrency(currCurrency);
+                        sp.setText(Integer.toString(currCurrency[1]));
+                    }
+                    else if (currencyChoice.getValue().equalsIgnoreCase("ep")) {
+                        currCurrency[2] = Integer.parseInt(pmGoldTf.getText()) + currCurrency[2];
+                        c.setCurrency(currCurrency);
+                        ep.setText(Integer.toString(currCurrency[2]));
+                    }
+                    else if (currencyChoice.getValue().equalsIgnoreCase("gp")) {
+                        currCurrency[3] = Integer.parseInt(pmGoldTf.getText()) + currCurrency[3];
+                        c.setCurrency(currCurrency);
+                        gp.setText(Integer.toString(currCurrency[3]));
+                    }
+                    else if (currencyChoice.getValue().equalsIgnoreCase("pp")) {
+                        currCurrency[4] = Integer.parseInt(pmGoldTf.getText()) + currCurrency[4];
+                        c.setCurrency(currCurrency);
+                        pp.setText(Integer.toString(currCurrency[4]));
+                    }
+                }
+                else {
+                    errMsg.setFill(Color.FIREBRICK);
+                    grid.add(errMsg,3,addGoldRow);
+                }
             }
             else {
-                errMsg.setFill(Color.FIREBRICK);
-                grid.add(errMsg,3,addGoldRow);
+                errMsg2.setFill(Color.FIREBRICK);
+                grid.add(errMsg2,3,addGoldRow);
             }
 
         }
     });
 
     minusGold.setOnAction(new EventHandler<ActionEvent>() {
-        Text errMsg = new Text("Inputted Value was not a number!");
         @Override
         public void handle(ActionEvent e) {
             boolean isDbl = isDouble(pmGoldTf.getText());
-            if (isDbl) {
-                double loseGoldVal = c.getGold() - Double.parseDouble(pmGoldTf.getText());
-                if (loseGoldVal > 0) {
-                    c.setGold(loseGoldVal);
-                    gold.setText(Double.toString(c.getGold()));
+            grid.getChildren().remove(errMsg);
+            grid.getChildren().remove(errMsg2);
+            int[] currCurrency = c.getCurrency();
+            if (!currencyChoice.getValue().isEmpty()) {
+                if (isDbl) {
+                    if (currencyChoice.getValue().equalsIgnoreCase("cp")) {
+                        currCurrency[0] = Integer.parseInt(pmGoldTf.getText()) - currCurrency[0];
+                        c.setCurrency(currCurrency);
+                        cp.setText(Integer.toString(currCurrency[0]));
+                    }
+                    else if (currencyChoice.getValue().equalsIgnoreCase("sp")) {
+                        currCurrency[1] = Integer.parseInt(pmGoldTf.getText()) - currCurrency[1];
+                        c.setCurrency(currCurrency);
+                        sp.setText(Integer.toString(currCurrency[1]));
+                    }
+                    else if (currencyChoice.getValue().equalsIgnoreCase("ep")) {
+                        currCurrency[2] = Integer.parseInt(pmGoldTf.getText()) - currCurrency[2];
+                        c.setCurrency(currCurrency);
+                        ep.setText(Integer.toString(currCurrency[2]));
+                    }
+                    else if (currencyChoice.getValue().equalsIgnoreCase("gp")) {
+                        currCurrency[3] = Integer.parseInt(pmGoldTf.getText()) - currCurrency[3];
+                        c.setCurrency(currCurrency);
+                        gp.setText(Integer.toString(currCurrency[3]));
+                    }
+                    else if (currencyChoice.getValue().equalsIgnoreCase("pp")) {
+                        currCurrency[4] = Integer.parseInt(pmGoldTf.getText()) - currCurrency[4];
+                        c.setCurrency(currCurrency);
+                        pp.setText(Integer.toString(currCurrency[4]));
+                    }
                 }
                 else {
-                    c.setGold(0);
-                    gold.setText(Double.toString(c.getGold()));
+                    errMsg.setFill(Color.FIREBRICK);
+                    grid.add(errMsg,3,addGoldRow);
                 }
-                grid.getChildren().remove(errMsg);
             }
             else {
-                errMsg.setFill(Color.FIREBRICK);
-                grid.add(errMsg,3,addGoldRow);
+                errMsg2.setFill(Color.FIREBRICK);
+                grid.add(errMsg2,3,addGoldRow);
             }
+
         }
     });
 
@@ -3553,7 +3635,7 @@ public class CharacterMgr extends Application {
                             if (i == 0) {
                                 comp.setText(nxtItem.getComponents().get(i));
                             }
-                            else if (i == nxtItem.getComponents().size() - 1) {
+                            else if (i == nxtItem.getComponents().size() - 1 && nxtItem.getComponents().get(i).length() > 1) {
                                 comp.setText(comp.getText() + " (" + nxtItem.getComponents().get(i) + ")");
                             }
                             else {
@@ -3712,7 +3794,7 @@ public class CharacterMgr extends Application {
                                 if (i == 0) {
                                     comp.setText(newSpell.getComponents().get(i));
                                 }
-                                else if (i == newSpell.getComponents().size() - 1) {
+                                else if (i == newSpell.getComponents().size() - 1 && newSpell.getComponents().get(i).length() > 1) {
                                     comp.setText(comp.getText() + " (" + newSpell.getComponents().get(i) + ")");
                                 }
                                 else {

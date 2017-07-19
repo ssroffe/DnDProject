@@ -48,6 +48,7 @@ public class Character {
     private int charisma;
 
     private double gold;
+    private int[] currency;
 
     private int deathRoll;
     private int saveRoll;
@@ -103,7 +104,7 @@ public class Character {
              int spellSlots1,int spellSlots2,int spellSlots3,int spellSlots4,
              int spellSlots5,int spellSlots6,int spellSlots7,int spellSlots8, int spellSlots9,
 		     int dRoll, int sRoll, HashSet<String> bonds, String background,
-		     ArrayList<String> inventory, ArrayList<String> features, int gold) {
+		     ArrayList<String> inventory, ArrayList<String> features, double gold) {
 	
 	setName(name);
 	setClss(clss);
@@ -185,6 +186,7 @@ public class Character {
     setInspiration(0);
     setProficiencyBonus(0);
 	setGold(0);
+    setCurrency(new int[5]);
 	
 	setRace("");
 	setSubrace("");
@@ -257,6 +259,7 @@ public Character() {
 
 	setHitDice("0");
 	setGold(0);
+    setCurrency(new int[5]);
 	
 	setRace("");
 	setSubrace("");
@@ -331,6 +334,7 @@ public Character() {
 	setLevel(1);
 	setExp(0);
 	setGold(0);
+    setCurrency(new int[5]);
 	
 	setMaxHP(0);
     setTempHP(0);
@@ -443,6 +447,7 @@ public Character() {
         setNotes(c.getNotes());
         setCurrentHP(c.getCurrentHP());
         setGold(c.getGold());
+        setCurrency(c.getCurrency());
         setFeatures(c.getFeatures());
     }
 	
@@ -624,6 +629,13 @@ public Character() {
     }
     public double getGold() {
 	return gold;
+    }
+
+    public void setCurrency(int[] c) {
+        this.currency = c;
+    }
+    public int[] getCurrency() {
+        return currency;
     }
     
     public void setArmor(int a) {
