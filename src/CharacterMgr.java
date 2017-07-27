@@ -2396,12 +2396,14 @@ public class CharacterMgr extends Application {
         ArrayList<String> weaponsList = c.getWeapons();
         Iterator<String> itr = weaponsList.iterator();
 
-        HBox labelsHb = new HBox(10);
-        Label proficient = new Label("Proficient");
+        HBox labelsHb = new HBox(80);
+        Label proficient = new Label("Prof? Mod \t Weapon");
         Label weaponName = new Label("Weapon");
-        Label damageLabel = new Label("Damage");
-        Label hitLabel = new Label("Modifier");
-        labelsHb.getChildren().addAll(proficient,hitLabel,weaponName,damageLabel);
+        Label damageLabel = new Label("\tDamage");
+        //Label hitLabel = new Label("Modifier");
+        Label dexWeaponLabel = new Label("\tFinesse?");
+
+        labelsHb.getChildren().addAll(proficient,damageLabel,dexWeaponLabel);
 
         vbWeapons.getChildren().addAll(weaponsTitle,labelsHb);
 
@@ -2415,11 +2417,16 @@ public class CharacterMgr extends Application {
             CheckBox isProficient = new CheckBox();
             isProficient.setAllowIndeterminate(false);
 
+            CheckBox isFinesse = new CheckBox();
+            isFinesse.setAllowIndeterminate(false);
+
             TextField weaponsTf = new TextField(splitItem[0]);
+            weaponsTf.setPromptText("Weapon Name");
             weaponsTf.setEditable(false);
             weaponsTf.setId("locked-tf");
 
             TextField damage = new TextField();
+            damage.setPromptText("Damage");
             damage.setEditable(false);
             damage.setId("locked-tf");
 
@@ -2431,14 +2438,22 @@ public class CharacterMgr extends Application {
             try {
                 damage.setText(splitItem[1]);
                 isProficient.setSelected(Boolean.parseBoolean(splitItem[2]));
+                isFinesse.setSelected(Boolean.parseBoolean(splitItem[3]));
             }
             catch (ArrayIndexOutOfBoundsException ioe) {
                 damage.setText("");
                 isProficient.setSelected(false);
+                isFinesse.setAllowIndeterminate(false);
             }    
 
 
-            if (isProficient.isSelected()) {
+            if (isProficient.isSelected() && isFinesse.isSelected()) {
+                hitMod.setText(fmt.format(calcMod(c.getDex()) + c.getProficiencyBonus()));
+            }
+            else if (!isProficient.isSelected() && isFinesse.isSelected()) {
+                hitMod.setText(fmt.format(calcMod(c.getDex())));
+            }
+            else if (isProficient.isSelected() && !isFinesse.isSelected()) {
                 hitMod.setText(fmt.format(calcMod(c.getStr()) + c.getProficiencyBonus()));
             }
             else {
@@ -2446,12 +2461,17 @@ public class CharacterMgr extends Application {
 
             }
 
-            damageMod.setText(fmt.format(calcMod(c.getStr())));
+            if (isFinesse.isSelected()) {
+                damageMod.setText(fmt.format(calcMod(c.getDex())));
+            }
+            else {
+                damageMod.setText(fmt.format(calcMod(c.getStr())));
+            }
 
             HBox hbWeaponsList = new HBox(10);
 
             Button rm = new Button("remove");
-            hbWeaponsList.getChildren().addAll(isProficient,hitMod,weaponsTf,damage,damageMod,rm,editBtn);
+            hbWeaponsList.getChildren().addAll(isProficient,hitMod,weaponsTf,damage,damageMod,isFinesse,rm,editBtn);
 
             vbWeapons.getChildren().add(hbWeaponsList);
 
@@ -2470,7 +2490,7 @@ public class CharacterMgr extends Application {
                         damage.setId("locked-tf");
                         weaponsTf.setEditable(false);
                         weaponsTf.setId("locked-tf");
-                        weaponsList.set(currIndex,weaponsTf.getText() + "--" + damage.getText() + "--" + Boolean.toString(isProficient.isSelected()));
+                        weaponsList.set(currIndex,weaponsTf.getText() + "--" + damage.getText() + "--" + Boolean.toString(isProficient.isSelected()) + "--" + Boolean.toString(isFinesse.isSelected()));
                         c.setWeapons(weaponsList);
                     }
                 }
@@ -2479,10 +2499,17 @@ public class CharacterMgr extends Application {
             isProficient.selectedProperty().addListener(new ChangeListener<Boolean>() {
                 public void changed(ObservableValue<? extends Boolean> ov, Boolean oldVal, Boolean newVal) {
 
-                    weaponsList.set(currIndex,weaponsTf.getText() + "--" + damage.getText() + "--" + Boolean.toString(newVal));
+                    weaponsList.set(currIndex,weaponsTf.getText() + "--" + damage.getText() + "--" + Boolean.toString(newVal) + "--" + Boolean.toString(isFinesse.isSelected()));
                     c.setWeapons(weaponsList);
-                    if (newVal) {
+
+                    if (newVal && isFinesse.isSelected()) {
+                        hitMod.setText(fmt.format(calcMod(c.getDex()) + c.getProficiencyBonus()));
+                    }
+                    else if (newVal && !isFinesse.isSelected()) {
                         hitMod.setText(fmt.format(calcMod(c.getStr()) + c.getProficiencyBonus()));
+                    }
+                    else if (!newVal && isFinesse.isSelected()) {
+                        hitMod.setText(fmt.format(calcMod(c.getDex())));
                     }
                     else {
                         hitMod.setText(fmt.format(calcMod(c.getStr())));
@@ -2490,6 +2517,33 @@ public class CharacterMgr extends Application {
 
                 }
             });
+
+            isFinesse.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                public void changed(ObservableValue<? extends Boolean> ov, Boolean oldVal, Boolean newVal) {
+                    weaponsList.set(currIndex,weaponsTf.getText() + "--" + damage.getText() + "--" + Boolean.toString(isProficient.isSelected()) + "--" + Boolean.toString(newVal));
+                    c.setWeapons(weaponsList);
+                    if (newVal) {
+                        damageMod.setText(fmt.format(calcMod(c.getDex())));
+                    }
+                    else {
+                        damageMod.setText(fmt.format(calcMod(c.getStr())));
+                    }
+                    
+                    if (newVal && isProficient.isSelected()) {
+                        hitMod.setText(fmt.format(calcMod(c.getDex()) + c.getProficiencyBonus()));
+                    }
+                    else if (newVal && !isProficient.isSelected()) {
+                        hitMod.setText(fmt.format(calcMod(c.getDex())));
+                    }
+                    else if (!newVal && isProficient.isSelected()) {
+                        hitMod.setText(fmt.format(calcMod(c.getStr()) + c.getProficiencyBonus()));
+                    }
+                    else {
+                        hitMod.setText(fmt.format(calcMod(c.getStr())));
+                    }
+                }
+            });
+
 
             ////// Remove button ///////
             Stage confirmRm = new Stage();
@@ -2572,13 +2626,20 @@ public class CharacterMgr extends Application {
 
                     TextField newWeapons = new TextField(addWeaponsTf.getText());
                     newWeapons.setEditable(false);
+                    newWeapons.setPromptText("Weapon Name");
                     newWeapons.setId("locked-tf");
 
                     CheckBox isProficient = new CheckBox();
+                    isProficient.setAllowIndeterminate(false);
+
+                    CheckBox isFinesse = new CheckBox();
+                    isFinesse.setAllowIndeterminate(false);
+                    
                     Button rm = new Button("remove");
 
                     TextField damage = new TextField();
                     damage.setEditable(false);
+                    damage.setPromptText("Damage");
                     damage.setId("locked-tf");
 
                     ToggleButton editBtn = new ToggleButton("edit");
@@ -2593,7 +2654,7 @@ public class CharacterMgr extends Application {
 
                     HBox hbWeaponsList = new HBox(10);
 
-                    hbWeaponsList.getChildren().addAll(isProficient,hitMod,newWeapons,damage,damageMod,rm,editBtn);
+                    hbWeaponsList.getChildren().addAll(isProficient,hitMod,newWeapons,damage,damageMod,isFinesse,rm,editBtn);
                     vbWeapons.getChildren().add(hbWeaponsList);
 
                     ////// Edit button //////
@@ -2611,7 +2672,7 @@ public class CharacterMgr extends Application {
                                 damage.setId("locked-tf");
                                 newWeapons.setEditable(false);
                                 newWeapons.setId("locked-tf");
-                                weaponsList.set(newRow,newWeapons.getText() + "--" + damage.getText() + "--" + Boolean.toString(isProficient.isSelected()));
+                                weaponsList.set(newRow,newWeapons.getText() + "--" + damage.getText() + "--" + Boolean.toString(isProficient.isSelected()) + "--" + Boolean.toString(isFinesse.isSelected()));
                                 c.setWeapons(weaponsList);
                             }
                         }
@@ -2620,15 +2681,48 @@ public class CharacterMgr extends Application {
                     isProficient.selectedProperty().addListener(new ChangeListener<Boolean>() {
                         public void changed(ObservableValue<? extends Boolean> ov, Boolean oldVal, Boolean newVal) {
 
-                            weaponsList.set(newRow,newWeapons.getText() + "--" + damage.getText() + "--" + Boolean.toString(newVal));
+                            weaponsList.set(newRow,newWeapons.getText() + "--" + damage.getText() + "--" + Boolean.toString(newVal) + "--" + Boolean.toString(isFinesse.isSelected()));
                             c.setWeapons(weaponsList);
-                            if (newVal) {
+
+                            if (newVal && isFinesse.isSelected()) {
+                                hitMod.setText(fmt.format(calcMod(c.getDex()) + c.getProficiencyBonus()));
+                            }
+                            else if (newVal && !isFinesse.isSelected()) {
                                 hitMod.setText(fmt.format(calcMod(c.getStr()) + c.getProficiencyBonus()));
+                            }
+                            else if (!newVal && isFinesse.isSelected()) {
+                                hitMod.setText(fmt.format(calcMod(c.getDex())));
                             }
                             else {
                                 hitMod.setText(fmt.format(calcMod(c.getStr())));
                             }
 
+                        }
+                    });
+
+                    isFinesse.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                        public void changed(ObservableValue<? extends Boolean> ov, Boolean oldVal, Boolean newVal) {
+                            weaponsList.set(newRow,newWeapons.getText() + "--" + damage.getText() + "--" + Boolean.toString(isProficient.isSelected()) + "--" + Boolean.toString(newVal));
+                            c.setWeapons(weaponsList);
+                            if (newVal) {
+                                damageMod.setText(fmt.format(calcMod(c.getDex())));
+                            }
+                            else {
+                                damageMod.setText(fmt.format(calcMod(c.getStr())));
+                            }
+
+                            if (newVal && isProficient.isSelected()) {
+                                hitMod.setText(fmt.format(calcMod(c.getDex()) + c.getProficiencyBonus()));
+                            }
+                            else if (newVal && !isProficient.isSelected()) {
+                                hitMod.setText(fmt.format(calcMod(c.getDex())));
+                            }
+                            else if (!newVal && isProficient.isSelected()) {
+                                hitMod.setText(fmt.format(calcMod(c.getStr()) + c.getProficiencyBonus()));
+                            }
+                            else {
+                                hitMod.setText(fmt.format(calcMod(c.getStr())));
+                            }
                         }
                     });
 
