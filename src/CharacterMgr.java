@@ -1584,6 +1584,7 @@ public class CharacterMgr extends Application {
     flawsBtn.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent e) {
+            FlawsPage(flawsStage);
         }
     });
 
@@ -1631,6 +1632,7 @@ public class CharacterMgr extends Application {
     descriptionBtn.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent e) {
+            DescriptionPage(descriptionStage);
         }
     });
 
