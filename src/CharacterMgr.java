@@ -740,35 +740,35 @@ public class CharacterMgr extends Application {
             if (!currencyChoice.getValue().isEmpty()) {
                 if (isDbl) {
                     if (currencyChoice.getValue().equalsIgnoreCase("cp")) {
-                        currCurrency[0] = Integer.parseInt(pmGoldTf.getText()) - currCurrency[0];
+                        currCurrency[0] = currCurrency[0] - Integer.parseInt(pmGoldTf.getText());
                         c.setCurrency(currCurrency);
                         cp.setText(Integer.toString(currCurrency[0]));
                         pmGoldTf.setText("");
                         currencyChoice.setValue("");
                     }
                     else if (currencyChoice.getValue().equalsIgnoreCase("sp")) {
-                        currCurrency[1] = Integer.parseInt(pmGoldTf.getText()) - currCurrency[1];
+                        currCurrency[1] = currCurrency[1] - Integer.parseInt(pmGoldTf.getText());
                         c.setCurrency(currCurrency);
                         sp.setText(Integer.toString(currCurrency[1]));
                         pmGoldTf.setText("");
                         currencyChoice.setValue("");
                     }
                     else if (currencyChoice.getValue().equalsIgnoreCase("ep")) {
-                        currCurrency[2] = Integer.parseInt(pmGoldTf.getText()) - currCurrency[2];
+                        currCurrency[2] = currCurrency[2] - Integer.parseInt(pmGoldTf.getText());
                         c.setCurrency(currCurrency);
                         ep.setText(Integer.toString(currCurrency[2]));
                         pmGoldTf.setText("");
                         currencyChoice.setValue("");
                     }
                     else if (currencyChoice.getValue().equalsIgnoreCase("gp")) {
-                        currCurrency[3] = Integer.parseInt(pmGoldTf.getText()) - currCurrency[3];
+                        currCurrency[3] = currCurrency[3] - Integer.parseInt(pmGoldTf.getText());
                         c.setCurrency(currCurrency);
                         gp.setText(Integer.toString(currCurrency[3]));
                         pmGoldTf.setText("");
                         currencyChoice.setValue("");
                     }
                     else if (currencyChoice.getValue().equalsIgnoreCase("pp")) {
-                        currCurrency[4] = Integer.parseInt(pmGoldTf.getText()) - currCurrency[4];
+                        currCurrency[4] = currCurrency[4] - Integer.parseInt(pmGoldTf.getText());
                         c.setCurrency(currCurrency);
                         pp.setText(Integer.toString(currCurrency[4]));
                         pmGoldTf.setText("");
