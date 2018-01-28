@@ -3874,17 +3874,20 @@ public class CharacterMgr extends Application {
         addSpells0Btn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 Spell newSpell = spellBox0.getValue();
-                spells0List.add(newSpell);
-                int newRow = spells0List.size() - 1;
-                c.setCantrips(spells0List);
-
                 Label newSpellName = new Label(newSpell.getName());
                 Button rm = new Button("remove");
                 Button info = new Button("info");
                 HBox hbNewSpell = new HBox(10);
-                hbNewSpell.getChildren().addAll(newSpellName,info,rm);
-                vbSpells0.getChildren().add(hbNewSpell);
-                spellBox0.setValue(null);
+                if (newSpell != null) {
+                    spells0List.add(newSpell);
+                    int newRow = spells0List.size() - 1;
+                    c.setCantrips(spells0List);
+                
+
+                    hbNewSpell.getChildren().addAll(newSpellName,info,rm);
+                    vbSpells0.getChildren().add(hbNewSpell);
+                    spellBox0.setValue(null);
+                }
 
                 ////// Remove Button ///////
                 Stage confirmRm = new Stage();
@@ -4072,18 +4075,19 @@ public class CharacterMgr extends Application {
         addSpells1Btn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 Spell newSpell = spells1Box.getValue();
-                spells1List.add(newSpell);
-                int newRow = spells1List.size() - 1;
-                c.setSpells1(spells1List);
-
                 Label newSpellName = new Label(newSpell.getName());
                 Button rm = new Button("remove");
                 Button info = new Button("info");
                 HBox hbNewSpell = new HBox(10);
-                hbNewSpell.getChildren().addAll(newSpellName,info,rm);
-                vbSpells1.getChildren().add(hbNewSpell);
-                spells1Box.setValue(null);
+                if (newSpell != null) {
+                    spells1List.add(newSpell);
+                    int newRow = spells1List.size() - 1;
+                    c.setSpells1(spells1List);
 
+                    hbNewSpell.getChildren().addAll(newSpellName,info,rm);
+                    vbSpells1.getChildren().add(hbNewSpell);
+                    spells1Box.setValue(null);
+                }
                 ////// Remove Button ///////
                 Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
@@ -4259,18 +4263,19 @@ public class CharacterMgr extends Application {
         addSpells2Btn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 Spell newSpell = spells2Box.getValue();
-                spells2List.add(newSpell);
-                int newRow = spells2List.size() - 1;
-                c.setSpells2(spells2List);
-
                 Label newSpellName = new Label(newSpell.getName());
                 Button rm = new Button("remove");
                 Button info = new Button("info");
                 HBox hbNewSpell = new HBox(10);
-                hbNewSpell.getChildren().addAll(newSpellName,info,rm);
-                vbSpells2.getChildren().add(hbNewSpell);
-                spells2Box.setValue(null);
+                if (newSpell != null) {
+                    spells2List.add(newSpell);
+                    int newRow = spells2List.size() - 1;
+                    c.setSpells2(spells2List);
 
+                    hbNewSpell.getChildren().addAll(newSpellName,info,rm);
+                    vbSpells2.getChildren().add(hbNewSpell);
+                    spells2Box.setValue(null);
+                }
                 ////// Remove Button ///////
                 Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
@@ -4447,18 +4452,19 @@ public class CharacterMgr extends Application {
         addSpells3Btn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 Spell newSpell = spells3Box.getValue();
-                spells3List.add(newSpell);
-                int newRow = spells3List.size() - 1;
-                c.setSpells3(spells3List);
-
                 Label newSpellName = new Label(newSpell.getName());
                 Button rm = new Button("remove");
                 Button info = new Button("info");
                 HBox hbNewSpell = new HBox(10);
-                hbNewSpell.getChildren().addAll(newSpellName,info,rm);
-                vbSpells3.getChildren().add(hbNewSpell);
-                spells3Box.setValue(null);
+                if (newSpell != null) {
+                    spells3List.add(newSpell);
+                    int newRow = spells3List.size() - 1;
+                    c.setSpells3(spells3List);
 
+                    hbNewSpell.getChildren().addAll(newSpellName,info,rm);
+                    vbSpells3.getChildren().add(hbNewSpell);
+                    spells3Box.setValue(null);
+                }
                 ////// Remove Button ///////
                 Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
@@ -4634,18 +4640,19 @@ public class CharacterMgr extends Application {
         addSpells4Btn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 Spell newSpell = spells4Box.getValue();
-                spells4List.add(newSpell);
-                int newRow = spells4List.size() - 1;
-                c.setSpells4(spells4List);
-
                 Label newSpellName = new Label(newSpell.getName());
                 Button rm = new Button("remove");
                 Button info = new Button("info");
                 HBox hbNewSpell = new HBox(10);
-                hbNewSpell.getChildren().addAll(newSpellName,info,rm);
-                vbSpells4.getChildren().add(hbNewSpell);
-                spells4Box.setValue(null);
+                if (newSpell != null) {
+                    spells4List.add(newSpell);
+                    int newRow = spells4List.size() - 1;
+                    c.setSpells4(spells4List);
 
+                    hbNewSpell.getChildren().addAll(newSpellName,info,rm);
+                    vbSpells4.getChildren().add(hbNewSpell);
+                    spells4Box.setValue(null);
+                }
                 ////// Remove Button ///////
                 Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
@@ -4822,18 +4829,19 @@ public class CharacterMgr extends Application {
         addSpells5Btn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 Spell newSpell = spells5Box.getValue();
-                spells5List.add(newSpell);
-                int newRow = spells5List.size() - 1;
-                c.setSpells5(spells5List);
-
                 Label newSpellName = new Label(newSpell.getName());
                 Button rm = new Button("remove");
                 Button info = new Button("info");
                 HBox hbNewSpell = new HBox(10);
-                hbNewSpell.getChildren().addAll(newSpellName,info,rm);
-                vbSpells5.getChildren().add(hbNewSpell);
-                spells5Box.setValue(null);
+                if (newSpell != null) {
+                    spells5List.add(newSpell);
+                    int newRow = spells5List.size() - 1;
+                    c.setSpells5(spells5List);
 
+                    hbNewSpell.getChildren().addAll(newSpellName,info,rm);
+                    vbSpells5.getChildren().add(hbNewSpell);
+                    spells5Box.setValue(null);
+                }
                 ////// Remove Button ///////
                 Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
@@ -5009,18 +5017,19 @@ public class CharacterMgr extends Application {
         addSpells6Btn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 Spell newSpell = spells6Box.getValue();
-                spells6List.add(newSpell);
-                int newRow = spells6List.size() - 1;
-                c.setSpells6(spells6List);
-
                 Label newSpellName = new Label(newSpell.getName());
                 Button rm = new Button("remove");
                 Button info = new Button("info");
                 HBox hbNewSpell = new HBox(10);
-                hbNewSpell.getChildren().addAll(newSpellName,info,rm);
-                vbSpells6.getChildren().add(hbNewSpell);
-                spells6Box.setValue(null);
+                if (newSpell != null) {
+                    spells6List.add(newSpell);
+                    int newRow = spells6List.size() - 1;
+                    c.setSpells6(spells6List);
 
+                    hbNewSpell.getChildren().addAll(newSpellName,info,rm);
+                    vbSpells6.getChildren().add(hbNewSpell);
+                    spells6Box.setValue(null);
+                }
                 ////// Remove Button ///////
                 Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
@@ -5197,18 +5206,19 @@ public class CharacterMgr extends Application {
         addSpells7Btn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 Spell newSpell = spells7Box.getValue();
-                spells7List.add(newSpell);
-                int newRow = spells7List.size() - 1;
-                c.setSpells7(spells7List);
-
                 Label newSpellName = new Label(newSpell.getName());
                 Button rm = new Button("remove");
                 Button info = new Button("info");
                 HBox hbNewSpell = new HBox(10);
-                hbNewSpell.getChildren().addAll(newSpellName,info,rm);
-                vbSpells7.getChildren().add(hbNewSpell);
-                spells7Box.setValue(null);
+                if (newSpell != null) {
+                    spells7List.add(newSpell);
+                    int newRow = spells7List.size() - 1;
+                    c.setSpells7(spells7List);
 
+                    hbNewSpell.getChildren().addAll(newSpellName,info,rm);
+                    vbSpells7.getChildren().add(hbNewSpell);
+                    spells7Box.setValue(null);
+                }
                 ////// Remove Button ///////
                 Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
@@ -5385,18 +5395,19 @@ public class CharacterMgr extends Application {
         addSpells8Btn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 Spell newSpell = spells8Box.getValue();
-                spells8List.add(newSpell);
-                int newRow = spells8List.size() - 1;
-                c.setSpells8(spells8List);
-
                 Label newSpellName = new Label(newSpell.getName());
                 Button rm = new Button("remove");
                 Button info = new Button("info");
                 HBox hbNewSpell = new HBox(10);
-                hbNewSpell.getChildren().addAll(newSpellName,info,rm);
-                vbSpells8.getChildren().add(hbNewSpell);
-                spells8Box.setValue(null);
+                if (newSpell != null) {
+                    spells8List.add(newSpell);
+                    int newRow = spells8List.size() - 1;
+                    c.setSpells8(spells8List);
 
+                    hbNewSpell.getChildren().addAll(newSpellName,info,rm);
+                    vbSpells8.getChildren().add(hbNewSpell);
+                    spells8Box.setValue(null);
+                }
                 ////// Remove Button ///////
                 Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
@@ -5572,18 +5583,19 @@ public class CharacterMgr extends Application {
         addSpells9Btn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 Spell newSpell = spells9Box.getValue();
-                spells9List.add(newSpell);
-                int newRow = spells9List.size() - 1;
-                c.setSpells9(spells9List);
-
                 Label newSpellName = new Label(newSpell.getName());
                 Button rm = new Button("remove");
                 Button info = new Button("info");
                 HBox hbNewSpell = new HBox(10);
-                hbNewSpell.getChildren().addAll(newSpellName,info,rm);
-                vbSpells9.getChildren().add(hbNewSpell);
-                spells9Box.setValue(null);
+                if (newSpell != null) {
+                    spells9List.add(newSpell);
+                    int newRow = spells9List.size() - 1;
+                    c.setSpells9(spells9List);
 
+                    hbNewSpell.getChildren().addAll(newSpellName,info,rm);
+                    vbSpells9.getChildren().add(hbNewSpell);
+                    spells9Box.setValue(null);
+                }
                 ////// Remove Button ///////
                 Stage confirmRm = new Stage();
                 rm.setOnAction(new EventHandler<ActionEvent>() {
